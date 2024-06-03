@@ -9,7 +9,7 @@ Scene *New_Menu(int label)
     Menu *pDerivedObj = (Menu *)malloc(sizeof(Menu));
     Scene *pObj = New_Scene(label);
     // setting derived object member
-    pDerivedObj->font = al_load_ttf_font("assets/font/pirulen.ttf", 12, 0);
+    pDerivedObj->font = al_load_ttf_font("assets/font/DIN Condensed Bold.ttf", 32, 0);
     // Load sound
     pDerivedObj->song = al_load_sample("assets/sound/menu.mp3");
     al_reserve_samples(20);
@@ -41,8 +41,12 @@ void menu_update(Scene *self)
 void menu_draw(Scene *self)
 {
     Menu *Obj = ((Menu *)(self->pDerivedObj));
-    al_draw_text(Obj->font, al_map_rgb(255, 255, 255), Obj->title_x, Obj->title_y, ALLEGRO_ALIGN_CENTRE, "Press 'Enter' to start");
-    al_draw_rectangle(Obj->title_x - 150, Obj->title_y - 30, Obj->title_x + 150, Obj->title_y + 30, al_map_rgb(255, 255, 255), 0);
+    al_draw_text(Obj->font, al_map_rgb(255, 255, 255), Obj->title_x, Obj->title_y - 150, ALLEGRO_ALIGN_CENTRE, "NEW GAME");
+    al_draw_rectangle(Obj->title_x - 100, Obj->title_y - 170, Obj->title_x + 100, Obj->title_y - 110, al_map_rgb(255, 255, 255), 3);
+    al_draw_text(Obj->font, al_map_rgb(255, 255, 255), Obj->title_x, Obj->title_y - 50, ALLEGRO_ALIGN_CENTRE, "LEVEL");
+    al_draw_rectangle(Obj->title_x - 100, Obj->title_y - 70, Obj->title_x + 100, Obj->title_y - 10, al_map_rgb(255, 255, 255), 3);
+    al_draw_text(Obj->font, al_map_rgb(255, 255, 255), Obj->title_x, Obj->title_y + 50, ALLEGRO_ALIGN_CENTRE, "ABOUT");
+    al_draw_rectangle(Obj->title_x - 100, Obj->title_y + 30, Obj->title_x + 100, Obj->title_y + 90, al_map_rgb(255, 255, 255), 3);
     al_play_sample_instance(Obj->sample_instance);
 }
 void menu_destroy(Scene *self)
