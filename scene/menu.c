@@ -31,22 +31,29 @@ Scene *New_Menu(int label)
 }
 void menu_update(Scene *self)
 {
-    if (key_state[ALLEGRO_KEY_ENTER])
-    {
-        self->scene_end = true;
-        window = 1;
+    ALLEGRO_MOUSE_STATE mouse_state;
+    al_get_mouse_state(&mouse_state);
+
+    Menu *Obj = ((Menu *)(self->pDerivedObj));
+
+    if (mouse_state.buttons & 1) {
+        if (mouse_state.x >= Obj->title_x - 150 && mouse_state.x <= Obj->title_x + 150 &&
+            mouse_state.y >= Obj->title_y - 100 && mouse_state.y <= Obj->title_y - 40) {
+            self->scene_end = true;
+            window = 1;
+        }
     }
     return;
 }
 void menu_draw(Scene *self)
 {
     Menu *Obj = ((Menu *)(self->pDerivedObj));
-    al_draw_text(Obj->font, al_map_rgb(255, 255, 255), Obj->title_x, Obj->title_y - 150, ALLEGRO_ALIGN_CENTRE, "NEW GAME");
-    al_draw_rectangle(Obj->title_x - 100, Obj->title_y - 170, Obj->title_x + 100, Obj->title_y - 110, al_map_rgb(255, 255, 255), 3);
-    al_draw_text(Obj->font, al_map_rgb(255, 255, 255), Obj->title_x, Obj->title_y - 50, ALLEGRO_ALIGN_CENTRE, "LEVEL");
-    al_draw_rectangle(Obj->title_x - 100, Obj->title_y - 70, Obj->title_x + 100, Obj->title_y - 10, al_map_rgb(255, 255, 255), 3);
-    al_draw_text(Obj->font, al_map_rgb(255, 255, 255), Obj->title_x, Obj->title_y + 50, ALLEGRO_ALIGN_CENTRE, "ABOUT");
-    al_draw_rectangle(Obj->title_x - 100, Obj->title_y + 30, Obj->title_x + 100, Obj->title_y + 90, al_map_rgb(255, 255, 255), 3);
+    al_draw_text(Obj->font, al_map_rgb(255, 255, 255), Obj->title_x, Obj->title_y - 80, ALLEGRO_ALIGN_CENTRE, "NEW GAME [PRESS N]");
+    al_draw_rectangle(Obj->title_x - 150, Obj->title_y - 100, Obj->title_x + 150, Obj->title_y - 40, al_map_rgb(255, 255, 255), 3);
+    al_draw_text(Obj->font, al_map_rgb(255, 255, 255), Obj->title_x, Obj->title_y, ALLEGRO_ALIGN_CENTRE, "LEVEL [PRESS L]");
+    al_draw_rectangle(Obj->title_x - 150, Obj->title_y - 20, Obj->title_x + 150, Obj->title_y + 40, al_map_rgb(255, 255, 255), 3);
+    al_draw_text(Obj->font, al_map_rgb(255, 255, 255), Obj->title_x, Obj->title_y + 80, ALLEGRO_ALIGN_CENTRE, "ABOUT [PRESS A]");
+    al_draw_rectangle(Obj->title_x - 150, Obj->title_y + 60, Obj->title_x + 150, Obj->title_y + 120, al_map_rgb(255, 255, 255), 3);
     al_play_sample_instance(Obj->sample_instance);
 }
 void menu_destroy(Scene *self)
