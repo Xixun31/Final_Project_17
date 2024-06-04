@@ -1,6 +1,7 @@
 #include <allegro5/allegro_primitives.h>
 #include "menu.h"
 #include <stdbool.h>
+#include "sceneManager.h"
 /*
    [Menu function]
 */
@@ -16,6 +17,10 @@ Scene *New_Menu(int label)
     pDerivedObj->sample_instance = al_create_sample_instance(pDerivedObj->song);
     pDerivedObj->title_x = WIDTH / 2;
     pDerivedObj->title_y = HEIGHT / 2;
+
+    pDerivedObj->mouse_over_new_game = false;
+    pDerivedObj->mouse_over_level = false;
+    pDerivedObj->mouse_over_about = false;
     // Loop the song until the display closes
     al_set_sample_instance_playmode(pDerivedObj->sample_instance, ALLEGRO_PLAYMODE_LOOP);
     al_restore_default_mixer();
@@ -36,6 +41,16 @@ void menu_update(Scene *self)
 
     Menu *Obj = ((Menu *)(self->pDerivedObj));
 
+    Obj->mouse_over_new_game = (mouse_state.x >= Obj->title_x - 150 && mouse_state.x <= Obj->title_x + 150 &&
+                                mouse_state.y >= Obj->title_y - 100 && mouse_state.y <= Obj->title_y - 40);
+
+    Obj->mouse_over_level = (mouse_state.x >= Obj->title_x - 150 && mouse_state.x <= Obj->title_x + 150 &&
+                             mouse_state.y >= Obj->title_y - 20 && mouse_state.y <= Obj->title_y + 40);
+
+    Obj->mouse_over_about = (mouse_state.x >= Obj->title_x - 150 && mouse_state.x <= Obj->title_x + 150 &&
+                             mouse_state.y >= Obj->title_y + 60 && mouse_state.y <= Obj->title_y + 120);
+
+
     if (mouse_state.buttons & 1) {
         if (mouse_state.x >= Obj->title_x - 150 && mouse_state.x <= Obj->title_x + 150 &&
             mouse_state.y >= Obj->title_y - 100 && mouse_state.y <= Obj->title_y - 40) {
@@ -43,21 +58,27 @@ void menu_update(Scene *self)
             window = 1;
         }
         else if (mouse_state.x >= Obj->title_x - 150 && mouse_state.x <= Obj->title_x + 150 &&
-            mouse_state.y >= Obj->title_y - 20 && mouse_state.y <= Obj->title_y + 40) {
+            mouse_state.y >= Obj->title_y - 20 && mouse_state.y <= Obj->title_y + 40){
             self->scene_end = true;
             window = 2;
         }
+       
     }
     return;
 }
 void menu_draw(Scene *self)
 {
     Menu *Obj = ((Menu *)(self->pDerivedObj));
-    al_draw_text(Obj->font, al_map_rgb(255, 255, 255), Obj->title_x, Obj->title_y - 80, ALLEGRO_ALIGN_CENTRE, "NEW GAME");
+
+    ALLEGRO_COLOR new_game_color = Obj->mouse_over_new_game ? al_map_rgb(255, 0, 0) : al_map_rgb(255, 255, 255);
+    ALLEGRO_COLOR level_color = Obj->mouse_over_level ? al_map_rgb(255, 0, 0) : al_map_rgb(255, 255, 255);
+    ALLEGRO_COLOR about_color = Obj->mouse_over_about ? al_map_rgb(255, 0, 0) : al_map_rgb(255, 255, 255);
+
+    al_draw_text(Obj->font, new_game_color, Obj->title_x, Obj->title_y - 80, ALLEGRO_ALIGN_CENTRE, "NEW GAME");
     al_draw_rectangle(Obj->title_x - 150, Obj->title_y - 100, Obj->title_x + 150, Obj->title_y - 40, al_map_rgb(255, 255, 255), 3);
-    al_draw_text(Obj->font, al_map_rgb(255, 255, 255), Obj->title_x, Obj->title_y, ALLEGRO_ALIGN_CENTRE, "LEVEL");
+    al_draw_text(Obj->font, level_color, Obj->title_x, Obj->title_y, ALLEGRO_ALIGN_CENTRE, "LEVEL");
     al_draw_rectangle(Obj->title_x - 150, Obj->title_y - 20, Obj->title_x + 150, Obj->title_y + 40, al_map_rgb(255, 255, 255), 3);
-    al_draw_text(Obj->font, al_map_rgb(255, 255, 255), Obj->title_x, Obj->title_y + 80, ALLEGRO_ALIGN_CENTRE, "ABOUT");
+    al_draw_text(Obj->font, about_color, Obj->title_x, Obj->title_y + 80, ALLEGRO_ALIGN_CENTRE, "ABOUT");
     al_draw_rectangle(Obj->title_x - 150, Obj->title_y + 60, Obj->title_x + 150, Obj->title_y + 120, al_map_rgb(255, 255, 255), 3);
     al_play_sample_instance(Obj->sample_instance);
 }

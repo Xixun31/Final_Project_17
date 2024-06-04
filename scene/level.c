@@ -31,7 +31,7 @@ Scene *New_Level(int label)
 }
 void level_update(Scene *self)
 {
-
+   
 }
 void level_draw(Scene *self)
 {
