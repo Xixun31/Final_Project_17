@@ -1,4 +1,4 @@
-#include "Ball.h"
+#include "ball.h"
 
 Elements *New_Ball(int label){
 

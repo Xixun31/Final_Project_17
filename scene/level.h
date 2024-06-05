@@ -10,10 +10,12 @@
 */
 typedef struct _Level
 {
-    ALLEGRO_FONT *font;
+    ALLEGRO_FONT *font1;
+    ALLEGRO_FONT *font2;
     ALLEGRO_SAMPLE *song;
     ALLEGRO_SAMPLE_INSTANCE *sample_instance;
     int title_x, title_y;
+    bool mouse_over_easy, mouse_over_medium, mouse_over_hard;
 } Level;
 Scene *New_Level(int label);
 void level_update(Scene *self);

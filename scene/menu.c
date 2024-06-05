@@ -52,13 +52,11 @@ void menu_update(Scene *self)
 
 
     if (mouse_state.buttons & 1) {
-        if (mouse_state.x >= Obj->title_x - 150 && mouse_state.x <= Obj->title_x + 150 &&
-            mouse_state.y >= Obj->title_y - 100 && mouse_state.y <= Obj->title_y - 40) {
+        if (Obj->mouse_over_new_game) {
             self->scene_end = true;
             window = 1;
         }
-        else if (mouse_state.x >= Obj->title_x - 150 && mouse_state.x <= Obj->title_x + 150 &&
-            mouse_state.y >= Obj->title_y - 20 && mouse_state.y <= Obj->title_y + 40){
+        else if (Obj->mouse_over_level){
             self->scene_end = true;
             window = 2;
         }
@@ -70,16 +68,16 @@ void menu_draw(Scene *self)
 {
     Menu *Obj = ((Menu *)(self->pDerivedObj));
 
-    ALLEGRO_COLOR new_game_color = Obj->mouse_over_new_game ? al_map_rgb(255, 0, 0) : al_map_rgb(255, 255, 255);
-    ALLEGRO_COLOR level_color = Obj->mouse_over_level ? al_map_rgb(255, 0, 0) : al_map_rgb(255, 255, 255);
-    ALLEGRO_COLOR about_color = Obj->mouse_over_about ? al_map_rgb(255, 0, 0) : al_map_rgb(255, 255, 255);
+    ALLEGRO_COLOR new_game_color = Obj->mouse_over_new_game ? al_map_rgb(179, 209, 255) : al_map_rgb(255, 255, 255);
+    ALLEGRO_COLOR level_color = Obj->mouse_over_level ? al_map_rgb(179, 209, 255) : al_map_rgb(255, 255, 255);
+    ALLEGRO_COLOR about_color = Obj->mouse_over_about ? al_map_rgb(179, 209, 255) : al_map_rgb(255, 255, 255);
 
     al_draw_text(Obj->font, new_game_color, Obj->title_x, Obj->title_y - 80, ALLEGRO_ALIGN_CENTRE, "NEW GAME");
-    al_draw_rectangle(Obj->title_x - 150, Obj->title_y - 100, Obj->title_x + 150, Obj->title_y - 40, al_map_rgb(255, 255, 255), 3);
+    al_draw_rectangle(Obj->title_x - 150, Obj->title_y - 100, Obj->title_x + 150, Obj->title_y - 40, new_game_color, 3);
     al_draw_text(Obj->font, level_color, Obj->title_x, Obj->title_y, ALLEGRO_ALIGN_CENTRE, "LEVEL");
-    al_draw_rectangle(Obj->title_x - 150, Obj->title_y - 20, Obj->title_x + 150, Obj->title_y + 40, al_map_rgb(255, 255, 255), 3);
+    al_draw_rectangle(Obj->title_x - 150, Obj->title_y - 20, Obj->title_x + 150, Obj->title_y + 40, level_color, 3);
     al_draw_text(Obj->font, about_color, Obj->title_x, Obj->title_y + 80, ALLEGRO_ALIGN_CENTRE, "ABOUT");
-    al_draw_rectangle(Obj->title_x - 150, Obj->title_y + 60, Obj->title_x + 150, Obj->title_y + 120, al_map_rgb(255, 255, 255), 3);
+    al_draw_rectangle(Obj->title_x - 150, Obj->title_y + 60, Obj->title_x + 150, Obj->title_y + 120, about_color, 3);
     al_play_sample_instance(Obj->sample_instance);
 }
 void menu_destroy(Scene *self)
