@@ -26,8 +26,8 @@ Elements *New_Ball(int label){
 }
 void Ball_update(Elements *self){
     Ball *Obj = ((Ball *)(self->pDerivedObj));
-    Obj->x += mouse.x;
-    Obj->y += mouse.y;
+    Obj->x = mouse.x;
+    Obj->y = mouse.y;
     Shape *hitbox = Obj->hitbox;
     hitbox->update_center_x(hitbox, mouse.x - Obj->x);
     hitbox->update_center_y(hitbox, mouse.y - Obj->y);

@@ -10,6 +10,7 @@ typedef struct _Ball
 {
     int x, y;          // the position of image
     int r;  //radius
+    int in;
     Shape *hitbox; // the hitbox of object
     ALLEGRO_COLOR c;
 } Ball;
