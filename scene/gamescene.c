@@ -14,6 +14,8 @@ Scene *New_GameScene(int label)
     _Register_elements(pObj, New_Teleport(Teleport_L));
     _Register_elements(pObj, New_Tree(Tree_L));
     _Register_elements(pObj, New_Character(Character_L));
+    _Register_elements(pObj, New_Paddle(Paddle_L));
+    _Register_elements(pObj, New_Nball(Nball_L));
     // setting derived object function
     pObj->Update = game_scene_update;
     pObj->Draw = game_scene_draw;
@@ -54,9 +56,9 @@ void game_scene_update(Scene *self)
 }
 void game_scene_draw(Scene *self)
 {
-    al_clear_to_color(al_map_rgb(0, 0, 0));
-    GameScene *gs = ((GameScene *)(self->pDerivedObj));
-    al_draw_bitmap(gs->background, 0, 0, 0);
+    al_clear_to_color(al_map_rgb(64, 64, 64));
+    //GameScene *gs = ((GameScene *)(self->pDerivedObj));
+    //al_draw_bitmap(gs->background, 0, 0, 0);
     ElementVec allEle = _Get_all_elements(self);
     for (int i = 0; i < allEle.len; i++)
     {

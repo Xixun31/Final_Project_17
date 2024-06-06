@@ -1,0 +1,67 @@
+#include "nball.h"
+#include "../shapes/Circle.h"
+#include "../shapes/Shape.h"
+#include "../global.h"
+#include "paddle.h"
+#include <allegro5/allegro_primitives.h>
+
+Elements *New_Nball(int label) {
+    Nball *pDerivedObj = (Nball *)malloc(sizeof(Nball));
+    Elements *pObj = New_Elements(label);
+
+    // Initialize ball properties
+    pDerivedObj->x = WIDTH / 2;
+    pDerivedObj->y = HEIGHT / 2;
+    pDerivedObj->r = 10;
+    pDerivedObj->dx = 5;
+    pDerivedObj->dy = 5;
+    pDerivedObj->c = al_map_rgb(255, 0, 0);
+    pDerivedObj->hitbox = New_Circle(pDerivedObj->x, pDerivedObj->y, pDerivedObj->r);
+
+    pObj->inter_obj[pObj->inter_len++] = Character_L;
+
+    pObj->pDerivedObj = pDerivedObj;
+    pObj->Update = Nball_update;
+    pObj->Interact = Nball_interact;
+    pObj->Draw = Nball_draw;
+    pObj->Destroy = Nball_destroy;
+
+    return pObj;
+}
+
+void Nball_update(Elements *const ele) {
+    Nball *Obj = ((Nball *)(ele->pDerivedObj));
+
+    // Update ball position
+    Obj->x += Obj->dx;
+    Obj->y += Obj->dy;
+
+    // Check for collision with screen borders
+    if (Obj->x - Obj->r < 0 || Obj->x + Obj->r > WIDTH) {
+        Obj->dx *= -1;
+    }
+    if (Obj->y - Obj->r < 0 || Obj->y + Obj->r > HEIGHT) {
+        Obj->dy *= -1;
+    }
+
+    // Update hitbox position
+    Shape *hitbox = Obj->hitbox;
+    hitbox->update_center_x(hitbox, Obj->x);
+    hitbox->update_center_y(hitbox, Obj->y);
+}
+
+void Nball_interact(Elements *const self, Elements *const ele) {
+
+}
+
+void Nball_draw(Elements *const ele) {
+    Nball *Obj = ((Nball *)(ele->pDerivedObj));
+    al_draw_filled_circle(Obj->x, Obj->y, Obj->r, Obj->c);
+}
+
+void Nball_destroy(Elements *const ele) {
+    Nball *Obj = ((Nball *)(ele->pDerivedObj));
+    free(Obj->hitbox);
+    free(Obj);
+    free(ele);
+}
