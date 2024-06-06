@@ -10,11 +10,13 @@ Elements *New_Ball(int label){
     pDerivedObj->x = mouse.x;
     pDerivedObj->y = mouse.y;
     pDerivedObj->r = 10;
-    pDerivedObj->c = al_map_rgb(200, 100, 150);
+    pDerivedObj->c = al_map_rgb(150, 50, 250);
     pDerivedObj->hitbox = New_Circle(pDerivedObj->x,pDerivedObj->y,pDerivedObj->r);
     // setting the interact object
     pObj->inter_obj[pObj->inter_len++] = Tree_L;
     pObj->inter_obj[pObj->inter_len++] = Character_L;
+    pObj->inter_obj[pObj->inter_len++] = Paddle_L;
+    pObj->inter_obj[pObj->inter_len++] = Nball_L;
     // setting derived object function
     pObj->pDerivedObj = pDerivedObj;
     pObj->Update = Ball_update;
@@ -39,9 +41,9 @@ void Ball_interact(Elements *self, Elements *tar){
         Tree *tree = ((Tree *)(tar->pDerivedObj));
         if (tree->hitbox->overlap(tree->hitbox, Obj->hitbox))
         {
-            Obj->c = al_map_rgb(50, 200, 200);
+            Obj->c = al_map_rgb(50, 200, 150);
         }else{
-            Obj->c = al_map_rgb(200, 100, 150);
+            Obj->c = al_map_rgb(150, 50, 250);
         }
     }
     else if (tar->label == Character_L)
@@ -50,8 +52,22 @@ void Ball_interact(Elements *self, Elements *tar){
         if (chara->hitbox->overlap(chara->hitbox, Obj->hitbox))
         {
             Obj->c = al_map_rgb(50, 100, 200);
-        }else{
-            Obj->c = al_map_rgb(200, 100, 150);
+        }
+    }
+    else if (tar->label == Nball_L)
+    {
+        Nball *ba = ((Nball *)(tar->pDerivedObj));
+        if (ba->hitbox->overlap(ba->hitbox, Obj->hitbox))
+        {
+            Obj->c = al_map_rgb(100, 100, 100);
+        }
+    }
+    else if (tar->label == Paddle_L)
+    {
+        Paddle *pad = ((Paddle *)(tar->pDerivedObj));
+        if (pad->hitbox->overlap(pad->hitbox, Obj->hitbox))
+        {
+            Obj->c = al_map_rgb(255, 50, 50);
         }
     }
 }

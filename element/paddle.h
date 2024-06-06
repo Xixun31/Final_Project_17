@@ -14,6 +14,6 @@ Elements *New_Paddle(int label);
 void Paddle_update(Elements *const ele);
 void Paddle_draw(Elements *const ele);
 void Paddle_destroy(Elements *const ele);
-void _Paddle_update_position(Elements *self, int dx, int dy);
+void _Paddle_update_position(Elements *self, int dx);
 
 #endif

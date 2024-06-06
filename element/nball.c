@@ -18,7 +18,7 @@ Elements *New_Nball(int label) {
     pDerivedObj->c = al_map_rgb(255, 0, 0);
     pDerivedObj->hitbox = New_Circle(pDerivedObj->x, pDerivedObj->y, pDerivedObj->r);
 
-    pObj->inter_obj[pObj->inter_len++] = Character_L;
+    pObj->inter_obj[pObj->inter_len++] = Paddle_L;
 
     pObj->pDerivedObj = pDerivedObj;
     pObj->Update = Nball_update;
@@ -32,10 +32,6 @@ Elements *New_Nball(int label) {
 void Nball_update(Elements *const ele) {
     Nball *Obj = ((Nball *)(ele->pDerivedObj));
 
-    // Update ball position
-    Obj->x += Obj->dx;
-    Obj->y += Obj->dy;
-
     // Check for collision with screen borders
     if (Obj->x - Obj->r < 0 || Obj->x + Obj->r > WIDTH) {
         Obj->dx *= -1;
@@ -43,6 +39,9 @@ void Nball_update(Elements *const ele) {
     if (Obj->y - Obj->r < 0 || Obj->y + Obj->r > HEIGHT) {
         Obj->dy *= -1;
     }
+    // Update ball position
+    Obj->x += Obj->dx;
+    Obj->y += Obj->dy;
 
     // Update hitbox position
     Shape *hitbox = Obj->hitbox;
