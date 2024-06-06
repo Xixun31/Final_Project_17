@@ -18,7 +18,7 @@ Elements *New_Nball(int label) {
     pDerivedObj->c = al_map_rgb(255, 0, 0);
     pDerivedObj->hitbox = New_Circle(pDerivedObj->x, pDerivedObj->y, pDerivedObj->r);
 
-    pObj->inter_obj[pObj->inter_len++] = Character_L;
+    pObj->inter_obj[pObj->inter_len++] = Paddle_L;
 
     pObj->pDerivedObj = pDerivedObj;
     pObj->Update = Nball_update;
