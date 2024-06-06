@@ -35,9 +35,13 @@ void Nball_update(Elements *const ele) {
     // Check for collision with screen borders
     if (Obj->x - Obj->r < 0 || Obj->x + Obj->r > WIDTH) {
         Obj->dx *= -1;
+        // if(Obj->dx > 0) Obj->dx += 0.3; 會脫勾 原因不明
+        // else Obj->dx -= 0.3;
     }
     if (Obj->y - Obj->r < 0 || Obj->y + Obj->r > HEIGHT) {
         Obj->dy *= -1;
+        // if(Obj->dy > 0) Obj->dy += 0.3;
+        // else Obj->dy -= 0.3;
     }
     // Update ball position
     Obj->x += Obj->dx;

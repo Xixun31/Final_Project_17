@@ -9,9 +9,9 @@ Elements *New_Paddle(int label) {
     Elements *pObj = New_Elements(label);
 
     // Initialize paddle properties
-    pDerivedObj->x = WIDTH / 2 - 50;
+    pDerivedObj->x = WIDTH / 2 - 100;
     pDerivedObj->y = HEIGHT - 110;
-    pDerivedObj->w = 100;
+    pDerivedObj->w = 200;
     pDerivedObj->h = 20;
     pDerivedObj->c = al_map_rgb(205, 205, 205);
     pDerivedObj->hitbox = New_Rectangle(pDerivedObj->x, pDerivedObj->y, pDerivedObj->x + pDerivedObj->w,
@@ -30,10 +30,10 @@ void Paddle_update(Elements *const ele) {
 
     // Move paddle based on keyboard input
     if (key_state[ALLEGRO_KEY_LEFT] && Obj->x> 0) {
-        _Paddle_update_position(ele, -5);
+        _Paddle_update_position(ele, -10);
     }
     if (key_state[ALLEGRO_KEY_RIGHT] && Obj->x + Obj->w < WIDTH) {
-        _Paddle_update_position(ele, 5);
+        _Paddle_update_position(ele, 10);
     }
 }
 
