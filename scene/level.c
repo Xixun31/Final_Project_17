@@ -60,6 +60,10 @@ void level_update(Scene *self)
             self->scene_end = true;
             window = 0;
         }
+        else if (Obj->mouse_over_hard){
+            self->scene_end = true;
+            window = 0;
+        }
        
     }
     return;
