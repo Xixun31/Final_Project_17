@@ -11,6 +11,7 @@ typedef struct _Ball
     int x, y;          // the position of image
     int r;  //radius
     Shape *hitbox; // the hitbox of object
+    ALLEGRO_COLOR c;
 } Ball;
 Elements *New_Ball(int label);
 void Ball_update(Elements *self);
