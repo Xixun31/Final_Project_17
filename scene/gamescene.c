@@ -14,12 +14,9 @@ Scene *New_GameScene(int label)
     _Register_elements(pObj, New_Teleport(Teleport_L));
     _Register_elements(pObj, New_Tree(Tree_L));
     _Register_elements(pObj, New_Character(Character_L));
-<<<<<<< HEAD
     _Register_elements(pObj, New_Paddle(Paddle_L));
     _Register_elements(pObj, New_Nball(Nball_L));
-=======
     _Register_elements(pObj, New_Ball(Ball_L));
->>>>>>> refs/remotes/origin/main
     // setting derived object function
     pObj->Update = game_scene_update;
     pObj->Draw = game_scene_draw;
