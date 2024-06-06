@@ -51,7 +51,15 @@ void Nball_update(Elements *const ele) {
 }
 
 void Nball_interact(Elements *const self, Elements *const ele) {
-
+    Nball *Obj = ((Nball *)(self->pDerivedObj));
+    if (ele->label == Paddle_L)
+    {
+        Paddle *pad = ((Paddle *)(ele->pDerivedObj));
+        if (pad->hitbox->overlap(pad->hitbox, Obj->hitbox))
+        {
+            Obj->dy *= -1;
+        }
+    }
 }
 
 void Nball_draw(Elements *const ele) {
