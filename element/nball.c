@@ -46,8 +46,8 @@ void Nball_update(Elements *const ele) {
 
     // Update hitbox position
     Shape *hitbox = Obj->hitbox;
-    hitbox->update_center_x(hitbox, Obj->x);
-    hitbox->update_center_y(hitbox, Obj->y);
+    hitbox->update_center_x(hitbox, Obj->dx);
+    hitbox->update_center_y(hitbox, Obj->dy);
 }
 
 void Nball_interact(Elements *const self, Elements *const ele) {

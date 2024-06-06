@@ -26,11 +26,11 @@ Elements *New_Ball(int label){
 }
 void Ball_update(Elements *self){
     Ball *Obj = ((Ball *)(self->pDerivedObj));
-    Obj->x += mouse.x;
-    Obj->y += mouse.y;
     Shape *hitbox = Obj->hitbox;
     hitbox->update_center_x(hitbox, mouse.x - Obj->x);
     hitbox->update_center_y(hitbox, mouse.y - Obj->y);
+    Obj->x = mouse.x;
+    Obj->y = mouse.y;
 }
 void Ball_interact(Elements *self, Elements *tar){
     Ball *Obj = ((Ball *)(self->pDerivedObj));
@@ -57,7 +57,7 @@ void Ball_interact(Elements *self, Elements *tar){
 }
 void Ball_draw(Elements *self){
     Ball *Obj = ((Ball *)(self->pDerivedObj));
-    al_draw_circle(Obj->x, Obj->y, Obj->r, al_map_rgb(200, 100, 150), 5);
+    al_draw_circle(Obj->x, Obj->y, Obj->r, Obj->c, 5);
 }
 void Ball_destory(Elements *self){
     Ball *Obj = ((Ball *)(self->pDerivedObj));

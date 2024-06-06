@@ -13,7 +13,7 @@ Elements *New_Paddle(int label) {
     pDerivedObj->y = HEIGHT - 100;
     pDerivedObj->w = 100;
     pDerivedObj->h = 20;
-    pDerivedObj->c = al_map_rgb(255, 255, 255);
+    pDerivedObj->c = al_map_rgb(205, 205, 205);
     pDerivedObj->hitbox = New_Rectangle(pDerivedObj->x, pDerivedObj->y, pDerivedObj->x + pDerivedObj->w,
                                         pDerivedObj->y + pDerivedObj->h);
 
