@@ -36,7 +36,7 @@ typedef struct _GameScene
     ALLEGRO_BITMAP *background;
     ALLEGRO_FONT *font1;
     int title_x, title_y;
-    bool mouse_over_set, mouse_over_resume,  pause;
+    bool mouse_over_set, mouse_over_resume, mouse_over_menu, mouse_over_restart, pause;
     double elapsed_seconds;
     double current_time, pause_time, start_time;
 
