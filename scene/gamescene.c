@@ -14,12 +14,13 @@ Scene *New_GameScene(int label)
     pDerivedObj->background = al_load_bitmap("assets/image/stage.jpg");
     pObj->pDerivedObj = pDerivedObj;
 
-    pDerivedObj->elapsed_seconds = 0;
-    pDerivedObj->start_time = al_get_time();
-
     pDerivedObj->pause = false;
     pDerivedObj->mouse_over_set = false;
     pDerivedObj->mouse_over_resume = false;
+    pDerivedObj->mouse_over_menu = false;
+    pDerivedObj->mouse_over_restart = false;
+
+    pDerivedObj->pause_time = al_get_time();
 
     pDerivedObj->title_x = WIDTH / 2;
     pDerivedObj->title_y = HEIGHT / 2;
@@ -50,6 +51,10 @@ void game_scene_update(Scene *self)
                                 mouse_state.y >= Obj->title_y - 305 && mouse_state.y <= Obj->title_y - 265);
     Obj->mouse_over_resume = (mouse_state.x >= Obj->title_x + 300 && mouse_state.x <= Obj->title_x + 370 &&
                                 mouse_state.y >= Obj->title_y - 300 && mouse_state.y <= Obj->title_y - 280);
+    Obj->mouse_over_menu = (mouse_state.x >= Obj->title_x + 125 && mouse_state.x <= Obj->title_x + 185 &&
+                                mouse_state.y >= Obj->title_y - 300 && mouse_state.y <= Obj->title_y - 280);
+    Obj->mouse_over_restart = (mouse_state.x >= Obj->title_x + 200 && mouse_state.x <= Obj->title_x + 280 &&
+                                mouse_state.y >= Obj->title_y - 300 && mouse_state.y <= Obj->title_y - 280);
 
     if (mouse_state.buttons & 1) {
         if (Obj->mouse_over_set) {
@@ -57,6 +62,16 @@ void game_scene_update(Scene *self)
         }
         if (Obj->mouse_over_resume) {
             Obj->pause = false;
+        }
+        if (Obj->mouse_over_restart) {
+            Obj->pause = false;
+            self->scene_end = true;
+            window = 1;
+        }
+        if (Obj->mouse_over_menu) {
+            Obj->pause = false;
+            self->scene_end = true;
+            window = 0;
         }
     }
 
@@ -109,21 +124,11 @@ void game_scene_draw(Scene *self)
         Obj->temporary_time = Obj->current_time;
         format_time((int)Obj->temporary_time, time_str, sizeof(time_str));
         al_draw_text(Obj->font1, al_map_rgb(255, 255, 255), Obj->title_x - 350, Obj->title_y - 300, ALLEGRO_ALIGN_LEFT, time_str);
-        /*
-        Obj->elapsed_seconds = (Obj->current_time - Obj->start_time - Obj->pause_time);
-        format_time((int)Obj->elapsed_seconds, time_str, sizeof(time_str));
-        al_draw_text(Obj->font1, al_map_rgb(255, 255, 255), Obj->title_x - 350, Obj->title_y - 300, ALLEGRO_ALIGN_LEFT, time_str);
-        */
     }
     else if(Obj->pause){
         Obj->pause_time = al_get_time() - Obj->temporary_time;
         format_time((int)Obj->temporary_time, time_str, sizeof(time_str));
         al_draw_text(Obj->font1, al_map_rgb(255, 255, 255), Obj->title_x - 350, Obj->title_y - 300, ALLEGRO_ALIGN_LEFT, time_str);
-        /*
-        Obj->pause_time = Obj->current_time - Obj->elapsed_seconds;
-        format_time((int)Obj->elapsed_seconds, time_str, sizeof(time_str));
-        al_draw_text(Obj->font1, al_map_rgb(255, 255, 255), Obj->title_x - 350, Obj->title_y - 300, ALLEGRO_ALIGN_LEFT, time_str);
-        */
     }
     //draw score
     al_draw_text(Obj->font1, al_map_rgb(255, 255, 255), Obj->title_x - 275, Obj->title_y - 300, ALLEGRO_ALIGN_LEFT, "SCORE");
@@ -136,8 +141,10 @@ void game_scene_draw(Scene *self)
 
     if (Obj->pause) {
         ALLEGRO_COLOR resume_color = Obj->mouse_over_resume ? al_map_rgb(179, 209, 255) : al_map_rgb(255, 255, 255);
-        al_draw_text(Obj->font1, al_map_rgb(255, 255, 255), Obj->title_x + 125, Obj->title_y - 300, ALLEGRO_ALIGN_LEFT, "MENU");
-        al_draw_text(Obj->font1, al_map_rgb(255, 255, 255), Obj->title_x + 200, Obj->title_y - 300, ALLEGRO_ALIGN_LEFT, "RESTART");
+        ALLEGRO_COLOR restart_color = Obj->mouse_over_restart ? al_map_rgb(179, 209, 255) : al_map_rgb(255, 255, 255);
+        ALLEGRO_COLOR menu_color = Obj->mouse_over_menu ? al_map_rgb(179, 209, 255) : al_map_rgb(255, 255, 255);
+        al_draw_text(Obj->font1, menu_color, Obj->title_x + 125, Obj->title_y - 300, ALLEGRO_ALIGN_LEFT, "MENU");
+        al_draw_text(Obj->font1, restart_color, Obj->title_x + 200, Obj->title_y - 300, ALLEGRO_ALIGN_LEFT, "RESTART");
         al_draw_text(Obj->font1, resume_color, Obj->title_x + 300, Obj->title_y - 300, ALLEGRO_ALIGN_LEFT, "RESUME");
     }
 
