@@ -38,7 +38,7 @@ typedef struct _GameScene
     int title_x, title_y;
     bool mouse_over_set, mouse_over_resume, mouse_over_menu, mouse_over_restart, pause;
     double elapsed_seconds;
-    double current_time, pause_time, start_time;
+    double current_time, pause_time, start_time, temporary_time;
 
 } GameScene;
 Scene *New_GameScene(int label);
