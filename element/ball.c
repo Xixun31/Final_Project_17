@@ -17,6 +17,7 @@ Elements *New_Ball(int label){
     pObj->inter_obj[pObj->inter_len++] = Character_L;
     pObj->inter_obj[pObj->inter_len++] = Paddle_L;
     pObj->inter_obj[pObj->inter_len++] = Nball_L;
+    pObj->inter_obj[pObj->inter_len++] = Box_L;
     // setting derived object function
     pObj->pDerivedObj = pDerivedObj;
     pObj->Update = Ball_update;
@@ -68,6 +69,14 @@ void Ball_interact(Elements *self, Elements *tar){
         if (pad->hitbox->overlap(pad->hitbox, Obj->hitbox))
         {
             Obj->c = al_map_rgb(255, 50, 50);
+        }
+    }else if(tar->label == Box_L){
+        Box *box = ((Box *)(tar->pDerivedObj));
+        if (box->hitbox->overlap(box->hitbox, Obj->hitbox) || box->hitboxr->overlap(box->hitboxr, Obj->hitbox))
+        {
+            Obj->c = al_map_rgb(0, 250, 50);
+        }else if(box->hitboy->overlap(box->hitboy, Obj->hitbox) || box->hitboyr->overlap(box->hitboyr, Obj->hitbox)){
+            Obj->c = al_map_rgb(0, 50, 250);
         }
     }
 }

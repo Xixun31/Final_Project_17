@@ -11,6 +11,9 @@ typedef struct _Box
     float x, y, w, h;
     ALLEGRO_COLOR c;
     Shape *hitbox;
+    Shape *hitboxr;
+    Shape *hitboy;
+    Shape *hitboyr;
 } Box;
 Elements *New_Box(int label);
 void Box_update(Elements *self);
