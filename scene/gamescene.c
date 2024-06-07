@@ -14,15 +14,13 @@ Scene *New_GameScene(int label)
     pDerivedObj->background = al_load_bitmap("assets/image/stage.jpg");
     pObj->pDerivedObj = pDerivedObj;
 
-    pDerivedObj->elapsed_seconds = 0;
-    pDerivedObj->start_time = al_get_time();
-
     pDerivedObj->pause = false;
     pDerivedObj->mouse_over_set = false;
     pDerivedObj->mouse_over_resume = false;
     pDerivedObj->mouse_over_menu = false;
     pDerivedObj->mouse_over_restart = false;
 
+    pDerivedObj->pause_time = al_get_time();
 
     pDerivedObj->title_x = WIDTH / 2;
     pDerivedObj->title_y = HEIGHT / 2;
@@ -125,21 +123,11 @@ void game_scene_draw(Scene *self)
         Obj->temporary_time = Obj->current_time;
         format_time((int)Obj->temporary_time, time_str, sizeof(time_str));
         al_draw_text(Obj->font1, al_map_rgb(255, 255, 255), Obj->title_x - 350, Obj->title_y - 300, ALLEGRO_ALIGN_LEFT, time_str);
-        /*
-        Obj->elapsed_seconds = (Obj->current_time - Obj->start_time - Obj->pause_time);
-        format_time((int)Obj->elapsed_seconds, time_str, sizeof(time_str));
-        al_draw_text(Obj->font1, al_map_rgb(255, 255, 255), Obj->title_x - 350, Obj->title_y - 300, ALLEGRO_ALIGN_LEFT, time_str);
-        */
     }
     else if(Obj->pause){
         Obj->pause_time = al_get_time() - Obj->temporary_time;
         format_time((int)Obj->temporary_time, time_str, sizeof(time_str));
         al_draw_text(Obj->font1, al_map_rgb(255, 255, 255), Obj->title_x - 350, Obj->title_y - 300, ALLEGRO_ALIGN_LEFT, time_str);
-        /*
-        Obj->pause_time = Obj->current_time - Obj->elapsed_seconds;
-        format_time((int)Obj->elapsed_seconds, time_str, sizeof(time_str));
-        al_draw_text(Obj->font1, al_map_rgb(255, 255, 255), Obj->title_x - 350, Obj->title_y - 300, ALLEGRO_ALIGN_LEFT, time_str);
-        */
     }
     //draw score
     al_draw_text(Obj->font1, al_map_rgb(255, 255, 255), Obj->title_x - 275, Obj->title_y - 300, ALLEGRO_ALIGN_LEFT, "SCORE");
