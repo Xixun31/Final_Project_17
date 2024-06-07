@@ -73,11 +73,9 @@ void Nball_interact(Elements *const self, Elements *const ele) {
         }
     }else if(ele->label == Box_L){
         Box *box = ((Box *)(ele->pDerivedObj));
-        if (box->hitbox[0]->overlap(box->hitbox[0], Obj->hitbox) || box->hitbox[1]->overlap(box->hitbox[1], Obj->hitbox))
+        if (box->hitbox->overlap(box->hitbox, Obj->hitbox))
         {
             Obj->dx *= -1;
-        }else if(box->hitbox[2]->overlap(box->hitbox[2], Obj->hitbox) || box->hitbox[3]->overlap(box->hitbox[3], Obj->hitbox)){
-            Obj->dy *= -1;
         }
     }
 }

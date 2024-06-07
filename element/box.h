@@ -10,7 +10,7 @@ typedef struct _Box
 {
     float x, y, w, h;
     ALLEGRO_COLOR c;
-    Shape *hitbox[4];
+    Shape *hitbox;
 } Box;
 Elements *New_Box(int label);
 void Box_update(Elements *self);

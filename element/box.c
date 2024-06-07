@@ -16,15 +16,16 @@ Elements *New_Box(int label)
     pDerivedObj->w = WIDTH;//75;
     pDerivedObj->h = 75;
     pDerivedObj->c = al_map_rgb(255, 255, 255);
-    pDerivedObj->hitbox[0] = New_Rectangle(pDerivedObj->x, pDerivedObj->y, pDerivedObj->x + 5,
+    pDerivedObj->hitbox = New_Rectangle(pDerivedObj->x, pDerivedObj->y, pDerivedObj->x + 5,
                                         pDerivedObj->y + pDerivedObj->h);
+    /*
     pDerivedObj->hitbox[1] = New_Rectangle(pDerivedObj->x + pDerivedObj->w - 5, pDerivedObj->y, 
                                         pDerivedObj->x + pDerivedObj->w, pDerivedObj->y + pDerivedObj->h);
     pDerivedObj->hitbox[2] = New_Rectangle(pDerivedObj->x, pDerivedObj->y + pDerivedObj->h - 5, 
                                         pDerivedObj->x + pDerivedObj->w, pDerivedObj->y + pDerivedObj->h);
     pDerivedObj->hitbox[3] = New_Rectangle(pDerivedObj->x, pDerivedObj->y, 
                                         pDerivedObj->x + pDerivedObj->w, pDerivedObj->y + 5);
-
+    */
     pObj->inter_obj[pObj->inter_len++] = Nball_L;
 
     // setting derived object function
@@ -41,7 +42,7 @@ void Box_interact(Elements *self, Elements *tar) {
     if (tar->label == Nball_L)
     {
         Nball *nb = ((Nball *)(tar->pDerivedObj));
-        if (nb->hitbox->overlap(nb->hitbox, Obj->hitbox[0] || Obj->hitbox[1] || Obj->hitbox[2] || Obj->hitbox[3]))
+        if (nb->hitbox->overlap(nb->hitbox, Obj->hitbox))
         {
             Obj->c = al_map_rgb(55, 255, 255);
         }else{
