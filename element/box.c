@@ -11,21 +11,20 @@ Elements *New_Box(int label)
     Box *pDerivedObj = (Box *)malloc(sizeof(Box));
     Elements *pObj = New_Elements(label);
     // setting derived object member
-    pDerivedObj->x = 0;//WIDTH - 75;
+    pDerivedObj->x = WIDTH/2 - 75;
     pDerivedObj->y = 0;
-    pDerivedObj->w = WIDTH;//75;
+    pDerivedObj->w = 75;
     pDerivedObj->h = 75;
     pDerivedObj->c = al_map_rgb(255, 255, 255);
     pDerivedObj->hitbox = New_Rectangle(pDerivedObj->x, pDerivedObj->y, pDerivedObj->x + 5,
                                         pDerivedObj->y + pDerivedObj->h);
-    /*
-    pDerivedObj->hitbox[1] = New_Rectangle(pDerivedObj->x + pDerivedObj->w - 5, pDerivedObj->y, 
+    pDerivedObj->hitboxr = New_Rectangle(pDerivedObj->x + pDerivedObj->w - 5, pDerivedObj->y, 
                                         pDerivedObj->x + pDerivedObj->w, pDerivedObj->y + pDerivedObj->h);
-    pDerivedObj->hitbox[2] = New_Rectangle(pDerivedObj->x, pDerivedObj->y + pDerivedObj->h - 5, 
+    pDerivedObj->hitboy = New_Rectangle(pDerivedObj->x, pDerivedObj->y + pDerivedObj->h - 5, 
                                         pDerivedObj->x + pDerivedObj->w, pDerivedObj->y + pDerivedObj->h);
-    pDerivedObj->hitbox[3] = New_Rectangle(pDerivedObj->x, pDerivedObj->y, 
+    pDerivedObj->hitboyr = New_Rectangle(pDerivedObj->x, pDerivedObj->y, 
                                         pDerivedObj->x + pDerivedObj->w, pDerivedObj->y + 5);
-    */
+
     pObj->inter_obj[pObj->inter_len++] = Nball_L;
 
     // setting derived object function
@@ -42,7 +41,8 @@ void Box_interact(Elements *self, Elements *tar) {
     if (tar->label == Nball_L)
     {
         Nball *nb = ((Nball *)(tar->pDerivedObj));
-        if (nb->hitbox->overlap(nb->hitbox, Obj->hitbox))
+        if (nb->hitbox->overlap(nb->hitbox, Obj->hitbox) || nb->hitbox->overlap(nb->hitbox, Obj->hitboxr)
+         || nb->hitbox->overlap(nb->hitbox, Obj->hitboyr) || nb->hitbox->overlap(nb->hitbox, Obj->hitboyr))
         {
             Obj->c = al_map_rgb(55, 255, 255);
         }else{
