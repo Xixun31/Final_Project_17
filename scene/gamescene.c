@@ -115,7 +115,6 @@ void game_scene_draw(Scene *self)
         */
     }
     else if(Obj->pause){
-        Obj->current_time = Obj->temporary_time;
         Obj->pause_time = al_get_time() - Obj->temporary_time;
         format_time((int)Obj->temporary_time, time_str, sizeof(time_str));
         al_draw_text(Obj->font1, al_map_rgb(255, 255, 255), Obj->title_x - 350, Obj->title_y - 300, ALLEGRO_ALIGN_LEFT, time_str);
