@@ -16,8 +16,24 @@ Elements *New_Nball(int label) {
     pDerivedObj->x = WIDTH / 2;
     pDerivedObj->y = HEIGHT / 2;
     pDerivedObj->r = 10;
-    pDerivedObj->dx = 5;
-    pDerivedObj->dy = 5;
+    switch (level)
+    {
+    case 0:
+        pDerivedObj->dx = 5;
+        pDerivedObj->dy = 5;
+        break;
+    case 1:
+        pDerivedObj->dx = 10;
+        pDerivedObj->dy = 10;
+        break;
+    case 2:
+        pDerivedObj->dx = 15;
+        pDerivedObj->dy = 15;
+        break;
+    default:
+        break;
+    }
+    
     pDerivedObj->c = al_map_rgb(255, 0, 0);
     pDerivedObj->hitbox = New_Circle(pDerivedObj->x, pDerivedObj->y, pDerivedObj->r);
 

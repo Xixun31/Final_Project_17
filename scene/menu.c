@@ -1,5 +1,6 @@
 #include <allegro5/allegro_primitives.h>
 #include "menu.h"
+#include "level.h"
 #include <stdbool.h>
 #include "sceneManager.h"
 /*
@@ -67,7 +68,6 @@ void menu_update(Scene *self)
 void menu_draw(Scene *self)
 {
     Menu *Obj = ((Menu *)(self->pDerivedObj));
-
     ALLEGRO_COLOR new_game_color = Obj->mouse_over_new_game ? al_map_rgb(179, 209, 255) : al_map_rgb(255, 255, 255);
     ALLEGRO_COLOR level_color = Obj->mouse_over_level ? al_map_rgb(179, 209, 255) : al_map_rgb(255, 255, 255);
     ALLEGRO_COLOR about_color = Obj->mouse_over_about ? al_map_rgb(179, 209, 255) : al_map_rgb(255, 255, 255);

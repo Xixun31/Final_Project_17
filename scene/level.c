@@ -21,6 +21,7 @@ Scene *New_Level(int label)
     pDerivedObj->mouse_over_easy = false;
     pDerivedObj->mouse_over_medium = false;
     pDerivedObj->mouse_over_hard = false;
+
     // Loop the song until the display closes
     al_set_sample_instance_playmode(pDerivedObj->sample_instance, ALLEGRO_PLAYMODE_LOOP);
     al_restore_default_mixer();
@@ -53,14 +54,17 @@ void level_update(Scene *self)
 
     if (mouse_state.buttons & 1) {
         if (Obj->mouse_over_easy) {
+            level = 0;
             self->scene_end = true;
             window = 0;
         }
         else if (Obj->mouse_over_medium){
+            level = 1;
             self->scene_end = true;
             window = 0;
         }
         else if (Obj->mouse_over_hard){
+            level = 2;
             self->scene_end = true;
             window = 0;
         }
@@ -76,9 +80,23 @@ void level_draw(Scene *self)
     ALLEGRO_COLOR medium_color = Obj->mouse_over_medium ? al_map_rgb(179, 209, 255) : al_map_rgb(255, 255, 255);
     ALLEGRO_COLOR hard_color = Obj->mouse_over_hard ? al_map_rgb(179, 209, 255) : al_map_rgb(255, 255, 255);
 
-    al_draw_text(Obj->font1, easy_color, Obj->title_x - 300, Obj->title_y - 40, ALLEGRO_ALIGN_LEFT, "EASY");//y = 25,x = 70
-    al_draw_text(Obj->font1, medium_color, Obj->title_x - 300, Obj->title_y, ALLEGRO_ALIGN_LEFT, "MEDIUM");
-    al_draw_text(Obj->font1, hard_color, Obj->title_x - 300, Obj->title_y + 40, ALLEGRO_ALIGN_LEFT, "HARD");
+    al_draw_text(Obj->font1, easy_color, Obj->title_x - 290, Obj->title_y - 40, ALLEGRO_ALIGN_LEFT, "EASY");//y = 25,x = 70
+    al_draw_text(Obj->font1, medium_color, Obj->title_x - 290, Obj->title_y, ALLEGRO_ALIGN_LEFT, "MEDIUM");
+    al_draw_text(Obj->font1, hard_color, Obj->title_x - 290, Obj->title_y + 40, ALLEGRO_ALIGN_LEFT, "HARD");
+    switch (level)
+    {
+    case 0:
+        al_draw_filled_rectangle(Obj->title_x - 300, Obj->title_y - 40, Obj->title_x - 300 + 5,Obj->title_y - 40 + 20, al_map_rgb(255, 102, 102));
+        break;
+    case 1:
+        al_draw_filled_rectangle(Obj->title_x - 300, Obj->title_y , Obj->title_x - 300 + 5,Obj->title_y + 20, al_map_rgb(255, 102, 102));
+        break;
+    case 2:
+        al_draw_filled_rectangle(Obj->title_x - 300, Obj->title_y + 40, Obj->title_x - 300 + 5,Obj->title_y + 40 + 20, al_map_rgb(255, 102, 102));
+        break;
+    default:
+        break;
+    }
 
     al_draw_text(Obj->font2, al_map_rgb(255, 255, 255), Obj->title_x - 300, Obj->title_y - 160, ALLEGRO_ALIGN_LEFT, "CHOOSE LEVEL");
 
