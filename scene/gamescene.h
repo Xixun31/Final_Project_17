@@ -1,5 +1,10 @@
 #ifndef GAMESCENE_H_INCLUDED
 #define GAMESCENE_H_INCLUDED
+#include <allegro5/allegro_font.h>
+#include <allegro5/allegro_ttf.h>
+#include <allegro5/allegro.h>
+#include <allegro5/allegro_primitives.h>
+#include <time.h>
 #include "scene.h"
 #include "../element/element.h"
 #include "../element/charater.h"
@@ -29,11 +34,15 @@ typedef enum EleType
 typedef struct _GameScene
 {
     ALLEGRO_BITMAP *background;
+    ALLEGRO_FONT *font1;
+    int title_x, title_y;
+    
 
 } GameScene;
 Scene *New_GameScene(int label);
 void game_scene_update(Scene *self);
 void game_scene_draw(Scene *self);
 void game_scene_destroy(Scene *self);
+void format_time(int elapsed_seconds, char *buffer, int size);
 
 #endif

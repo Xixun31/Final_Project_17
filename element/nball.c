@@ -5,6 +5,9 @@
 #include "paddle.h"
 #include <allegro5/allegro_primitives.h>
 
+double last_click_time = 0;
+const double CLICK_DELAY = 0.2; // 0.5秒的延遲
+
 Elements *New_Nball(int label) {
     Nball *pDerivedObj = (Nball *)malloc(sizeof(Nball));
     Elements *pObj = New_Elements(label);
@@ -34,14 +37,14 @@ void Nball_update(Elements *const ele) {
 
     // Check for collision with screen borders
     if (Obj->x - Obj->r < 0 || Obj->x + Obj->r > WIDTH) {
-        Obj->dx *= -1;
-        // if(Obj->dx > 0) Obj->dx += 0.3; 會脫勾 原因不明
+        // if(Obj->dx > 0) Obj->dx += 0.3;
         // else Obj->dx -= 0.3;
+        Obj->dx *= -1;
     }
     if (Obj->y - Obj->r < 0 || Obj->y + Obj->r > HEIGHT) {
-        Obj->dy *= -1;
         // if(Obj->dy > 0) Obj->dy += 0.3;
         // else Obj->dy -= 0.3;
+        Obj->dy *= -1;
     }
     // Update ball position
     Obj->x += Obj->dx;
@@ -55,12 +58,17 @@ void Nball_update(Elements *const ele) {
 
 void Nball_interact(Elements *const self, Elements *const ele) {
     Nball *Obj = ((Nball *)(self->pDerivedObj));
-    if (ele->label == Paddle_L)
-    {
-        Paddle *pad = ((Paddle *)(ele->pDerivedObj));
-        if (pad->hitbox->overlap(pad->hitbox, Obj->hitbox))
+    double current_time = al_get_time();
+
+    if (current_time - last_click_time > CLICK_DELAY){
+        if (ele->label == Paddle_L)
         {
-            Obj->dy *= -1;
+            Paddle *pad = ((Paddle *)(ele->pDerivedObj));
+            if (pad->hitbox->overlap(pad->hitbox, Obj->hitbox))
+            {
+                Obj->dy *= -1;
+                last_click_time = current_time;
+            }
         }
     }
 }
