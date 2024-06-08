@@ -14,7 +14,7 @@ Elements *New_Box(int label)
     Elements *pObj = New_Elements(label);
     // setting derived object member
     pDerivedObj->x = WIDTH/2 - 75;
-    pDerivedObj->y = 75;
+    pDerivedObj->y = 85;
     pDerivedObj->w = 75;
     pDerivedObj->h = 75;
     pDerivedObj->c = al_map_rgb(255, 255, 255);

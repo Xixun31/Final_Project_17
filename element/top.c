@@ -10,7 +10,7 @@ Elements *New_Top(int label) {
 
     // Initialize Top properties
     pDerivedObj->x = 0;
-    pDerivedObj->y = 70;
+    pDerivedObj->y = 80;
     pDerivedObj->w = WIDTH;
     pDerivedObj->h = 5;
     pDerivedObj->c = al_map_rgb(105, 105, 105);
