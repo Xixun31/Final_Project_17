@@ -38,21 +38,43 @@ void Paddle_update(Elements *const ele) {
     
 
     // Move paddle based on keyboard input
-    if (key_state[ALLEGRO_KEY_LEFT] && Obj->x > 0) {
-        _Paddle_update_position(ele, -10);
+    if (Obj->state == STOP_P)
+    {
+        if (key_state[ALLEGRO_KEY_LEFT] && Obj->x> 0) {
+            Obj->state = MOVE_PL;
+        }
+        else if (key_state[ALLEGRO_KEY_RIGHT] && Obj->x + Obj->w < WIDTH) {
+            Obj->state = MOVE_PR;
+        }
+        else{
+            Obj->state = STOP_P;
+        }
     }
-    if (key_state[ALLEGRO_KEY_RIGHT] && Obj->x + Obj->w < WIDTH) {
-        _Paddle_update_position(ele, 10);
+    else if (Obj->state == MOVE_PL)
+    {
+        if (key_state[ALLEGRO_KEY_LEFT] && Obj->x> 0) {
+            _Paddle_update_position(ele, -10);
+            Obj->state = MOVE_PL;
+        }
+        else Obj->state = STOP_P;
     }
-    if((al_get_time() > Temporary_Time + Suspend_Time) && change)
+    else if (Obj->state == MOVE_PR)
+    {
+        if (key_state[ALLEGRO_KEY_RIGHT] && Obj->x + Obj->w < WIDTH) {
+            _Paddle_update_position(ele, 10);
+            Obj->state = MOVE_PR;
+        }
+        else Obj->state = STOP_P;
+    }
+    if((al_get_time() > Temporary_Time + Suspend_Time) && change){
         {
             Obj->x += 50;
             Obj->w -= 100;
             change = 0;
             Obj->hitbox = New_Rectangle(Obj->x, Obj->y, Obj->x + Obj->w,Obj->y + Obj->h);
         }
+    }
 }
-
 void Paddle_draw(Elements *const ele) {
     Paddle *Obj = ((Paddle *)(ele->pDerivedObj));
     al_draw_filled_rectangle(Obj->x, Obj->y, Obj->x + Obj->w, Obj->y + Obj->h, Obj->c);
