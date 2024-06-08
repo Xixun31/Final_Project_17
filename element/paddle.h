@@ -3,11 +3,17 @@
 
 #include "../shapes/Rectangle.h"
 #include "element.h"
-
+typedef enum PaddleType
+{
+    STOP_P = 0,
+    MOVE_PL,
+    MOVE_PR
+} PaddleType;
 typedef struct Paddle {
     float x, y, w, h;
     ALLEGRO_COLOR c;
     Shape *hitbox;
+    int state;
 } Paddle;
 
 Elements *New_Paddle(int label);

@@ -33,11 +33,33 @@ void Paddle_update(Elements *const ele) {
     
 
     // Move paddle based on keyboard input
-    if (key_state[ALLEGRO_KEY_LEFT] && Obj->x> 0) {
-        _Paddle_update_position(ele, -10);
+    if (Obj->state == STOP_P)
+    {
+        if (key_state[ALLEGRO_KEY_LEFT] && Obj->x> 0) {
+            Obj->state = MOVE_PL;
+        }
+        else if (key_state[ALLEGRO_KEY_RIGHT] && Obj->x + Obj->w < WIDTH) {
+            Obj->state = MOVE_PR;
+        }
+        else{
+            Obj->state = STOP_P;
+        }
     }
-    if (key_state[ALLEGRO_KEY_RIGHT] && Obj->x + Obj->w < WIDTH) {
-        _Paddle_update_position(ele, 10);
+    else if (Obj->state == MOVE_PL)
+    {
+        if (key_state[ALLEGRO_KEY_LEFT] && Obj->x> 0) {
+            _Paddle_update_position(ele, -10);
+            Obj->state = MOVE_PL;
+        }
+        else Obj->state = STOP_P;
+    }
+    else if (Obj->state == MOVE_PR)
+    {
+        if (key_state[ALLEGRO_KEY_RIGHT] && Obj->x + Obj->w < WIDTH) {
+            _Paddle_update_position(ele, 10);
+            Obj->state = MOVE_PR;
+        }
+        else Obj->state = STOP_P;
     }
 }
 
