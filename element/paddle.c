@@ -6,7 +6,7 @@
 #include "../scene/sceneManager.h"
 
 double Temporary_Time_l = 0, Temporary_Time_s = 0, Temporary_Time_r = 0;
-const double Suspend_Time = 3;
+const double Suspend_Time = 3, DELAY = 0.3;
 int change_l = 0, change_s = 0, change_r = 0;
 
 Elements *New_Paddle(int label) {
@@ -97,6 +97,8 @@ void Paddle_interact(Elements *self, Elements *tar) {
     if (tar->label == Tool_L)
     {   
         Tool *tl = ((Tool *)(tar->pDerivedObj));
+        if (al_get_time() > (Temporary_Time_l + DELAY) && al_get_time() > (Temporary_Time_r + DELAY)
+        && al_get_time() > (Temporary_Time_s + DELAY))
         if (tl->hitbox->overlap(tl->hitbox, Obj->hitbox))
         {
             if(compare_colors(tl->c, al_map_rgb(205, 150, 50))){

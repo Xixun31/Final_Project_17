@@ -8,6 +8,9 @@
 /*
    [Box function]
 */
+const double TIMED = 0.3;
+double TEM = 0;
+
 Elements *New_Box(int label)
 {
     Box *pDerivedObj = (Box *)malloc(sizeof(Box));
@@ -18,14 +21,14 @@ Elements *New_Box(int label)
     pDerivedObj->w = 75;
     pDerivedObj->h = 75;
     pDerivedObj->c = al_map_rgb(255, 255, 255);
-    pDerivedObj->hitbox = New_Rectangle(pDerivedObj->x, pDerivedObj->y, pDerivedObj->x + 3,
+    pDerivedObj->hitbox = New_Rectangle(pDerivedObj->x, pDerivedObj->y, pDerivedObj->x + 5,
                                         pDerivedObj->y + pDerivedObj->h);
-    pDerivedObj->hitboxr = New_Rectangle(pDerivedObj->x + pDerivedObj->w - 3, pDerivedObj->y, 
+    pDerivedObj->hitboxr = New_Rectangle(pDerivedObj->x + pDerivedObj->w - 5, pDerivedObj->y, 
                                         pDerivedObj->x + pDerivedObj->w, pDerivedObj->y + pDerivedObj->h);
-    pDerivedObj->hitboy = New_Rectangle(pDerivedObj->x, pDerivedObj->y + pDerivedObj->h - 3, 
+    pDerivedObj->hitboy = New_Rectangle(pDerivedObj->x, pDerivedObj->y + pDerivedObj->h - 5, 
                                         pDerivedObj->x + pDerivedObj->w, pDerivedObj->y + pDerivedObj->h);
     pDerivedObj->hitboyr = New_Rectangle(pDerivedObj->x, pDerivedObj->y, 
-                                        pDerivedObj->x + pDerivedObj->w, pDerivedObj->y + 3);
+                                        pDerivedObj->x + pDerivedObj->w, pDerivedObj->y + 5);
 
     pObj->inter_obj[pObj->inter_len++] = Nball_L;
 
@@ -40,15 +43,16 @@ Elements *New_Box(int label)
 void Box_update(Elements *self) {}
 void Box_interact(Elements *self, Elements *tar) {
     Box *Obj = ((Box *)(self->pDerivedObj));
-    if (tar->label == Nball_L)
-    {
-        Nball *nb = ((Nball *)(tar->pDerivedObj));
-        if (nb->hitbox->overlap(nb->hitbox, Obj->hitbox) || nb->hitbox->overlap(nb->hitbox, Obj->hitboxr)
-         || nb->hitbox->overlap(nb->hitbox, Obj->hitboy) || nb->hitbox->overlap(nb->hitbox, Obj->hitboyr))
+    if(al_get_time() - TEM > TIMED){
+        if (tar->label == Nball_L)
         {
-            self->dele = true;
-            _Register_elements(scene, New_Tool(Tool_L, Obj->x, Obj->y));
-            _Register_elements(scene, New_Box(Box_L));
+            Nball *nb = ((Nball *)(tar->pDerivedObj));
+            if (nb->hitbox->overlap(nb->hitbox, Obj->hitbox) || nb->hitbox->overlap(nb->hitbox, Obj->hitboxr)
+             || nb->hitbox->overlap(nb->hitbox, Obj->hitboy) || nb->hitbox->overlap(nb->hitbox, Obj->hitboyr))
+            {
+                TEM = al_get_time();
+                _Register_elements(scene, New_Tool(Tool_L, Obj->x, Obj->y));
+            }
         }
     }
 }
