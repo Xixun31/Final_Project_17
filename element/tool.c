@@ -14,8 +14,15 @@ Elements *New_Tool(int label, float x, float y) {
     pDerivedObj->y = y + 75/ 2;
     pDerivedObj->r = 10;
     pDerivedObj->dy = 5;
-    
-    pDerivedObj->c = al_map_rgb(205, 150, 50);
+    if(random() % 5 == 0){
+        pDerivedObj->c = al_map_rgb(205, 150, 50);
+    }else if(random() % 5 == 1){
+        pDerivedObj->c = al_map_rgb(50, 200, 100);
+    }else if(random() % 5 == 2){
+        pDerivedObj->c = al_map_rgb(50, 100, 200);
+    }else if(random() % 5 == 3){
+        pDerivedObj->c = al_map_rgb(200, 50, 100);
+    }
     pDerivedObj->hitbox = New_Circle(pDerivedObj->x, pDerivedObj->y, pDerivedObj->r);
 
     pObj->inter_obj[pObj->inter_len++] = Paddle_L;

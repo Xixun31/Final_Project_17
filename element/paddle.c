@@ -3,10 +3,11 @@
 #include "../shapes/Shape.h"
 #include "../global.h"
 #include <allegro5/allegro_primitives.h>
+#include "../scene/sceneManager.h"
 
-double Temporary_Time = 0;
-const double Suspend_Time = 5;
-int change = 0;
+double Temporary_Time_l = 0, Temporary_Time_s = 0, Temporary_Time_r = 0;
+const double Suspend_Time = 3;
+int change_l = 0, change_s = 0, change_r = 0;
 
 Elements *New_Paddle(int label) {
     Paddle *pDerivedObj = (Paddle *)malloc(sizeof(Paddle));
@@ -17,6 +18,7 @@ Elements *New_Paddle(int label) {
     pDerivedObj->y = HEIGHT - 100;
     pDerivedObj->w = 200;
     pDerivedObj->h = 10;
+    pDerivedObj->dx = 10;
     pDerivedObj->c = al_map_rgb(205, 205, 205);
     pDerivedObj->hitbox = New_Rectangle(pDerivedObj->x, pDerivedObj->y, pDerivedObj->x + pDerivedObj->w,
                                         pDerivedObj->y + pDerivedObj->h);
@@ -34,16 +36,21 @@ Elements *New_Paddle(int label) {
 
 void Paddle_update(Elements *const ele) {
     Paddle *Obj = ((Paddle *)(ele->pDerivedObj));
-
-    
+    if(change_r){
+        Obj->keyr = key_state[ALLEGRO_KEY_LEFT];
+        Obj->keyl = key_state[ALLEGRO_KEY_RIGHT];
+    }else{
+        Obj->keyr = key_state[ALLEGRO_KEY_RIGHT];
+        Obj->keyl = key_state[ALLEGRO_KEY_LEFT];
+    }
 
     // Move paddle based on keyboard input
     if (Obj->state == STOP_P)
     {
-        if (key_state[ALLEGRO_KEY_LEFT] && Obj->x> 0) {
+        if (Obj->keyl && Obj->x> 0) {
             Obj->state = MOVE_PL;
         }
-        else if (key_state[ALLEGRO_KEY_RIGHT] && Obj->x + Obj->w < WIDTH) {
+        else if (Obj->keyr && Obj->x + Obj->w < WIDTH) {
             Obj->state = MOVE_PR;
         }
         else{
@@ -52,27 +59,32 @@ void Paddle_update(Elements *const ele) {
     }
     else if (Obj->state == MOVE_PL)
     {
-        if (key_state[ALLEGRO_KEY_LEFT] && Obj->x> 0) {
-            _Paddle_update_position(ele, -10);
+        if (Obj->keyl && Obj->x > 0) {
+            _Paddle_update_position(ele, -Obj->dx);
             Obj->state = MOVE_PL;
         }
         else Obj->state = STOP_P;
     }
     else if (Obj->state == MOVE_PR)
     {
-        if (key_state[ALLEGRO_KEY_RIGHT] && Obj->x + Obj->w < WIDTH) {
-            _Paddle_update_position(ele, 10);
+        if (Obj->keyr && Obj->x + Obj->w < WIDTH) {
+            _Paddle_update_position(ele, Obj->dx);
             Obj->state = MOVE_PR;
         }
         else Obj->state = STOP_P;
     }
-    if((al_get_time() > Temporary_Time + Suspend_Time) && change){
-        {
-            Obj->x += 50;
-            Obj->w -= 100;
-            change = 0;
-            Obj->hitbox = New_Rectangle(Obj->x, Obj->y, Obj->x + Obj->w,Obj->y + Obj->h);
-        }
+    if((al_get_time() > Temporary_Time_l + Suspend_Time) && change_l){
+        Obj->x += 50;
+        Obj->w -= 100;
+        change_l = 0;
+        Obj->hitbox = New_Rectangle(Obj->x, Obj->y, Obj->x + Obj->w,Obj->y + Obj->h);
+    }else if((al_get_time() > Temporary_Time_s + Suspend_Time) && change_s){
+        Obj->x -= 50;
+        Obj->w += 100;
+        change_s = 0;
+        Obj->hitbox = New_Rectangle(Obj->x, Obj->y, Obj->x + Obj->w,Obj->y + Obj->h);
+    }else if((al_get_time() > Temporary_Time_r + Suspend_Time) && change_r){
+        change_r = 0;
     }
 }
 void Paddle_draw(Elements *const ele) {
@@ -87,13 +99,29 @@ void Paddle_interact(Elements *self, Elements *tar) {
         Tool *tl = ((Tool *)(tar->pDerivedObj));
         if (tl->hitbox->overlap(tl->hitbox, Obj->hitbox))
         {
-            Obj->x -= 50;
-            Obj->w += 100;
-            Temporary_Time = al_get_time();
-            change = 1;
-            Obj->hitbox = New_Rectangle(Obj->x, Obj->y, Obj->x + Obj->w,Obj->y + Obj->h);
+            if(compare_colors(tl->c, al_map_rgb(205, 150, 50))){
+                Obj->x -= 50;
+                Obj->w += 100;
+                Temporary_Time_l = al_get_time();
+                change_l = 1;
+                Obj->hitbox = New_Rectangle(Obj->x, Obj->y, Obj->x + Obj->w,Obj->y + Obj->h);
+            }else if(compare_colors(tl->c, al_map_rgb(50, 200, 100))){
+                Obj->x += 50;
+                Obj->w -= 100;
+                Temporary_Time_s = al_get_time();
+                change_s = 1;
+                Obj->hitbox = New_Rectangle(Obj->x, Obj->y, Obj->x + Obj->w,Obj->y + Obj->h);
+            }else if(compare_colors(tl->c, al_map_rgb(50, 100, 200))){
+                Temporary_Time_r = al_get_time();
+                change_r = 1;
+            }else if(compare_colors(tl->c, al_map_rgb(200, 50, 100))){
+                _Register_elements(scene, New_Nball(Nball_L));
+            }
         }
     }
+}
+int compare_colors(ALLEGRO_COLOR c1, ALLEGRO_COLOR c2) {
+    return (c1.r == c2.r) && (c1.g == c2.g) && (c1.b == c2.b) && (c1.a == c2.a);
 }
 
 void Paddle_destroy(Elements *const ele) {

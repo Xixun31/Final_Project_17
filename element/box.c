@@ -14,18 +14,18 @@ Elements *New_Box(int label)
     Elements *pObj = New_Elements(label);
     // setting derived object member
     pDerivedObj->x = WIDTH/2 - 75;
-    pDerivedObj->y = 85;
+    pDerivedObj->y = 160;
     pDerivedObj->w = 75;
     pDerivedObj->h = 75;
     pDerivedObj->c = al_map_rgb(255, 255, 255);
-    pDerivedObj->hitbox = New_Rectangle(pDerivedObj->x, pDerivedObj->y, pDerivedObj->x + 5,
+    pDerivedObj->hitbox = New_Rectangle(pDerivedObj->x, pDerivedObj->y, pDerivedObj->x + 3,
                                         pDerivedObj->y + pDerivedObj->h);
-    pDerivedObj->hitboxr = New_Rectangle(pDerivedObj->x + pDerivedObj->w - 5, pDerivedObj->y, 
+    pDerivedObj->hitboxr = New_Rectangle(pDerivedObj->x + pDerivedObj->w - 3, pDerivedObj->y, 
                                         pDerivedObj->x + pDerivedObj->w, pDerivedObj->y + pDerivedObj->h);
-    pDerivedObj->hitboy = New_Rectangle(pDerivedObj->x, pDerivedObj->y + pDerivedObj->h - 5, 
+    pDerivedObj->hitboy = New_Rectangle(pDerivedObj->x, pDerivedObj->y + pDerivedObj->h - 3, 
                                         pDerivedObj->x + pDerivedObj->w, pDerivedObj->y + pDerivedObj->h);
     pDerivedObj->hitboyr = New_Rectangle(pDerivedObj->x, pDerivedObj->y, 
-                                        pDerivedObj->x + pDerivedObj->w, pDerivedObj->y + 5);
+                                        pDerivedObj->x + pDerivedObj->w, pDerivedObj->y + 3);
 
     pObj->inter_obj[pObj->inter_len++] = Nball_L;
 
@@ -48,6 +48,7 @@ void Box_interact(Elements *self, Elements *tar) {
         {
             self->dele = true;
             _Register_elements(scene, New_Tool(Tool_L, Obj->x, Obj->y));
+            _Register_elements(scene, New_Box(Box_L));
         }
     }
 }

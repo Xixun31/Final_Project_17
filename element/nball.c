@@ -76,7 +76,7 @@ void Nball_update(Elements *const ele) {
 void Nball_interact(Elements *const self, Elements *const ele) {
     Nball *Obj = ((Nball *)(self->pDerivedObj));
     double current_time = al_get_time();
-
+    
     if (current_time - last_click_time > CLICK_DELAY){
         if (ele->label == Paddle_L)
         {
@@ -87,22 +87,42 @@ void Nball_interact(Elements *const self, Elements *const ele) {
                 last_click_time = current_time;
             }
         }else if(ele->label == Box_L){
-        Box *box = ((Box *)(ele->pDerivedObj));
-        if((box->hitbox->overlap(box->hitbox, Obj->hitbox) || box->hitboxr->overlap(box->hitboxr, Obj->hitbox))
-        && (box->hitboy->overlap(box->hitboy, Obj->hitbox) || box->hitboyr->overlap(box->hitboyr, Obj->hitbox)))
-        {
-            Obj->dx *= -1;
-            Obj->dy *= -1;
-            last_click_time = current_time;
-        }else if (box->hitbox->overlap(box->hitbox, Obj->hitbox) || box->hitboxr->overlap(box->hitboxr, Obj->hitbox))
-        {
-            Obj->dx *= -1;
-            last_click_time = current_time;
-        }else if(box->hitboy->overlap(box->hitboy, Obj->hitbox) || box->hitboyr->overlap(box->hitboyr, Obj->hitbox)){
-            Obj->dy *= -1;
-            last_click_time = current_time;
+            Box *box = ((Box *)(ele->pDerivedObj));
+            bool boxl = box->hitbox->overlap(box->hitbox, Obj->hitbox);
+            bool boxr = box->hitbox->overlap(box->hitboxr, Obj->hitbox);
+            bool boyl = box->hitbox->overlap(box->hitboy, Obj->hitbox);
+            bool boyr = box->hitbox->overlap(box->hitboyr, Obj->hitbox);
+
+            if(boxl && (boyl || boyr))
+            {
+                if(Obj->dx > 0) Obj->dx *= -1;
+                Obj->dy *= -1;
+                last_click_time = current_time;
+            }else if (boxr && (boyl || boyr))
+            {
+                if(Obj->dx < 0) Obj->dx *= -1;
+                Obj->dy *= -1;
+                last_click_time = current_time;
+            }else if (boyr && (boxl || boxr))
+            {
+                Obj->dx *= -1;
+                if(Obj->dy > 0)Obj->dy *= -1;
+                last_click_time = current_time;
+            }else if (boyl && (boxl || boxr))
+            {
+                Obj->dx *= -1;
+                if(Obj->dy < 0)Obj->dy *= -1;
+                last_click_time = current_time;
+            }else if (boxr || boxl)
+            {
+                Obj->dx *= -1;
+                last_click_time = current_time;
+            }else if(boyr || boyl)
+            {
+                Obj->dy *= -1;
+                last_click_time = current_time;
+            }
         }
-    }
     }
 }
 
