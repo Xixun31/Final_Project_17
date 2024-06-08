@@ -13,8 +13,8 @@ Elements *New_Nball(int label) {
     Elements *pObj = New_Elements(label);
 
     // Initialize ball properties
-    pDerivedObj->x = random() % WIDTH;
-    pDerivedObj->y = HEIGHT / 2 - random() % (HEIGHT / 3);
+    pDerivedObj->x = rand() % WIDTH;
+    pDerivedObj->y = HEIGHT / 2 - rand() % (HEIGHT / 3);
     pDerivedObj->r = 10;
     switch (level)
     {
