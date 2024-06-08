@@ -58,7 +58,7 @@ void Nball_update(Elements *const ele) {
         // else Obj->dx -= 0.3;
         Obj->dx *= -1;
     }
-    if (Obj->y - Obj->r < 75 || Obj->y + Obj->r > HEIGHT) {
+    if (Obj->y - Obj->r < 85 || Obj->y + Obj->r > HEIGHT) {
         // if(Obj->dy > 0) Obj->dy += 0.3;
         // else Obj->dy -= 0.3;
         Obj->dy *= -1;
