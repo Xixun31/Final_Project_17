@@ -88,22 +88,6 @@ void Nball_interact(Elements *const self, Elements *const ele) {
         }
         if(ele->label == Box_L){
             Box *box = ((Box *)(ele->pDerivedObj));
-            if((box->hitbox->overlap(box->hitbox, Obj->hitbox) || box->hitboxr->overlap(box->hitboxr, Obj->hitbox))
-            && (box->hitboy->overlap(box->hitboy, Obj->hitbox) || box->hitboyr->overlap(box->hitboyr, Obj->hitbox)))
-            {
-                Obj->dx *= -1;
-                Obj->dy *= -1;
-                last_click_time = current_time;
-            }if (box->hitbox->overlap(box->hitbox, Obj->hitbox) || box->hitboxr->overlap(box->hitboxr, Obj->hitbox))
-            {
-                Obj->dx *= -1;
-                last_click_time = current_time;
-            }if(box->hitboy->overlap(box->hitboy, Obj->hitbox) || box->hitboyr->overlap(box->hitboyr, Obj->hitbox)){
-                Obj->dy *= -1;
-                last_click_time = current_time;
-            }
-        }else if(ele->label == Box_L){
-            Box *box = ((Box *)(ele->pDerivedObj));
             bool boxl = box->hitbox->overlap(box->hitbox, Obj->hitbox);
             bool boxr = box->hitbox->overlap(box->hitboxr, Obj->hitbox);
             bool boyl = box->hitbox->overlap(box->hitboy, Obj->hitbox);
