@@ -59,6 +59,8 @@ void Ball_interact(Elements *self, Elements *tar){
         if (ba->hitbox->overlap(ba->hitbox, Obj->hitbox))
         {
             Obj->c = al_map_rgb(100, 100, 100);
+        }else{
+            Obj->c = al_map_rgb(150, 50, 250);
         }
     }
     else if (tar->label == Paddle_L)
@@ -75,8 +77,6 @@ void Ball_interact(Elements *self, Elements *tar){
             Obj->c = al_map_rgb(0, 250, 50);
         }else if(box->hitboy->overlap(box->hitboy, Obj->hitbox) || box->hitboyr->overlap(box->hitboyr, Obj->hitbox)){
             Obj->c = al_map_rgb(0, 50, 250);
-        }else{
-            Obj->c = al_map_rgb(150, 50, 250);
         }
     }
 }

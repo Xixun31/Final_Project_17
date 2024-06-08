@@ -15,7 +15,7 @@ Elements *New_Paddle(int label) {
 
     // Initialize paddle properties
     pDerivedObj->x = WIDTH / 2 - 100;
-    pDerivedObj->y = HEIGHT - 100;
+    pDerivedObj->y = HEIGHT - 50;
     pDerivedObj->w = 200;
     pDerivedObj->h = 10;
     pDerivedObj->dx = 10;

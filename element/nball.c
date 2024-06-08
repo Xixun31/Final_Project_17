@@ -13,8 +13,8 @@ Elements *New_Nball(int label) {
     Elements *pObj = New_Elements(label);
 
     // Initialize ball properties
-    pDerivedObj->x = WIDTH / 2;
-    pDerivedObj->y = HEIGHT / 2;
+    pDerivedObj->x = random() % WIDTH;
+    pDerivedObj->y = HEIGHT / 2 - random() % (HEIGHT / 3);
     pDerivedObj->r = 10;
     switch (level)
     {
@@ -83,26 +83,7 @@ void Nball_interact(Elements *const self, Elements *const ele) {
             Paddle *pad = ((Paddle *)(ele->pDerivedObj));
             if (pad->hitbox->overlap(pad->hitbox, Obj->hitbox))
             {
-                double bounce_angle = atan2(fabs(Obj->dy), fabs(Obj->dx))- 0.174;// 60 degrees max bounce angle
-                double speed = sqrt(Obj->dx * Obj->dx + Obj->dy * Obj->dy);
-                if (pad->state == MOVE_PR){
-                    Obj->dx = speed * sin(bounce_angle) ;
-                    Obj->dy = -speed * cos(bounce_angle);
-
-                    last_click_time = current_time;
-                }
-                if (pad->state == MOVE_PL){
-                    Obj->dx = -speed * sin(bounce_angle) ;
-                    Obj->dy = -speed * cos(bounce_angle);
-
-                    last_click_time = current_time;
-                }
-                if (pad->state == STOP_P){
-                    Obj->dy *= -1;
-                    last_click_time = current_time;
-                }
-
-                
+                Obj->dy *= -1;
             }
         }
         if(ele->label == Box_L){
@@ -128,25 +109,25 @@ void Nball_interact(Elements *const self, Elements *const ele) {
             bool boyl = box->hitbox->overlap(box->hitboy, Obj->hitbox);
             bool boyr = box->hitbox->overlap(box->hitboyr, Obj->hitbox);
 
-            if(boxl && (boyl || boyr))
+            if(boxl && boyl)
             {
                 if(Obj->dx > 0) Obj->dx *= -1;
-                Obj->dy *= -1;
+                if(Obj->dy < 0) Obj->dy *= -1;
                 last_click_time = current_time;
-            }else if (boxr && (boyl || boyr))
+            }else if (boxr && boyl)
             {
                 if(Obj->dx < 0) Obj->dx *= -1;
-                Obj->dy *= -1;
+                if(Obj->dy < 0) Obj->dy *= -1;
                 last_click_time = current_time;
-            }else if (boyr && (boxl || boxr))
+            }else if (boyr && boxl)
             {
-                Obj->dx *= -1;
-                if(Obj->dy > 0)Obj->dy *= -1;
+                if(Obj->dx > 0) Obj->dx *= -1;
+                if(Obj->dy > 0) Obj->dy *= -1;
                 last_click_time = current_time;
-            }else if (boyl && (boxl || boxr))
+            }else if (boyr && boxr)
             {
-                Obj->dx *= -1;
-                if(Obj->dy < 0)Obj->dy *= -1;
+                if(Obj->dx < 0) Obj->dx *= -1;
+                if(Obj->dy > 0) Obj->dy *= -1;
                 last_click_time = current_time;
             }else if (boxr || boxl)
             {
