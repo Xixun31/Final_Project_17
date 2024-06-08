@@ -1,8 +1,10 @@
 #include "box.h"
+#include "tool.h"
 #include "../shapes/Rectangle.h"
 #include "../shapes/Shape.h"
 #include "../global.h"
 #include <allegro5/allegro_primitives.h>
+#include "../scene/sceneManager.h"
 /*
    [Box function]
 */
@@ -12,7 +14,7 @@ Elements *New_Box(int label)
     Elements *pObj = New_Elements(label);
     // setting derived object member
     pDerivedObj->x = WIDTH/2 - 75;
-    pDerivedObj->y = 0;
+    pDerivedObj->y = 75;
     pDerivedObj->w = 75;
     pDerivedObj->h = 75;
     pDerivedObj->c = al_map_rgb(255, 255, 255);
@@ -42,11 +44,10 @@ void Box_interact(Elements *self, Elements *tar) {
     {
         Nball *nb = ((Nball *)(tar->pDerivedObj));
         if (nb->hitbox->overlap(nb->hitbox, Obj->hitbox) || nb->hitbox->overlap(nb->hitbox, Obj->hitboxr)
-         || nb->hitbox->overlap(nb->hitbox, Obj->hitboyr) || nb->hitbox->overlap(nb->hitbox, Obj->hitboyr))
+         || nb->hitbox->overlap(nb->hitbox, Obj->hitboy) || nb->hitbox->overlap(nb->hitbox, Obj->hitboyr))
         {
-            Obj->c = al_map_rgb(55, 255, 255);
-        }else{
-            Obj->c = al_map_rgb(255, 255, 255);
+            self->dele = true;
+            _Register_elements(scene, New_Tool(Tool_L, Obj->x, Obj->y));
         }
     }
 }

@@ -3,6 +3,7 @@
 
 #include "../shapes/Rectangle.h"
 #include "element.h"
+#include "../scene/gamescene.h"
 
 typedef struct Paddle {
     float x, y, w, h;
@@ -15,5 +16,6 @@ void Paddle_update(Elements *const ele);
 void Paddle_draw(Elements *const ele);
 void Paddle_destroy(Elements *const ele);
 void _Paddle_update_position(Elements *self, int dx);
+void Paddle_interact(Elements *self, Elements *tar);
 
 #endif

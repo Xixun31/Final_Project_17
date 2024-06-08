@@ -37,14 +37,12 @@ void Ball_update(Elements *self){
 }
 void Ball_interact(Elements *self, Elements *tar){
     Ball *Obj = ((Ball *)(self->pDerivedObj));
-    if (tar->label == Tree_L)
+    /* if (tar->label == Tree_L)
     {
         Tree *tree = ((Tree *)(tar->pDerivedObj));
         if (tree->hitbox->overlap(tree->hitbox, Obj->hitbox))
         {
             Obj->c = al_map_rgb(50, 200, 150);
-        }else{
-            Obj->c = al_map_rgb(150, 50, 250);
         }
     }
     else if (tar->label == Character_L)
@@ -54,8 +52,8 @@ void Ball_interact(Elements *self, Elements *tar){
         {
             Obj->c = al_map_rgb(50, 100, 200);
         }
-    }
-    else if (tar->label == Nball_L)
+    } */
+    if (tar->label == Nball_L)
     {
         Nball *ba = ((Nball *)(tar->pDerivedObj));
         if (ba->hitbox->overlap(ba->hitbox, Obj->hitbox))
@@ -77,6 +75,8 @@ void Ball_interact(Elements *self, Elements *tar){
             Obj->c = al_map_rgb(0, 250, 50);
         }else if(box->hitboy->overlap(box->hitboy, Obj->hitbox) || box->hitboyr->overlap(box->hitboyr, Obj->hitbox)){
             Obj->c = al_map_rgb(0, 50, 250);
+        }else{
+            Obj->c = al_map_rgb(150, 50, 250);
         }
     }
 }
