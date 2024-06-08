@@ -40,6 +40,12 @@ Elements *New_Nball(int label) {
     pObj->inter_obj[pObj->inter_len++] = Paddle_L;
     pObj->inter_obj[pObj->inter_len++] = Box_L;
 
+    ALLEGRO_SAMPLE *sample = al_load_sample("assets/sound/bounce.wav");
+    pDerivedObj->bounce_Sound = al_create_sample_instance(sample);
+    al_set_sample_instance_playmode(pDerivedObj->bounce_Sound, ALLEGRO_PLAYMODE_ONCE);
+    al_attach_sample_instance_to_mixer(pDerivedObj->bounce_Sound, al_get_default_mixer());
+    pDerivedObj->state = 0;
+
     pObj->pDerivedObj = pDerivedObj;
     pObj->Update = Nball_update;
     pObj->Interact = Nball_interact;
@@ -51,7 +57,6 @@ Elements *New_Nball(int label) {
 
 void Nball_update(Elements *const ele) {
     Nball *Obj = ((Nball *)(ele->pDerivedObj));
-
     // Check for collision with screen borders
     if (Obj->x - Obj->r < 0 || Obj->x + Obj->r > WIDTH) {
         // if(Obj->dx > 0) Obj->dx += 0.3;
@@ -83,7 +88,11 @@ void Nball_interact(Elements *const self, Elements *const ele) {
             Paddle *pad = ((Paddle *)(ele->pDerivedObj));
             if (pad->hitbox->overlap(pad->hitbox, Obj->hitbox))
             {
+                al_play_sample_instance(Obj->bounce_Sound);
                 Obj->dy *= -1;
+                Obj->state = 1;
+                last_click_time = current_time;
+
             }
         }
         if(ele->label == Box_L){
@@ -133,6 +142,7 @@ void Nball_draw(Elements *const ele) {
 
 void Nball_destroy(Elements *const ele) {
     Nball *Obj = ((Nball *)(ele->pDerivedObj));
+    al_destroy_sample_instance(Obj->bounce_Sound);
     free(Obj->hitbox);
     free(Obj);
     free(ele);

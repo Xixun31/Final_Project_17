@@ -9,6 +9,8 @@ typedef struct Nball {
     float x, y, r, dx, dy;
     ALLEGRO_COLOR c;
     Shape *hitbox;
+    ALLEGRO_SAMPLE_INSTANCE *bounce_Sound;
+    int state;
 } Nball;
 
 Elements *New_Nball(int label);
