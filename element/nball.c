@@ -6,7 +6,7 @@
 #include <allegro5/allegro_primitives.h>
 
 double last_click_time = 0;
-const double CLICK_DELAY = 0.07; // 0.5秒的延遲
+const double CLICK_DELAY = 0.1; // 0.5秒的延遲
 
 Elements *New_Nball(int label) {
     Nball *pDerivedObj = (Nball *)malloc(sizeof(Nball));

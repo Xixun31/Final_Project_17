@@ -76,12 +76,12 @@ void Paddle_update(Elements *const ele) {
     if((al_get_time() > Temporary_Time_l + Suspend_Time) && change_l){
         Obj->x += 50;
         Obj->w -= 100;
-        change_l = 0;
+        change_l --;
         Obj->hitbox = New_Rectangle(Obj->x, Obj->y, Obj->x + Obj->w,Obj->y + Obj->h);
     }else if((al_get_time() > Temporary_Time_s + Suspend_Time) && change_s){
         Obj->x -= 50;
         Obj->w += 100;
-        change_s = 0;
+        change_s --;
         Obj->hitbox = New_Rectangle(Obj->x, Obj->y, Obj->x + Obj->w,Obj->y + Obj->h);
     }else if((al_get_time() > Temporary_Time_r + Suspend_Time) && change_r){
         change_r = 0;
@@ -105,13 +105,13 @@ void Paddle_interact(Elements *self, Elements *tar) {
                 Obj->x -= 50;
                 Obj->w += 100;
                 Temporary_Time_l = al_get_time();
-                change_l = 1;
+                change_l ++;
                 Obj->hitbox = New_Rectangle(Obj->x, Obj->y, Obj->x + Obj->w,Obj->y + Obj->h);
             }else if(compare_colors(tl->c, al_map_rgb(50, 200, 100))){
                 Obj->x += 50;
                 Obj->w -= 100;
                 Temporary_Time_s = al_get_time();
-                change_s = 1;
+                change_s ++;
                 Obj->hitbox = New_Rectangle(Obj->x, Obj->y, Obj->x + Obj->w,Obj->y + Obj->h);
             }else if(compare_colors(tl->c, al_map_rgb(50, 100, 200))){
                 Temporary_Time_r = al_get_time();
