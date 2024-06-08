@@ -74,7 +74,7 @@ void Paddle_update(Elements *const ele) {
             Obj->hitbox = New_Rectangle(Obj->x, Obj->y, Obj->x + Obj->w,Obj->y + Obj->h);
         }
     }
-
+}
 void Paddle_draw(Elements *const ele) {
     Paddle *Obj = ((Paddle *)(ele->pDerivedObj));
     al_draw_filled_rectangle(Obj->x, Obj->y, Obj->x + Obj->w, Obj->y + Obj->h, Obj->c);
