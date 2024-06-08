@@ -3,12 +3,15 @@
 
 #include "../shapes/Rectangle.h"
 #include "element.h"
+#include "../scene/gamescene.h"
 typedef enum PaddleType
 {
     STOP_P = 0,
     MOVE_PL,
     MOVE_PR
 } PaddleType;
+
+
 typedef struct Paddle {
     float x, y, w, h;
     ALLEGRO_COLOR c;
@@ -21,5 +24,6 @@ void Paddle_update(Elements *const ele);
 void Paddle_draw(Elements *const ele);
 void Paddle_destroy(Elements *const ele);
 void _Paddle_update_position(Elements *self, int dx);
+void Paddle_interact(Elements *self, Elements *tar);
 
 #endif
