@@ -60,8 +60,11 @@ void about_draw(Scene *self)
     About *Obj = ((About *)(self->pDerivedObj));
     ALLEGRO_COLOR back_color = Obj->mouse_over_back ? al_map_rgb(179, 209, 255) : al_map_rgb(255, 255, 255);
 
-    al_draw_text(Obj->font1, al_map_rgb(255, 255, 255), Obj->title_x - 220, Obj->title_y - 200, ALLEGRO_ALIGN_LEFT, "to move the paddle");
-    al_draw_text(Obj->font1, al_map_rgb(255, 255, 255), Obj->title_x - 350, Obj->title_y - 150, ALLEGRO_ALIGN_LEFT, "Press    to pause the game");
+    // Adjust the horizontal position of the text to align with the rest of the content
+    float text_x_position = Obj->title_x - 350;
+
+    al_draw_text(Obj->font1, al_map_rgb(255, 255, 255), text_x_position, Obj->title_y - 200, ALLEGRO_ALIGN_LEFT, "Use the left and right arrow on your keyboard to move the paddle");
+    al_draw_text(Obj->font1, al_map_rgb(255, 255, 255), text_x_position, Obj->title_y - 150, ALLEGRO_ALIGN_LEFT, "Press    to pause the game");
     al_draw_filled_circle(Obj->title_x - 277, Obj->title_y - 147, 3, al_map_rgb(255, 255, 255));
     al_draw_filled_circle(Obj->title_x - 277, Obj->title_y - 137, 3, al_map_rgb(255, 255, 255));
     al_draw_filled_circle(Obj->title_x - 277, Obj->title_y - 127, 3, al_map_rgb(255, 255, 255));
@@ -69,8 +72,8 @@ void about_draw(Scene *self)
     // Draw tool images with larger size and add space between images and text
     float scale_factor = 2.0;  // Adjust this value to make images larger
     float img_size = 16 * scale_factor;
-    float text_y_offset = 8; // Adjust this value to align with the text
-    float text_x_offset = 10; // Adjust this value to add space between image and text
+    float text_y_offset = 8;
+    float text_x_offset = 10;
 
     al_draw_scaled_bitmap(Obj->tool_images[0], 0, 0, al_get_bitmap_width(Obj->tool_images[0]), al_get_bitmap_height(Obj->tool_images[0]), Obj->title_x - 350, Obj->title_y - 30 - img_size / 2 + text_y_offset, img_size, img_size, 0);
     al_draw_text(Obj->font1, al_map_rgb(255, 255, 255), Obj->title_x - 350 + img_size + text_x_offset, Obj->title_y - 30, ALLEGRO_ALIGN_LEFT, "Extend the paddle");
