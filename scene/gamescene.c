@@ -1,4 +1,5 @@
 #include "gamescene.h"
+#include "gameover.h"
 #include "../global.h"
 #include "sceneManager.h"
 #include <stdio.h>
@@ -15,6 +16,8 @@ Scene *New_GameScene(int label)
     pDerivedObj->font1 = al_load_ttf_font("assets/font/DIN Condensed Bold.ttf", 28, 0);
     pDerivedObj->background = al_load_bitmap("assets/image/stage.jpg");
     pObj->pDerivedObj = pDerivedObj;
+
+    start_time = al_get_time();
 
     pDerivedObj->pause = false;
     pDerivedObj->mouse_over_set = false;
@@ -121,13 +124,14 @@ void game_scene_update(Scene *self)
         self->scene_end = true;
         window = 5;
     }
-
     
 }
 void score(Scene *self){
     GameScene *Obj = ((GameScene *)(self->pDerivedObj));
     Obj->score++;
+    final_score = Obj->score;
 }
+
 void game_scene_draw(Scene *self)
 {
     GameScene *Obj = ((GameScene *)(self->pDerivedObj));

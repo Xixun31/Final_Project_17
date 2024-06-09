@@ -1,6 +1,7 @@
 #ifndef YOUWIN_H_INCLUDED
 #define YOUWIN_H_INCLUDED
 #include "scene.h"
+#include "gamescene.h"
 #include <allegro5/allegro_audio.h>
 #include <allegro5/allegro_acodec.h>
 #include <allegro5/allegro_font.h>
@@ -19,6 +20,7 @@ typedef struct _Youwin
     bool mouse_over_restart, mouse_over_menu;
     ALGIF_ANIMATION *gif_status;
     int state;
+    double final_time;
 
 } Youwin;
 Scene *New_Youwin(int label);

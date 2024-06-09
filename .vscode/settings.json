@@ -4,6 +4,7 @@
         "stack": "c",
         "random": "c",
         "circle.h": "c",
-        "gamescene.h": "c"
+        "gamescene.h": "c",
+        "allegro_audio.h": "c"
     }
 }

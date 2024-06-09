@@ -7,6 +7,8 @@ const int WIDTH = 900;
 const int HEIGHT = 672;
 int window = 0;
 int level = 0;
+int final_score = 0;
+double start_time;
 ALLEGRO_EVENT_QUEUE *event_queue = NULL;
 ALLEGRO_EVENT event;
 ALLEGRO_TIMER *fps = NULL;

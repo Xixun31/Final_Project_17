@@ -46,9 +46,6 @@ Elements *New_Tool(int label, float x, float y) {
             pDerivedObj->c = al_map_rgb(255, 255, 255);
             pDerivedObj->image = NULL;
             break;
-        case 5:
-            pDerivedObj->c = al_map_rgb(255, 100, 155);
-            break;
     }
     
     if (!pDerivedObj->image) {
@@ -119,6 +116,7 @@ void Tool_draw(Elements *const ele) {
 
 void Tool_destroy(Elements *const ele) {
     Tool *Obj = ((Tool *)(ele->pDerivedObj));
+    al_destroy_bitmap(Obj->image);
     free(Obj->hitbox);
     free(Obj);
     free(ele);

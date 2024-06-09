@@ -1,6 +1,9 @@
 #include <allegro5/allegro_primitives.h>
 #include "gameover.h"
+#include "gamescene.h"
 #include "../algif5/src/algif.h"
+#include "../global.h"
+#include "sceneManager.h"
 #include <stdbool.h>
 /*
    [gameover function]
@@ -13,7 +16,6 @@ Scene *New_Gameover(int label)
     pDerivedObj->font1 = al_load_ttf_font("assets/font/DIN Condensed Bold.ttf", 32, 0);
     pDerivedObj->font2 = al_load_ttf_font("assets/font/DIN Condensed Bold.ttf", 40, 0);
     // Load sound
-    
     pDerivedObj->title_x = WIDTH / 2;
     pDerivedObj->title_y = HEIGHT / 2;
 
@@ -74,10 +76,11 @@ void gameover_draw(Scene *self)
     }
 
 
-    al_draw_text(Obj->font2, al_map_rgb(255, 255, 255), Obj->title_x - 95 , Obj->title_y + 20, ALLEGRO_ALIGN_CENTRE, "YOUR SCORE");
-    al_draw_text(Obj->font1, restart_color, Obj->title_x - 70 , Obj->title_y + 110, ALLEGRO_ALIGN_CENTRE, "RESTART");
-    al_draw_text(Obj->font1, menu_color, Obj->title_x + 70, Obj->title_y + 110, ALLEGRO_ALIGN_CENTRE, "MENU");
-    /*
+    al_draw_text(Obj->font2, al_map_rgb(255, 255, 255), Obj->title_x - 45 , Obj->title_y + 20, ALLEGRO_ALIGN_CENTRE, "YOUR SCORE");
+    sprintf(Obj->score_str, "%d", final_score);
+    al_draw_text(Obj->font2, al_map_rgb(255, 255, 255), Obj->title_x + 70 , Obj->title_y + 20, ALLEGRO_ALIGN_CENTRE, Obj->score_str);
+    al_draw_text(Obj->font1, restart_color, Obj->title_x - 30 , Obj->title_y + 110, ALLEGRO_ALIGN_RIGHT, "RESTART");
+    al_draw_text(Obj->font1, menu_color, Obj->title_x + 30, Obj->title_y + 110, ALLEGRO_ALIGN_LEFT, "MENU");    /*
     al_draw_filled_circle(Obj->title_x- 350, Obj->title_y - 30, 8, al_map_rgb(205, 150, 50));
     al_draw_text(Obj->font1, al_map_rgb(255, 255, 255), Obj->title_x - 320, Obj->title_y - 40, ALLEGRO_ALIGN_LEFT, "Extend the paddle");
     al_draw_filled_circle(Obj->title_x- 350, Obj->title_y + 20, 8, al_map_rgb(50, 200, 100));
@@ -99,6 +102,7 @@ void gameover_destroy(Scene *self)
     al_destroy_font(Obj->font2);
     al_destroy_sample(Obj->song);
     al_destroy_sample_instance(Obj->sample_instance);
+    algif_destroy_animation(Obj->gif_status);
     free(Obj);
     free(self);
 }
