@@ -69,7 +69,6 @@ void about_draw(Scene *self)
     al_draw_filled_circle(Obj->title_x - 277, Obj->title_y - 137, 3, al_map_rgb(255, 255, 255));
     al_draw_filled_circle(Obj->title_x - 277, Obj->title_y - 127, 3, al_map_rgb(255, 255, 255));
 
-<<<<<<< HEAD
     al_draw_filled_circle(Obj->title_x- 350, Obj->title_y - 30, 8, al_map_rgb(205, 150, 50));
     al_draw_text(Obj->font1, al_map_rgb(255, 255, 255), Obj->title_x - 320, Obj->title_y - 40, ALLEGRO_ALIGN_LEFT, "Extend the paddle");
     al_draw_filled_circle(Obj->title_x- 350, Obj->title_y + 20, 8, al_map_rgb(50, 200, 100));
@@ -78,7 +77,6 @@ void about_draw(Scene *self)
     al_draw_text(Obj->font1, al_map_rgb(255, 255, 255), Obj->title_x - 320, Obj->title_y + 60, ALLEGRO_ALIGN_LEFT, "Change the control direction of the paddle");
     al_draw_filled_circle(Obj->title_x- 350, Obj->title_y + 120, 8, al_map_rgb(150, 0, 10));
     al_draw_text(Obj->font1, al_map_rgb(255, 255, 255), Obj->title_x - 320, Obj->title_y + 110, ALLEGRO_ALIGN_LEFT, "Add one ball");
-=======
     // Draw tool images with larger size and add space between images and text
     float scale_factor = 2.0;  // Adjust this value to make images larger
     float img_size = 16 * scale_factor;
@@ -96,7 +94,6 @@ void about_draw(Scene *self)
     
     al_draw_scaled_bitmap(Obj->tool_images[3], 0, 0, al_get_bitmap_width(Obj->tool_images[3]), al_get_bitmap_height(Obj->tool_images[3]), Obj->title_x - 350, Obj->title_y + 120 - img_size / 2 + text_y_offset, img_size, img_size, 0);
     al_draw_text(Obj->font1, al_map_rgb(255, 255, 255), Obj->title_x - 350 + img_size + text_x_offset, Obj->title_y + 120, ALLEGRO_ALIGN_LEFT, "Add one ball");
->>>>>>> refs/remotes/origin/main
 
     al_draw_text(Obj->font2, back_color, Obj->title_x - 350, Obj->title_y + 210, ALLEGRO_ALIGN_LEFT, "Back");
     al_play_sample_instance(Obj->sample_instance);

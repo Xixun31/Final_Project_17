@@ -31,12 +31,8 @@ Elements *New_Tool(int label, float x, float y) {
             pDerivedObj->image = al_load_bitmap("assets/image/ball_reverse.png");
             break;
         case 3:
-<<<<<<< HEAD
             pDerivedObj->c = al_map_rgb(150, 0, 10);
-=======
-            pDerivedObj->c = al_map_rgb(250, 50, 50);
             pDerivedObj->image = al_load_bitmap("assets/image/ball_add.png");
->>>>>>> refs/remotes/origin/main
             break;
         case 4:
             pDerivedObj->c = al_map_rgb(255, 255, 255);
