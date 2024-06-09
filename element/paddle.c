@@ -18,10 +18,10 @@ Elements *New_Paddle(int label) {
     pDerivedObj->y = HEIGHT - 50;
     pDerivedObj->w = 200;
     pDerivedObj->h = 10;
-    pDerivedObj->dx = 10;
+    pDerivedObj->dx = 15;
     pDerivedObj->c = al_map_rgb(205, 205, 205);
     pDerivedObj->hitbox = New_Rectangle(pDerivedObj->x, pDerivedObj->y, pDerivedObj->x + pDerivedObj->w,
-                                        pDerivedObj->y + pDerivedObj->h);
+                                        pDerivedObj->y + 1);
 
     pObj->inter_obj[pObj->inter_len++] = Tool_L;
 
@@ -77,12 +77,12 @@ void Paddle_update(Elements *const ele) {
         Obj->x += 50;
         Obj->w -= 100;
         change_l --;
-        Obj->hitbox = New_Rectangle(Obj->x, Obj->y, Obj->x + Obj->w,Obj->y + Obj->h);
+        Obj->hitbox = New_Rectangle(Obj->x, Obj->y, Obj->x + Obj->w, Obj->y + 1);
     }else if((al_get_time() > Temporary_Time_s + Suspend_Time) && change_s){
         Obj->x -= 50;
         Obj->w += 100;
         change_s --;
-        Obj->hitbox = New_Rectangle(Obj->x, Obj->y, Obj->x + Obj->w,Obj->y + Obj->h);
+        Obj->hitbox = New_Rectangle(Obj->x, Obj->y, Obj->x + Obj->w, Obj->y + 1);
     }else if((al_get_time() > Temporary_Time_r + Suspend_Time) && change_r){
         change_r = 0;
     }
@@ -106,18 +106,20 @@ void Paddle_interact(Elements *self, Elements *tar) {
                 Obj->w += 100;
                 Temporary_Time_l = al_get_time();
                 change_l ++;
-                Obj->hitbox = New_Rectangle(Obj->x, Obj->y, Obj->x + Obj->w,Obj->y + Obj->h);
+                Obj->hitbox = New_Rectangle(Obj->x, Obj->y, Obj->x + Obj->w, Obj->y + 1);
             }else if(compare_colors(tl->c, al_map_rgb(50, 200, 100))){
                 Obj->x += 50;
                 Obj->w -= 100;
                 Temporary_Time_s = al_get_time();
                 change_s ++;
-                Obj->hitbox = New_Rectangle(Obj->x, Obj->y, Obj->x + Obj->w,Obj->y + Obj->h);
+                Obj->hitbox = New_Rectangle(Obj->x, Obj->y, Obj->x + Obj->w, Obj->y + 1);
             }else if(compare_colors(tl->c, al_map_rgb(50, 100, 200))){
                 Temporary_Time_r = al_get_time();
                 change_r = 1;
             }else if(compare_colors(tl->c, al_map_rgb(200, 50, 100))){
                 _Register_elements(scene, New_Nball(Nball_L));
+            }else if(compare_colors(tl->c, al_map_rgb(255, 255, 255))){
+                
             }
         }
     }

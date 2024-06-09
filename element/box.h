@@ -15,7 +15,7 @@ typedef struct _Box
     Shape *hitboy;
     Shape *hitboyr;
 } Box;
-Elements *New_Box(int label);
+Elements *New_Box(int label, int col, int row);
 void Box_update(Elements *self);
 void Box_interact(Elements *self, Elements *tar);
 void Box_draw(Elements *self);

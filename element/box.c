@@ -9,17 +9,21 @@
    [Box function]
 */
 const double TIMED = 0.3;
-double TEM = 0;
+double TEM = 0, last_move_time = 0, next_level_time = 13, gap_time = 0;
+int move_times = 0, exist = 0, gen;
 
-Elements *New_Box(int label)
+Elements *New_Box(int label, int col, int row)
 {
     Box *pDerivedObj = (Box *)malloc(sizeof(Box));
     Elements *pObj = New_Elements(label);
+    gap_time = al_get_time();
+
+    exist++;
     // setting derived object member
-    pDerivedObj->x = WIDTH/2 - 75;
-    pDerivedObj->y = 160;
-    pDerivedObj->w = 75;
-    pDerivedObj->h = 75;
+    pDerivedObj->x = col * 82;
+    pDerivedObj->y = 85 + row * 82;
+    pDerivedObj->w = 77;
+    pDerivedObj->h = 77;
     pDerivedObj->c = al_map_rgb(255, 255, 255);
     pDerivedObj->hitbox = New_Rectangle(pDerivedObj->x, pDerivedObj->y, pDerivedObj->x + 5,
                                         pDerivedObj->y + pDerivedObj->h);
@@ -40,19 +44,35 @@ Elements *New_Box(int label)
     pObj->Destroy = Box_destory;
     return pObj;
 }
-void Box_update(Elements *self) {}
+void Box_update(Elements *self) {
+    Box *box = ((Box *)(self->pDerivedObj));
+    if((move_times < exist) && (al_get_time() - last_move_time > next_level_time))
+    {
+        box->y += 82;
+        box->hitbox->update_center_y(box->hitbox, 82);
+        box->hitboxr->update_center_y(box->hitboxr, 82);
+        box->hitboyr->update_center_y(box->hitboy, 82);
+        box->hitboy->update_center_y(box->hitboyr, 82);
+        move_times++;
+    }else if(move_times == exist){
+        last_move_time = al_get_time();
+        move_times = 0;
+        for(gen=0;gen<11;gen++){
+            _Register_elements(scene, New_Box(Box_L, gen, 0));
+        }
+    }
+}
 void Box_interact(Elements *self, Elements *tar) {
     Box *Obj = ((Box *)(self->pDerivedObj));
-    if(al_get_time() - TEM > TIMED){
-        if (tar->label == Nball_L)
+    if (tar->label == Nball_L)
         {
-            Nball *nb = ((Nball *)(tar->pDerivedObj));
-            if (nb->hitbox->overlap(nb->hitbox, Obj->hitbox) || nb->hitbox->overlap(nb->hitbox, Obj->hitboxr)
-             || nb->hitbox->overlap(nb->hitbox, Obj->hitboy) || nb->hitbox->overlap(nb->hitbox, Obj->hitboyr))
-            {
-                TEM = al_get_time();
-                _Register_elements(scene, New_Tool(Tool_L, Obj->x, Obj->y));
-            }
+        Nball *nb = ((Nball *)(tar->pDerivedObj));
+        if (nb->hitbox->overlap(nb->hitbox, Obj->hitbox) || nb->hitbox->overlap(nb->hitbox, Obj->hitboxr)
+         || nb->hitbox->overlap(nb->hitbox, Obj->hitboy) || nb->hitbox->overlap(nb->hitbox, Obj->hitboyr))
+        {
+            _Register_elements(scene, New_Tool(Tool_L, Obj->x, Obj->y));
+            exist--;
+            self->dele = true;
         }
     }
 }

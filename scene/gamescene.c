@@ -1,8 +1,10 @@
 #include "gamescene.h"
 #include "../global.h"
+#include "sceneManager.h"
 /*
    [GameScene function]
 */
+int i, j;
 
 Scene *New_GameScene(int label)
 {
@@ -32,8 +34,12 @@ Scene *New_GameScene(int label)
     _Register_elements(pObj, New_Paddle(Paddle_L));
     _Register_elements(pObj, New_Nball(Nball_L));
     _Register_elements(pObj, New_Ball(Ball_L));
-    _Register_elements(pObj, New_Box(Box_L));
     _Register_elements(pObj, New_Top(Top_L));
+    for(i=0;i<11;i++){
+        for(j=0;j<3;j++){
+            _Register_elements(pObj, New_Box(Box_L, i, j));
+        }
+    }
     // setting derived object function
     pObj->Update = game_scene_update;
     pObj->Draw = game_scene_draw;
