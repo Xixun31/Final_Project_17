@@ -4,11 +4,13 @@
 #include "../shapes/Circle.h"
 #include "element.h"
 #include "../scene/gamescene.h"
+#include <allegro5/allegro.h>
 
 typedef struct Tool {
     float x, y, r, dy;
     ALLEGRO_COLOR c;
     Shape *hitbox;
+    ALLEGRO_BITMAP *image;
 } Tool;
 
 Elements *New_Tool(int label, float x, float y);
