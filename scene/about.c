@@ -18,6 +18,12 @@ Scene *New_About(int label)
     pDerivedObj->title_x = WIDTH / 2;
     pDerivedObj->title_y = HEIGHT / 2;
 
+    // Load tool images
+    pDerivedObj->tool_images[0] = al_load_bitmap("assets/image/ball_extend.png");
+    pDerivedObj->tool_images[1] = al_load_bitmap("assets/image/ball_shorten.png");
+    pDerivedObj->tool_images[2] = al_load_bitmap("assets/image/ball_reverse.png");
+    pDerivedObj->tool_images[3] = al_load_bitmap("assets/image/ball_add.png");
+
     pDerivedObj->mouse_over_back = false;
 
     // Loop the song until the display closes
@@ -60,14 +66,23 @@ void about_draw(Scene *self)
     al_draw_filled_circle(Obj->title_x - 277, Obj->title_y - 137, 3, al_map_rgb(255, 255, 255));
     al_draw_filled_circle(Obj->title_x - 277, Obj->title_y - 127, 3, al_map_rgb(255, 255, 255));
 
-    al_draw_filled_circle(Obj->title_x- 350, Obj->title_y - 30, 8, al_map_rgb(205, 150, 50));
-    al_draw_text(Obj->font1, al_map_rgb(255, 255, 255), Obj->title_x - 320, Obj->title_y - 40, ALLEGRO_ALIGN_LEFT, "Extend the paddle");
-    al_draw_filled_circle(Obj->title_x- 350, Obj->title_y + 20, 8, al_map_rgb(50, 200, 100));
-    al_draw_text(Obj->font1, al_map_rgb(255, 255, 255), Obj->title_x - 320, Obj->title_y + 10, ALLEGRO_ALIGN_LEFT, "Shorten the paddle");
-    al_draw_filled_circle(Obj->title_x- 350, Obj->title_y + 70, 8, al_map_rgb(50, 100, 200));
-    al_draw_text(Obj->font1, al_map_rgb(255, 255, 255), Obj->title_x - 320, Obj->title_y + 60, ALLEGRO_ALIGN_LEFT, "Change the control direction of the paddle");
-    al_draw_filled_circle(Obj->title_x- 350, Obj->title_y + 120, 8, al_map_rgb(250, 50, 50));
-    al_draw_text(Obj->font1, al_map_rgb(255, 255, 255), Obj->title_x - 320, Obj->title_y + 110, ALLEGRO_ALIGN_LEFT, "Add one ball");
+    // Draw tool images with larger size and add space between images and text
+    float scale_factor = 2.0;  // Adjust this value to make images larger
+    float img_size = 16 * scale_factor;
+    float text_y_offset = 8; // Adjust this value to align with the text
+    float text_x_offset = 10; // Adjust this value to add space between image and text
+
+    al_draw_scaled_bitmap(Obj->tool_images[0], 0, 0, al_get_bitmap_width(Obj->tool_images[0]), al_get_bitmap_height(Obj->tool_images[0]), Obj->title_x - 350, Obj->title_y - 30 - img_size / 2 + text_y_offset, img_size, img_size, 0);
+    al_draw_text(Obj->font1, al_map_rgb(255, 255, 255), Obj->title_x - 350 + img_size + text_x_offset, Obj->title_y - 30, ALLEGRO_ALIGN_LEFT, "Extend the paddle");
+    
+    al_draw_scaled_bitmap(Obj->tool_images[1], 0, 0, al_get_bitmap_width(Obj->tool_images[1]), al_get_bitmap_height(Obj->tool_images[1]), Obj->title_x - 350, Obj->title_y + 20 - img_size / 2 + text_y_offset, img_size, img_size, 0);
+    al_draw_text(Obj->font1, al_map_rgb(255, 255, 255), Obj->title_x - 350 + img_size + text_x_offset, Obj->title_y + 20, ALLEGRO_ALIGN_LEFT, "Shorten the paddle");
+    
+    al_draw_scaled_bitmap(Obj->tool_images[2], 0, 0, al_get_bitmap_width(Obj->tool_images[2]), al_get_bitmap_height(Obj->tool_images[2]), Obj->title_x - 350, Obj->title_y + 70 - img_size / 2 + text_y_offset, img_size, img_size, 0);
+    al_draw_text(Obj->font1, al_map_rgb(255, 255, 255), Obj->title_x - 350 + img_size + text_x_offset, Obj->title_y + 70, ALLEGRO_ALIGN_LEFT, "Change the control direction of the paddle");
+    
+    al_draw_scaled_bitmap(Obj->tool_images[3], 0, 0, al_get_bitmap_width(Obj->tool_images[3]), al_get_bitmap_height(Obj->tool_images[3]), Obj->title_x - 350, Obj->title_y + 120 - img_size / 2 + text_y_offset, img_size, img_size, 0);
+    al_draw_text(Obj->font1, al_map_rgb(255, 255, 255), Obj->title_x - 350 + img_size + text_x_offset, Obj->title_y + 120, ALLEGRO_ALIGN_LEFT, "Add one ball");
 
     al_draw_text(Obj->font2, back_color, Obj->title_x - 350, Obj->title_y + 210, ALLEGRO_ALIGN_LEFT, "Back");
     al_play_sample_instance(Obj->sample_instance);
@@ -79,6 +94,12 @@ void about_destroy(Scene *self)
     al_destroy_font(Obj->font2);
     al_destroy_sample(Obj->song);
     al_destroy_sample_instance(Obj->sample_instance);
+
+    // Destroy tool images
+    for (int i = 0; i < 4; i++) {
+        al_destroy_bitmap(Obj->tool_images[i]);
+    }
+
     free(Obj);
     free(self);
 }
