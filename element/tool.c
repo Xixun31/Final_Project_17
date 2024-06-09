@@ -46,9 +46,6 @@ Elements *New_Tool(int label, float x, float y) {
             pDerivedObj->c = al_map_rgb(255, 255, 255);
             pDerivedObj->image = NULL;
             break;
-        case 5:
-            pDerivedObj->c = al_map_rgb(255, 100, 155);
-            break;
     }
     
     if (!pDerivedObj->image) {
