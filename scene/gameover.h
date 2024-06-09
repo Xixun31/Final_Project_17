@@ -19,6 +19,7 @@ typedef struct _Gameover
     bool mouse_over_restart, mouse_over_menu;
     ALGIF_ANIMATION *gif_status;
     int state;
+    char score_str[4];
 
 } Gameover;
 Scene *New_Gameover(int label);

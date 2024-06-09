@@ -24,6 +24,7 @@ Scene *New_Youwin(int label)
     sprintf(buffer, "assets/image/youwin.gif");
     pDerivedObj->gif_status = algif_new_gif(buffer, -1);
 
+    pDerivedObj->final_time = al_get_time() - start_time;
     // Loop the song until the display closes
     pDerivedObj->song = al_load_sample("assets/sound/youwin.wav");
     pDerivedObj->sample_instance = al_create_sample_instance(pDerivedObj->song);
@@ -31,7 +32,7 @@ Scene *New_Youwin(int label)
     al_attach_sample_instance_to_mixer(pDerivedObj->sample_instance, al_get_default_mixer());
     pDerivedObj->state = 1;
     // set the volume of instance
-    al_set_sample_instance_gain(pDerivedObj->sample_instance, 1);
+    al_set_sample_instance_gain(pDerivedObj->sample_instance, 1.5);
     pObj->pDerivedObj = pDerivedObj;
     // setting derived object function
     pObj->Update = youwin_update;
@@ -74,9 +75,15 @@ void youwin_draw(Scene *self)
     }
 
 
-    al_draw_text(Obj->font2, al_map_rgb(255, 255, 255), Obj->title_x - 40 , Obj->title_y + 20, ALLEGRO_ALIGN_CENTRE, "TIME");
-    al_draw_text(Obj->font1, restart_color, Obj->title_x - 70 , Obj->title_y + 110, ALLEGRO_ALIGN_CENTRE, "RESTART");
-    al_draw_text(Obj->font1, menu_color, Obj->title_x + 70, Obj->title_y + 110, ALLEGRO_ALIGN_CENTRE, "MENU");
+    al_draw_text(Obj->font2, al_map_rgb(255, 255, 255), Obj->title_x - 20, Obj->title_y + 20, ALLEGRO_ALIGN_RIGHT, "TIME");
+    
+    char time_str[10];
+    format_time((int)Obj->final_time, time_str, sizeof(time_str));
+
+    al_draw_text(Obj->font1, al_map_rgb(255, 255, 255), Obj->title_x + 20, Obj->title_y + 23, ALLEGRO_ALIGN_LEFT, time_str);
+
+    al_draw_text(Obj->font1, restart_color, Obj->title_x - 30 , Obj->title_y + 110, ALLEGRO_ALIGN_RIGHT, "RESTART");
+    al_draw_text(Obj->font1, menu_color, Obj->title_x + 30, Obj->title_y + 110, ALLEGRO_ALIGN_LEFT, "MENU");
     if (Obj->state) {
         al_play_sample_instance(Obj->sample_instance);
         Obj->state = 0;
@@ -89,6 +96,7 @@ void youwin_destroy(Scene *self)
     al_destroy_font(Obj->font2);
     al_destroy_sample(Obj->song);
     al_destroy_sample_instance(Obj->sample_instance);
+    algif_destroy_animation(Obj->gif_status);
     free(Obj);
     free(self);
 }

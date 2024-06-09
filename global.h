@@ -18,6 +18,8 @@ extern const int WIDTH;
 extern const int HEIGHT;
 extern int window;
 extern int level;
+extern int final_score;
+extern double start_time;
 extern bool key_state[ALLEGRO_KEY_MAX];
 extern bool mouse_state[ALLEGRO_MOUSE_MAX_EXTRA_AXES];
 extern Point mouse;

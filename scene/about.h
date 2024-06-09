@@ -14,6 +14,7 @@ typedef struct _About
     ALLEGRO_FONT *font2;
     ALLEGRO_SAMPLE *song;
     ALLEGRO_SAMPLE_INSTANCE *sample_instance;
+    ALLEGRO_BITMAP *tool_images[4];
     int title_x, title_y;
     bool mouse_over_back;
 } About;
