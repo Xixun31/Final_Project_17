@@ -5,8 +5,8 @@
 #include "paddle.h"
 #include <allegro5/allegro_primitives.h>
 
-double last_click_time = 0;
-const double CLICK_DELAY = 0.1; // 0.5秒的延遲
+double last_click_time_box = 0, last_click_time_paddle = 0;
+const double CLICK_DELAY_PADDLE = 0.07, CLICK_DELAY_BOX = 0.01; // 0.5秒的延遲
 
 Elements *New_Nball(int label) {
     Nball *pDerivedObj = (Nball *)malloc(sizeof(Nball));
@@ -14,21 +14,21 @@ Elements *New_Nball(int label) {
 
     // Initialize ball properties
     pDerivedObj->x = rand() % WIDTH;
-    pDerivedObj->y = HEIGHT / 2 - rand() % (HEIGHT / 3);
+    pDerivedObj->y = HEIGHT / 2 + rand() % (HEIGHT / 3);
     pDerivedObj->r = 10;
     switch (level)
     {
     case 0:
         pDerivedObj->dx = 5;
-        pDerivedObj->dy = 5;
+        pDerivedObj->dy = -5;
         break;
     case 1:
-        pDerivedObj->dx = 10;
-        pDerivedObj->dy = 10;
+        pDerivedObj->dx = 7.5;
+        pDerivedObj->dy = -7.5;
         break;
     case 2:
-        pDerivedObj->dx = 15;
-        pDerivedObj->dy = 15;
+        pDerivedObj->dx = 10;
+        pDerivedObj->dy = -10;
         break;
     default:
         break;
@@ -63,10 +63,13 @@ void Nball_update(Elements *const ele) {
         // else Obj->dx -= 0.3;
         Obj->dx *= -1;
     }
-    if (Obj->y - Obj->r < 85 || Obj->y + Obj->r > HEIGHT) {
+    if (Obj->y - Obj->r < 85) {
         // if(Obj->dy > 0) Obj->dy += 0.3;
         // else Obj->dy -= 0.3;
         Obj->dy *= -1;
+    }
+    if (Obj->y + Obj->r > HEIGHT){
+        ele->dele = true;
     }
     // Update ball position
     Obj->x += Obj->dx;
@@ -82,7 +85,7 @@ void Nball_interact(Elements *const self, Elements *const ele) {
     Nball *Obj = ((Nball *)(self->pDerivedObj));
     double current_time = al_get_time();
     
-    if (current_time - last_click_time > CLICK_DELAY){
+    if (current_time - last_click_time_paddle > CLICK_DELAY_PADDLE){
         if (ele->label == Paddle_L)
         {
             Paddle *pad = ((Paddle *)(ele->pDerivedObj));
@@ -90,9 +93,11 @@ void Nball_interact(Elements *const self, Elements *const ele) {
             {
                 al_play_sample_instance(Obj->bounce_Sound);
                 Obj->dy *= -1;
-                last_click_time = current_time;
+                last_click_time_paddle = current_time;
             }
         }
+    }
+    if (current_time - last_click_time_box > CLICK_DELAY_BOX){
         if(ele->label == Box_L){
             Box *box = ((Box *)(ele->pDerivedObj));
             bool boxl = box->hitbox->overlap(box->hitbox, Obj->hitbox);
@@ -104,30 +109,30 @@ void Nball_interact(Elements *const self, Elements *const ele) {
             {
                 if(Obj->dx > 0) Obj->dx *= -1;
                 if(Obj->dy < 0) Obj->dy *= -1;
-                last_click_time = current_time;
+                last_click_time_box = current_time;
             }else if (boxr && boyl)
             {
                 if(Obj->dx < 0) Obj->dx *= -1;
                 if(Obj->dy < 0) Obj->dy *= -1;
-                last_click_time = current_time;
+                last_click_time_box = current_time;
             }else if (boyr && boxl)
             {
                 if(Obj->dx > 0) Obj->dx *= -1;
                 if(Obj->dy > 0) Obj->dy *= -1;
-                last_click_time = current_time;
+                last_click_time_box = current_time;
             }else if (boyr && boxr)
             {
                 if(Obj->dx < 0) Obj->dx *= -1;
                 if(Obj->dy > 0) Obj->dy *= -1;
-                last_click_time = current_time;
+                last_click_time_box = current_time;
             }else if (boxr || boxl)
             {
                 Obj->dx *= -1;
-                last_click_time = current_time;
+                last_click_time_box = current_time;
             }else if(boyr || boyl)
             {
                 Obj->dy *= -1;
-                last_click_time = current_time;
+                last_click_time_box = current_time;
             }
         }
     }

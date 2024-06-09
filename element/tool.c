@@ -13,15 +13,17 @@ Elements *New_Tool(int label, float x, float y) {
     pDerivedObj->x = x + 75/2;
     pDerivedObj->y = y + 75/ 2;
     pDerivedObj->r = 10;
-    pDerivedObj->dy = 5;
-    if(rand() % 4 == 0){
+    pDerivedObj->dy = 3;
+    if(rand() % 5 == 0){
         pDerivedObj->c = al_map_rgb(205, 150, 50);
-    }else if(rand() % 4 == 1){
+    }else if(rand() % 5 == 1){
         pDerivedObj->c = al_map_rgb(50, 200, 100);
-    }else if(rand() % 4 == 2){
+    }else if(rand() % 5 == 2){
         pDerivedObj->c = al_map_rgb(50, 100, 200);
-    }else if(rand() % 4 == 3){
+    }else if(rand() % 5 == 3){
         pDerivedObj->c = al_map_rgb(200, 50, 100);
+    }else if(rand() % 5 == 4){
+        pDerivedObj->c = al_map_rgb(255, 255, 255);
     }
     pDerivedObj->hitbox = New_Circle(pDerivedObj->x, pDerivedObj->y, pDerivedObj->r);
 
