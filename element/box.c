@@ -46,6 +46,9 @@ Elements *New_Box(int label, int col, int row)
 }
 void Box_update(Elements *self) {
     Box *box = ((Box *)(self->pDerivedObj));
+    if((box->y + box->h) > (HEIGHT - 100)){
+        self->dele = true;
+    }
     if((move_times < exist) && (al_get_time() - last_move_time > next_level_time))
     {
         box->y += 82;
