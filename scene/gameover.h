@@ -5,6 +5,7 @@
 #include <allegro5/allegro_acodec.h>
 #include <allegro5/allegro_font.h>
 #include <allegro5/allegro_ttf.h>
+#include "../algif5/src/algif.h"
 /*
    [GAMEOVER object]
 */
@@ -15,7 +16,10 @@ typedef struct _Gameover
     ALLEGRO_SAMPLE *song;
     ALLEGRO_SAMPLE_INSTANCE *sample_instance;
     int title_x, title_y;
-    bool mouse_over_back;
+    bool mouse_over_restart, mouse_over_menu;
+    ALGIF_ANIMATION *gif_status;
+    int state;
+
 } Gameover;
 Scene *New_Gameover(int label);
 void gameover_update(Scene *self);

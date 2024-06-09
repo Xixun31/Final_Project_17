@@ -112,6 +112,11 @@ void game_scene_update(Scene *self)
             _Remove_elements(self, ele);
     }
 
+    if (key_state[ALLEGRO_KEY_G]) {
+        self->scene_end = true;
+        window = 4;
+    }
+
     
 }
 void game_scene_draw(Scene *self)
