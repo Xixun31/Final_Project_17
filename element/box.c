@@ -8,15 +8,13 @@
 /*
    [Box function]
 */
-const double TIMED = 0.3;
-double TEM = 0, last_move_time = 0, next_level_time = 13, gap_time = 0;
+double last_move_time = 0, next_level_time = 13;
 int move_times = 0, exist = 0, gen;
 
 Elements *New_Box(int label, int col, int row)
 {
     Box *pDerivedObj = (Box *)malloc(sizeof(Box));
     Elements *pObj = New_Elements(label);
-    gap_time = al_get_time();
 
     exist++;
     // setting derived object member
