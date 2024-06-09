@@ -14,7 +14,7 @@ Elements *New_Tool(int label, float x, float y) {
     pDerivedObj->y = y + 75 / 2;
     pDerivedObj->r = 10;
     pDerivedObj->dy = 3;
-    switch (rand() % 9) {
+    switch (rand() % 6) {
         case 0:
             pDerivedObj->c = al_map_rgb(205, 150, 50);
             break;
@@ -25,10 +25,13 @@ Elements *New_Tool(int label, float x, float y) {
             pDerivedObj->c = al_map_rgb(50, 100, 200);
             break;
         case 3:
-            pDerivedObj->c = al_map_rgb(200, 50, 100);
+            pDerivedObj->c = al_map_rgb(250, 50, 50);
             break;
         case 4:
             pDerivedObj->c = al_map_rgb(255, 255, 255);
+            break;
+        case 5:
+            pDerivedObj->c = al_map_rgb(255, 100, 155);
             break;
     }
     pDerivedObj->hitbox = New_Circle(pDerivedObj->x, pDerivedObj->y, pDerivedObj->r);

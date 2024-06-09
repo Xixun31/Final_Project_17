@@ -71,8 +71,9 @@ void Box_interact(Elements *self, Elements *tar) {
         if (nb->hitbox->overlap(nb->hitbox, Obj->hitbox) || nb->hitbox->overlap(nb->hitbox, Obj->hitboxr)
          || nb->hitbox->overlap(nb->hitbox, Obj->hitboy) || nb->hitbox->overlap(nb->hitbox, Obj->hitboyr))
         {
-            _Register_elements(scene, New_Tool(Tool_L, Obj->x, Obj->y));
             exist--;
+            if(rand() % 2) _Register_elements(scene, New_Tool(Tool_L, Obj->x, Obj->y));
+            score(scene);
             self->dele = true;
         }
     }

@@ -117,9 +117,10 @@ void Paddle_interact(Elements *self, Elements *tar) {
                 }else if(compare_colors(tl->c, al_map_rgb(50, 100, 200))){
                     Temporary_Time_r = al_get_time();
                     change_r = 1;
-                }else if(compare_colors(tl->c, al_map_rgb(200, 50, 100))){
+                }else if(compare_colors(tl->c, al_map_rgb(250, 50, 50))){
                     _Register_elements(scene, New_Nball(Nball_L));
                 }else if(compare_colors(tl->c, al_map_rgb(255, 255, 255))){
+                }else if(compare_colors(tl->c, al_map_rgb(255, 100, 155))){
                 }
             }
         }

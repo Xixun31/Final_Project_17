@@ -14,7 +14,7 @@ Elements *New_Nball(int label) {
 
     // Initialize ball properties
     pDerivedObj->x = rand() % WIDTH;
-    pDerivedObj->y = HEIGHT * 4 / 5 + (rand() % (HEIGHT / 5)) - 60;
+    pDerivedObj->y = HEIGHT * 4 / 5 + (rand() % (HEIGHT / 5)) - 70;
     pDerivedObj->r = 10;
     switch (level)
     {

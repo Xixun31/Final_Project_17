@@ -39,7 +39,8 @@ typedef struct _GameScene
 {
     ALLEGRO_BITMAP *background;
     ALLEGRO_FONT *font1;
-    int title_x, title_y;
+    int title_x, title_y, score;
+    char score_show[4];
     bool mouse_over_set, mouse_over_resume, mouse_over_menu, mouse_over_restart, pause;
     double current_time, pause_time, temporary_time;
 
@@ -49,5 +50,6 @@ void game_scene_update(Scene *self);
 void game_scene_draw(Scene *self);
 void game_scene_destroy(Scene *self);
 void format_time(int elapsed_seconds, char *buffer, int size);
+void score(Scene *self);
 
 #endif

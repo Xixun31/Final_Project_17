@@ -1,14 +1,14 @@
 #include "gamescene.h"
 #include "../global.h"
 #include "sceneManager.h"
+#include <stdio.h>
 /*
    [GameScene function]
 */
-int i, j;
 
 Scene *New_GameScene(int label)
 {
-    
+    int i, j;
     GameScene *pDerivedObj = (GameScene *)malloc(sizeof(GameScene));
     Scene *pObj = New_Scene(label);
     // setting derived object member
@@ -21,6 +21,7 @@ Scene *New_GameScene(int label)
     pDerivedObj->mouse_over_resume = false;
     pDerivedObj->mouse_over_menu = false;
     pDerivedObj->mouse_over_restart = false;
+    pDerivedObj->score = 0;
 
     pDerivedObj->pause_time = al_get_time();
 
@@ -123,6 +124,10 @@ void game_scene_update(Scene *self)
 
     
 }
+void score(Scene *self){
+    GameScene *Obj = ((GameScene *)(self->pDerivedObj));
+    Obj->score++;
+}
 void game_scene_draw(Scene *self)
 {
     GameScene *Obj = ((GameScene *)(self->pDerivedObj));
@@ -148,6 +153,8 @@ void game_scene_draw(Scene *self)
     }
     //draw score
     al_draw_text(Obj->font1, al_map_rgb(255, 255, 255), Obj->title_x - 275, Obj->title_y - 300, ALLEGRO_ALIGN_LEFT, "SCORE");
+    sprintf(Obj->score_show, "%d", Obj->score);
+    al_draw_text(Obj->font1, al_map_rgb(255, 255, 255), Obj->title_x - 210, Obj->title_y - 300, ALLEGRO_ALIGN_LEFT, Obj->score_show);
     
     //draw set
     ALLEGRO_COLOR set_color = Obj->mouse_over_set ? al_map_rgb(179, 209, 255) : al_map_rgb(255, 255, 255);
