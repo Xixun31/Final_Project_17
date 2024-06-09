@@ -10,20 +10,26 @@ Elements *New_Tool(int label, float x, float y) {
     Elements *pObj = New_Elements(label);
 
     // Initialize ball properties
-    pDerivedObj->x = x + 75/2;
-    pDerivedObj->y = y + 75/ 2;
+    pDerivedObj->x = x + 75 / 2;
+    pDerivedObj->y = y + 75 / 2;
     pDerivedObj->r = 10;
     pDerivedObj->dy = 3;
-    if(rand() % 5 == 0){
-        pDerivedObj->c = al_map_rgb(205, 150, 50);
-    }else if(rand() % 5 == 1){
-        pDerivedObj->c = al_map_rgb(50, 200, 100);
-    }else if(rand() % 5 == 2){
-        pDerivedObj->c = al_map_rgb(50, 100, 200);
-    }else if(rand() % 5 == 3){
-        pDerivedObj->c = al_map_rgb(200, 50, 100);
-    }else if(rand() % 5 == 4){
-        pDerivedObj->c = al_map_rgb(255, 255, 255);
+    switch (rand() % 9) {
+        case 0:
+            pDerivedObj->c = al_map_rgb(205, 150, 50);
+            break;
+        case 1:
+            pDerivedObj->c = al_map_rgb(50, 200, 100);
+            break;
+        case 2:
+            pDerivedObj->c = al_map_rgb(50, 100, 200);
+            break;
+        case 3:
+            pDerivedObj->c = al_map_rgb(200, 50, 100);
+            break;
+        case 4:
+            pDerivedObj->c = al_map_rgb(255, 255, 255);
+            break;
     }
     pDerivedObj->hitbox = New_Circle(pDerivedObj->x, pDerivedObj->y, pDerivedObj->r);
 
