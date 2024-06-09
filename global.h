@@ -25,5 +25,11 @@ extern ALLEGRO_EVENT_QUEUE *event_queue;
 extern ALLEGRO_EVENT event;
 extern ALLEGRO_TIMER *fps;
 extern bool debug_mode;
+extern double GAME_START_TIME;
+extern double GAME_CURRENT_TIME;
+extern double GAME_PAUSE_TIME;
+extern double GAME_TEMPORARY_TIME;
+extern int box_exist, ball_exist;
+extern bool GAME_WIN, GAME_LOSE;
 
 #endif

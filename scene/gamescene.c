@@ -17,16 +17,24 @@ Scene *New_GameScene(int label)
     pObj->pDerivedObj = pDerivedObj;
 
     pDerivedObj->pause = false;
+    pDerivedObj->last = 0;
     pDerivedObj->mouse_over_set = false;
     pDerivedObj->mouse_over_resume = false;
     pDerivedObj->mouse_over_menu = false;
     pDerivedObj->mouse_over_restart = false;
     pDerivedObj->score = 0;
-
-    pDerivedObj->pause_time = al_get_time();
-
+    pDerivedObj->life = 3;
+    pDerivedObj->win = false;
     pDerivedObj->title_x = WIDTH / 2;
     pDerivedObj->title_y = HEIGHT / 2;
+    GAME_LOSE = false;
+    GAME_WIN = false;
+    box_exist = 0;
+    ball_exist = 0;
+    GAME_START_TIME = al_get_time();
+    GAME_TEMPORARY_TIME = 0;
+    GAME_CURRENT_TIME = 0;
+    GAME_PAUSE_TIME = 0;
     // register element
     // _Register_elements(pObj, New_Floor(Floor_L));
     // _Register_elements(pObj, New_Teleport(Teleport_L));
@@ -34,7 +42,7 @@ Scene *New_GameScene(int label)
     // _Register_elements(pObj, New_Character(Character_L));
     _Register_elements(pObj, New_Paddle(Paddle_L));
     _Register_elements(pObj, New_Nball(Nball_L));
-    _Register_elements(pObj, New_Ball(Ball_L));
+    //_Register_elements(pObj, New_Ball(Ball_L));
     _Register_elements(pObj, New_Top(Top_L));
     for(i=0;i<11;i++){
         for(j=0;j<3;j++){
@@ -51,6 +59,7 @@ void game_scene_update(Scene *self)
 {
     ALLEGRO_MOUSE_STATE mouse_state;
     al_get_mouse_state(&mouse_state);
+    int i;
 
     ElementVec allEle = _Get_all_elements(self);
     GameScene *Obj = ((GameScene *)(self->pDerivedObj));
@@ -113,20 +122,55 @@ void game_scene_update(Scene *self)
             _Remove_elements(self, ele);
     }
 
-    if (key_state[ALLEGRO_KEY_G]) {
+    if (key_state[ALLEGRO_KEY_G] || (Obj->life <= 0)) {
         self->scene_end = true;
+        GAME_LOSE = true;
         window = 4;
     }
-    if (key_state[ALLEGRO_KEY_W]) {
+    if (key_state[ALLEGRO_KEY_W] || Obj->win) {
         self->scene_end = true;
+        GAME_WIN = true;
         window = 5;
     }
-
-    
+    if(GAME_CURRENT_TIME - Obj->last > 13){
+        for(i=0;i<11;i++){
+            _Register_elements(self, New_Box(Box_L, i, -1));
+        }
+        Obj->last = GAME_CURRENT_TIME;
+    }
+}
+void win(Scene *self){
+    GameScene *Obj = ((GameScene *)(self->pDerivedObj));
+    Obj->win = true;
 }
 void score(Scene *self){
     GameScene *Obj = ((GameScene *)(self->pDerivedObj));
     Obj->score++;
+}
+void life(Scene *self, int life){
+    GameScene *Obj = ((GameScene *)(self->pDerivedObj));
+    Obj->life += life;
+    if(Obj->life > 3) Obj->life = 3;
+    life_show(self);
+    //if(Obj->life <= 0)
+}
+void life_show(Scene *self){
+    GameScene *Obj = ((GameScene *)(self->pDerivedObj));
+    if(Obj->life >= 1){
+        al_draw_filled_circle(Obj->title_x - 160, Obj->title_y - 290, 10, al_map_rgb(255, 100, 155));
+    }else{
+        al_draw_filled_circle(Obj->title_x - 160, Obj->title_y - 290, 10, al_map_rgb(64, 64, 64));
+    }
+    if(Obj->life >= 2){
+        al_draw_filled_circle(Obj->title_x - 130, Obj->title_y - 290, 10, al_map_rgb(255, 100, 155));
+    }else{
+        al_draw_filled_circle(Obj->title_x - 130, Obj->title_y - 290, 10, al_map_rgb(64, 64, 64));
+    }
+    if(Obj->life >= 3){
+        al_draw_filled_circle(Obj->title_x - 100, Obj->title_y - 290, 10, al_map_rgb(255, 100, 155));
+    }else{
+        al_draw_filled_circle(Obj->title_x - 100, Obj->title_y - 290, 10, al_map_rgb(64, 64, 64));
+    }
 }
 void game_scene_draw(Scene *self)
 {
@@ -139,22 +183,24 @@ void game_scene_draw(Scene *self)
     al_draw_text(Obj->font1, al_map_rgb(255, 255, 255), Obj->title_x - 400, Obj->title_y - 300, ALLEGRO_ALIGN_LEFT, "TIME");
     char time_str[10];
     
-    
-    Obj->current_time = al_get_time() - Obj->pause_time;
+    GAME_CURRENT_TIME = al_get_time() - GAME_PAUSE_TIME - GAME_START_TIME;
     if (!Obj->pause){
-        Obj->temporary_time = Obj->current_time;
-        format_time((int)Obj->temporary_time, time_str, sizeof(time_str));
+        GAME_TEMPORARY_TIME = GAME_CURRENT_TIME;
+        format_time((int)GAME_TEMPORARY_TIME, time_str, sizeof(time_str));
         al_draw_text(Obj->font1, al_map_rgb(255, 255, 255), Obj->title_x - 350, Obj->title_y - 300, ALLEGRO_ALIGN_LEFT, time_str);
     }
     else if(Obj->pause){
-        Obj->pause_time = al_get_time() - Obj->temporary_time;
-        format_time((int)Obj->temporary_time, time_str, sizeof(time_str));
+        GAME_PAUSE_TIME = al_get_time() - GAME_TEMPORARY_TIME - GAME_START_TIME;
+        format_time((int)GAME_TEMPORARY_TIME, time_str, sizeof(time_str));
         al_draw_text(Obj->font1, al_map_rgb(255, 255, 255), Obj->title_x - 350, Obj->title_y - 300, ALLEGRO_ALIGN_LEFT, time_str);
     }
     //draw score
     al_draw_text(Obj->font1, al_map_rgb(255, 255, 255), Obj->title_x - 275, Obj->title_y - 300, ALLEGRO_ALIGN_LEFT, "SCORE");
     sprintf(Obj->score_show, "%d", Obj->score);
     al_draw_text(Obj->font1, al_map_rgb(255, 255, 255), Obj->title_x - 210, Obj->title_y - 300, ALLEGRO_ALIGN_LEFT, Obj->score_show);
+    al_draw_text(Obj->font1, al_map_rgb(255, 255, 255), Obj->title_x - 60, Obj->title_y - 300, ALLEGRO_ALIGN_LEFT, "BOX");
+    sprintf(Obj->bexist, "%d", box_exist);
+    al_draw_text(Obj->font1, al_map_rgb(255, 255, 255), Obj->title_x, Obj->title_y - 300, ALLEGRO_ALIGN_LEFT, Obj->bexist);
     
     //draw set
     ALLEGRO_COLOR set_color = Obj->mouse_over_set ? al_map_rgb(179, 209, 255) : al_map_rgb(255, 255, 255);
@@ -177,6 +223,7 @@ void game_scene_draw(Scene *self)
         Elements *ele = allEle.arr[i];
         ele->Draw(ele);
     }
+    life_show(self);
 }
 void game_scene_destroy(Scene *self)
 {

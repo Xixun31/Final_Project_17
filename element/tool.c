@@ -25,7 +25,7 @@ Elements *New_Tool(int label, float x, float y) {
             pDerivedObj->c = al_map_rgb(50, 100, 200);
             break;
         case 3:
-            pDerivedObj->c = al_map_rgb(250, 50, 50);
+            pDerivedObj->c = al_map_rgb(150, 0, 10);
             break;
         case 4:
             pDerivedObj->c = al_map_rgb(255, 255, 255);
@@ -57,6 +57,9 @@ void Tool_update(Elements *const ele) {
 
     Shape *hitbox = Obj->hitbox;
     hitbox->update_center_y(hitbox, Obj->dy);
+    if(GAME_LOSE || GAME_WIN){
+        ele->dele = true;
+    }
 }
 
 void Tool_interact(Elements *const self, Elements *const ele) {

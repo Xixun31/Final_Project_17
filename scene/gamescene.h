@@ -6,6 +6,7 @@
 #include <allegro5/allegro_primitives.h>
 #include <time.h>
 #include "scene.h"
+#include "../shapes/Circle.h"
 #include "../element/element.h"
 #include "../element/charater.h"
 #include "../element/floor.h"
@@ -39,10 +40,10 @@ typedef struct _GameScene
 {
     ALLEGRO_BITMAP *background;
     ALLEGRO_FONT *font1;
-    int title_x, title_y, score;
-    char score_show[4];
-    bool mouse_over_set, mouse_over_resume, mouse_over_menu, mouse_over_restart, pause;
-    double current_time, pause_time, temporary_time;
+    int title_x, title_y, score, life;
+    char score_show[4], bexist[4];
+    bool mouse_over_set, mouse_over_resume, mouse_over_menu, mouse_over_restart, pause, win;
+    double last;
 
 } GameScene;
 Scene *New_GameScene(int label);
@@ -51,5 +52,8 @@ void game_scene_draw(Scene *self);
 void game_scene_destroy(Scene *self);
 void format_time(int elapsed_seconds, char *buffer, int size);
 void score(Scene *self);
+void win(Scene *self);
+void life_show(Scene *self);
+void life(Scene *self, int life);
 
 #endif

@@ -2,6 +2,7 @@ OUT := game
 CC := gcc
 
 CXXFLAGS := -Wall -std=c11 -O2
+HEADERPAD := -Wl,-headerpad_max_install_names
 SOURCE := $(wildcard *.c */*.c */*/*.c)
 SOURCE := $(filter-out mac_main.c, $(SOURCE))
 OBJ := $(patsubst %.c, %.o, $(notdir $(SOURCE)))
@@ -42,12 +43,12 @@ endif
 
 debug:
 	$(CC) -c -g $(CXXFLAGS) $(ALLEGRO_FLAGS_DEBUG) $(SOURCE) -D DEBUG
-	$(CC) $(CXXFLAGS) -o $(OUT) $(OBJ) $(ALLEGRO_FLAGS_DEBUG) $(ALLEGRO_LIBS) $(ALLEGRO_DLL_PATH_DEBUG)
+	$(CC) $(CXXFLAGS) -o $(OUT) $(OBJ) $(ALLEGRO_FLAGS_DEBUG) $(ALLEGRO_LIBS) $(ALLEGRO_DLL_PATH_DEBUG) $(HEADERPAD)
 	$(RM_OBJ)
 
 release:
 	$(CC) -c $(CXXFLAGS) $(ALLEGRO_FLAGS_RELEASE) $(SOURCE)
-	$(CC) $(CXXFLAGS) -o $(OUT) $(OBJ) $(ALLEGRO_FLAGS_RELEASE) $(ALLEGRO_LIBS) $(ALLEGRO_DLL_PATH_RELEASE)
+	$(CC) $(CXXFLAGS) -o $(OUT) $(OBJ) $(ALLEGRO_FLAGS_RELEASE) $(ALLEGRO_LIBS) $(ALLEGRO_DLL_PATH_RELEASE) $(HEADERPAD)
 	$(RM_OBJ)
 
 clean:

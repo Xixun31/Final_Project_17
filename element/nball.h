@@ -11,6 +11,7 @@ typedef struct Nball {
     Shape *hitbox;
     ALLEGRO_SAMPLE_INSTANCE *bounce_Sound;
     int state;
+    double last, delayp, delayb;
 } Nball;
 
 Elements *New_Nball(int label);
