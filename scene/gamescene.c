@@ -116,6 +116,10 @@ void game_scene_update(Scene *self)
         self->scene_end = true;
         window = 4;
     }
+    if (key_state[ALLEGRO_KEY_W]) {
+        self->scene_end = true;
+        window = 5;
+    }
 
     
 }

@@ -4,6 +4,7 @@
 #include "level.h"
 #include "about.h"
 #include "gameover.h"
+#include "youwin.h"
 Scene *scene = NULL;
 void create_scene(SceneType type)
 {
@@ -23,6 +24,9 @@ void create_scene(SceneType type)
         break;
     case Gameover_L:
         scene = New_Gameover(Gameover_L);
+        break;
+    case Youwin_L:
+        scene = New_Youwin(Youwin_L);
         break;
     default:
         break;

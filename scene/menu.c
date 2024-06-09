@@ -49,7 +49,7 @@ void menu_update(Scene *self)
                              mouse_state.y >= Obj->title_y - 20 && mouse_state.y <= Obj->title_y + 40);
 
     Obj->mouse_over_about = (mouse_state.x >= Obj->title_x - 150 && mouse_state.x <= Obj->title_x + 150 &&
-                             mouse_state.y >= Obj->title_y + 60 && mouse_state.y <= Obj->title_y + 120);
+                             mouse_state.y >= Obj->title_y + 60 && mouse_state.y <= Obj->title_y + 114);
 
 
     if (mouse_state.buttons & 1) {
