@@ -31,7 +31,7 @@ Scene *New_Youwin(int label)
     al_attach_sample_instance_to_mixer(pDerivedObj->sample_instance, al_get_default_mixer());
     pDerivedObj->state = 1;
     // set the volume of instance
-    al_set_sample_instance_gain(pDerivedObj->sample_instance, 3);
+    al_set_sample_instance_gain(pDerivedObj->sample_instance, 1);
     pObj->pDerivedObj = pDerivedObj;
     // setting derived object function
     pObj->Update = youwin_update;
