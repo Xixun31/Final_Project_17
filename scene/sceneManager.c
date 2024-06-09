@@ -2,6 +2,7 @@
 #include "menu.h"
 #include "gamescene.h"
 #include "level.h"
+#include "about.h"
 Scene *scene = NULL;
 void create_scene(SceneType type)
 {
@@ -15,6 +16,9 @@ void create_scene(SceneType type)
         break;
     case Level_L:
         scene = New_Level(Level_L);
+        break;
+    case About_L:
+        scene = New_About(About_L);
         break;
     default:
         break;

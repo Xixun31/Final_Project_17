@@ -61,7 +61,10 @@ void menu_update(Scene *self)
             self->scene_end = true;
             window = 2;
         }
-       
+        else if (Obj->mouse_over_about){
+            self->scene_end = true;
+            window = 3;
+        }
     }
     return;
 }
