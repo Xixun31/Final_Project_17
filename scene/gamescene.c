@@ -17,6 +17,12 @@ Scene *New_GameScene(int label)
     pDerivedObj->background = al_load_bitmap("assets/image/stage.jpg");
     pObj->pDerivedObj = pDerivedObj;
 
+    ALLEGRO_SAMPLE *sample = al_load_sample("assets/sound/box.wav");
+    pDerivedObj->box_sound = al_create_sample_instance(sample);
+    al_set_sample_instance_playmode(pDerivedObj->box_sound, ALLEGRO_PLAYMODE_ONCE);
+    al_attach_sample_instance_to_mixer(pDerivedObj->box_sound, al_get_default_mixer());
+
+
     start_time = al_get_time();
 
     pDerivedObj->pause = false;
@@ -139,6 +145,7 @@ void game_scene_update(Scene *self)
         window = 5;
     }
     if(GAME_CURRENT_TIME - Obj->last > NEXTTIME){
+        al_play_sample_instance(Obj->box_sound);
         for(i=0;i<11;i++){
             _Register_elements(self, New_Box(Box_L, i, -1));
         }
@@ -233,6 +240,7 @@ void game_scene_destroy(Scene *self)
     GameScene *Obj = ((GameScene *)(self->pDerivedObj));
     ALLEGRO_BITMAP *background = Obj->background;
     al_destroy_bitmap(background);
+    al_destroy_sample_instance(Obj->box_sound);
     ElementVec allEle = _Get_all_elements(self);
     for (int i = 0; i < allEle.len; i++)
     {
