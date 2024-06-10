@@ -42,6 +42,7 @@ typedef struct _GameScene
     ALLEGRO_FONT *font1;
     int title_x, title_y, score, life;
     char score_show[4], bexist[4];
+    ALLEGRO_SAMPLE_INSTANCE *box_sound;
     bool mouse_over_set, mouse_over_resume, mouse_over_menu, mouse_over_restart, pause, win;
     double last;
 
