@@ -42,8 +42,9 @@ Elements *New_Box(int label, int col, int row)
     return pObj;
 }
 void Box_update(Elements *self) {
-    double current, next = 30;
+    double current, next;
     current = GAME_CURRENT_TIME;
+    next = NEXTTIME;
 
     Box *box = ((Box *)(self->pDerivedObj));
     if((box->y + box->h) > (HEIGHT - 100)){

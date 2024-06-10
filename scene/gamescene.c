@@ -138,7 +138,7 @@ void game_scene_update(Scene *self)
         GAME_WIN = true;
         window = 5;
     }
-    if(GAME_CURRENT_TIME - Obj->last > 30){
+    if(GAME_CURRENT_TIME - Obj->last > NEXTTIME){
         for(i=0;i<11;i++){
             _Register_elements(self, New_Box(Box_L, i, -1));
         }
