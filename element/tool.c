@@ -14,37 +14,43 @@ Elements *New_Tool(int label, float x, float y) {
     pDerivedObj->x = x + 75 / 2;
     pDerivedObj->y = y + 75 / 2;
     pDerivedObj->r = 10;
-    pDerivedObj->dy = 3;
 
     int random_choice = rand() % 6;
     switch (random_choice) {
         case 0:
             pDerivedObj->c = al_map_rgb(205, 150, 50);
             pDerivedObj->image = al_load_bitmap("assets/image/ball_extend.png");
+            pDerivedObj->dy = 3;
             break;
         case 1:
             pDerivedObj->c = al_map_rgb(50, 200, 100);
             pDerivedObj->image = al_load_bitmap("assets/image/ball_shorten.png");
+            pDerivedObj->dy = 3.5;
             break;
         case 2:
             pDerivedObj->c = al_map_rgb(50, 100, 200);
             pDerivedObj->image = al_load_bitmap("assets/image/ball_reverse.png");
+            pDerivedObj->dy = 7;
             break;
         case 3:
             pDerivedObj->c = al_map_rgb(150, 0, 10);
             pDerivedObj->image = al_load_bitmap("assets/image/ball_add.png");
+            pDerivedObj->dy = 6.5;
             break;
         case 4:
             pDerivedObj->c = al_map_rgb(255, 255, 255);
             pDerivedObj->image = al_load_bitmap("assets/image/ball_extend.png");
+            pDerivedObj->dy = 7.5;
             break;
         case 5:
             pDerivedObj->c = al_map_rgb(255, 100, 155);
             pDerivedObj->image = al_load_bitmap("assets/image/ball_shorten.png");
+            pDerivedObj->dy = 2.5;
             break;
         default:
             pDerivedObj->c = al_map_rgb(255, 255, 255);
             pDerivedObj->image = NULL;
+            pDerivedObj->dy = 6;
             break;
     }
     

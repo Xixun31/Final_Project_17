@@ -7,7 +7,6 @@
 
 double Temporary_Time_l = 0, Temporary_Time_s = 0, Temporary_Time_r = 0;
 const double Suspend_Time = 3, DELAY = 0.3;
-int change_l = 0, change_s = 0, change_r = 0;
 
 Elements *New_Paddle(int label) {
     Paddle *pDerivedObj = (Paddle *)malloc(sizeof(Paddle));
@@ -18,10 +17,10 @@ Elements *New_Paddle(int label) {
     pDerivedObj->y = HEIGHT - 50;
     pDerivedObj->w = 200;
     pDerivedObj->h = 10;
-    pDerivedObj->dx = 15;
+    pDerivedObj->dx = 11;
     pDerivedObj->c = al_map_rgb(205, 205, 205);
     pDerivedObj->hitbox = New_Rectangle(pDerivedObj->x, pDerivedObj->y, pDerivedObj->x + pDerivedObj->w,
-                                        pDerivedObj->y + 1);
+                                        pDerivedObj->y + pDerivedObj->h);
 
     pObj->inter_obj[pObj->inter_len++] = Tool_L;
 

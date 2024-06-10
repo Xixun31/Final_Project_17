@@ -52,7 +52,6 @@ void game_scene_draw(Scene *self);
 void game_scene_destroy(Scene *self);
 void format_time(int elapsed_seconds, char *buffer, int size);
 void score(Scene *self);
-void win(Scene *self);
 void life_show(Scene *self);
 void life(Scene *self, int life);
 

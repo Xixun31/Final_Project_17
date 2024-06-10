@@ -16,7 +16,7 @@ Elements *New_Nball(int label) {
     pDerivedObj->r = 10;
     pDerivedObj->last = 0;
     pDerivedObj->delayb = 0.01;
-    pDerivedObj->delayp = 0.07;
+    pDerivedObj->delayp = 0.2;
     ball_exist++;
     switch (level)
     {
@@ -41,12 +41,6 @@ Elements *New_Nball(int label) {
 
     pObj->inter_obj[pObj->inter_len++] = Paddle_L;
     pObj->inter_obj[pObj->inter_len++] = Box_L;
-
-    ALLEGRO_SAMPLE *sample = al_load_sample("assets/sound/bounce.wav");
-    pDerivedObj->bounce_Sound = al_create_sample_instance(sample);
-    al_set_sample_instance_playmode(pDerivedObj->bounce_Sound, ALLEGRO_PLAYMODE_ONCE);
-    al_attach_sample_instance_to_mixer(pDerivedObj->bounce_Sound, al_get_default_mixer());
-    pDerivedObj->state = 0;
 
     pObj->pDerivedObj = pDerivedObj;
     pObj->Update = Nball_update;
@@ -98,7 +92,6 @@ void Nball_interact(Elements *const self, Elements *const ele) {
             Paddle *pad = ((Paddle *)(ele->pDerivedObj));
             if (pad->hitbox->overlap(pad->hitbox, Obj->hitbox))
             {
-                al_play_sample_instance(Obj->bounce_Sound);
                 Obj->dy *= -1;
                 Obj->last = current_time;
             }
@@ -152,7 +145,6 @@ void Nball_draw(Elements *const ele) {
 
 void Nball_destroy(Elements *const ele) {
     Nball *Obj = ((Nball *)(ele->pDerivedObj));
-    al_destroy_sample_instance(Obj->bounce_Sound);
     free(Obj->hitbox);
     free(Obj);
     free(ele);

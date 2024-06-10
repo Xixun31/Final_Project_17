@@ -31,13 +31,15 @@ Scene *New_GameScene(int label)
     pDerivedObj->title_x = WIDTH / 2;
     pDerivedObj->title_y = HEIGHT / 2;
     GAME_LOSE = false;
-    GAME_WIN = false;
     box_exist = 0;
     ball_exist = 0;
     GAME_START_TIME = al_get_time();
     GAME_TEMPORARY_TIME = 0;
     GAME_CURRENT_TIME = 0;
     GAME_PAUSE_TIME = 0;
+    change_l = 0;
+    change_s = 0;
+    change_r = 0;
     // register element
     // _Register_elements(pObj, New_Floor(Floor_L));
     // _Register_elements(pObj, New_Teleport(Teleport_L));
@@ -130,21 +132,17 @@ void game_scene_update(Scene *self)
         GAME_LOSE = true;
         window = 4;
     }
-    if (key_state[ALLEGRO_KEY_W] || Obj->win) {
+    if (key_state[ALLEGRO_KEY_W] || !box_exist) {
         self->scene_end = true;
         GAME_WIN = true;
         window = 5;
     }
-    if(GAME_CURRENT_TIME - Obj->last > 13){
+    if(GAME_CURRENT_TIME - Obj->last > 25){
         for(i=0;i<11;i++){
             _Register_elements(self, New_Box(Box_L, i, -1));
         }
         Obj->last = GAME_CURRENT_TIME;
     }
-}
-void win(Scene *self){
-    GameScene *Obj = ((GameScene *)(self->pDerivedObj));
-    Obj->win = true;
 }
 void score(Scene *self){
     GameScene *Obj = ((GameScene *)(self->pDerivedObj));
