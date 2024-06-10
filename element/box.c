@@ -54,12 +54,12 @@ void Box_update(Elements *self) {
     }
     if(current - box->last > next)
     {   
-        box->last = current;
         box->y += box->dy;
         box->hitbox->update_center_y(box->hitbox, box->dy);
         box->hitboxr->update_center_y(box->hitboxr, box->dy);
         box->hitboyr->update_center_y(box->hitboyr, box->dy);
         box->hitboy->update_center_y(box->hitboy, box->dy);
+        box->last = current;
     }
     if(GAME_LOSE || GAME_WIN){
         self->dele = true;
@@ -73,10 +73,10 @@ void Box_interact(Elements *self, Elements *tar) {
         if (nb->hitbox->overlap(nb->hitbox, Obj->hitbox) || nb->hitbox->overlap(nb->hitbox, Obj->hitboxr)
          || nb->hitbox->overlap(nb->hitbox, Obj->hitboy) || nb->hitbox->overlap(nb->hitbox, Obj->hitboyr))
         {
+            self->dele = true;
             if(!(rand() % 3)) _Register_elements(scene, New_Tool(Tool_L, Obj->x, Obj->y));
             score(scene);
             box_exist--;
-            self->dele = true;
         }
     }
 }
@@ -85,8 +85,8 @@ void Box_draw(Elements *self)
     Box *Obj = ((Box *)(self->pDerivedObj));
     al_draw_filled_rectangle(Obj->x, Obj->y, Obj->x + Obj->w, Obj->y + Obj->h, Obj->c);
 }
-    void Box_destory(Elements *self)
-    {
+void Box_destory(Elements *self)
+{
     Box *Obj = ((Box *)(self->pDerivedObj));
     free(Obj->hitbox);
     free(Obj);

@@ -23,4 +23,4 @@ double GAME_TEMPORARY_TIME = 0;
 int box_exist = 0, ball_exist = 0;
 bool GAME_WIN = false, GAME_LOSE = false;
 int change_l = 0, change_s = 0, change_r = 0;
-double NEXTTIME = 17;
+double NEXTTIME = 30;

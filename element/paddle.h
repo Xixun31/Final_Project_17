@@ -18,7 +18,7 @@ typedef struct Paddle {
     ALLEGRO_BITMAP *image;
     Shape *hitbox;
     int state;
-    bool keyr, keyl, ball;
+    bool keyr, keyl;
 } Paddle;
 
 Elements *New_Paddle(int label);

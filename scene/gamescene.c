@@ -222,9 +222,6 @@ void game_scene_draw(Scene *self)
     al_draw_text(Obj->font1, al_map_rgb(255, 255, 255), Obj->title_x - 275, Obj->title_y - 300, ALLEGRO_ALIGN_LEFT, "SCORE");
     sprintf(Obj->score_show, "%d", Obj->score);
     al_draw_text(Obj->font1, al_map_rgb(255, 255, 255), Obj->title_x - 210, Obj->title_y - 300, ALLEGRO_ALIGN_LEFT, Obj->score_show);
-    al_draw_text(Obj->font1, al_map_rgb(255, 255, 255), Obj->title_x - 60, Obj->title_y - 300, ALLEGRO_ALIGN_LEFT, "BOX");
-    sprintf(Obj->bexist, "%d", box_exist);
-    al_draw_text(Obj->font1, al_map_rgb(255, 255, 255), Obj->title_x, Obj->title_y - 300, ALLEGRO_ALIGN_LEFT, Obj->bexist);
     
     //draw set
     ALLEGRO_COLOR set_color = Obj->mouse_over_set ? al_map_rgb(179, 209, 255) : al_map_rgb(255, 255, 255);
