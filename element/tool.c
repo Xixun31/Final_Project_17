@@ -83,7 +83,7 @@ void Tool_update(Elements *const ele) {
 
     Obj->y += Obj->dy;
     if(Obj->y >= HEIGHT){
-        ele->dele = true;    
+    ele->dele = true;    
     }
 
     Shape *hitbox = Obj->hitbox;
