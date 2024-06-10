@@ -50,11 +50,7 @@ void Box_update(Elements *self) {
     if((box->y + box->h) > (HEIGHT - 100)){
         life(scene, -1);
         box_exist--;
-        box_delete++;
-        if(box_delete > 0){
-                self->dele = true;
-                box_delete--;
-        } 
+        self->dele = true;
     }
     if(current - box->last > next)
     {   
@@ -79,12 +75,8 @@ void Box_interact(Elements *self, Elements *tar) {
         {
             if(!(rand() % 3)) _Register_elements(scene, New_Tool(Tool_L, Obj->x, Obj->y));
             score(scene);
-            box_delete++;
             box_exist--;
-            if(box_delete > 0){
-                self->dele = true;
-                box_delete--;
-            } 
+            self->dele = true;
         }
     }
 }

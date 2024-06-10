@@ -18,7 +18,6 @@ Scene *New_GameScene(int label)
     pObj->pDerivedObj = pDerivedObj;
 
     start_time = al_get_time();
-
     pDerivedObj->pause = false;
     pDerivedObj->last = 0;
     pDerivedObj->mouse_over_set = false;
@@ -40,7 +39,6 @@ Scene *New_GameScene(int label)
     change_l = 0;
     change_s = 0;
     change_r = 0;
-    box_delete = 0;
     // register element
     // _Register_elements(pObj, New_Floor(Floor_L));
     // _Register_elements(pObj, New_Teleport(Teleport_L));

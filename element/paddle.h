@@ -18,7 +18,7 @@ typedef struct Paddle {
     ALLEGRO_COLOR c;
     Shape *hitbox;
     int state;
-    bool keyr, keyl;
+    bool keyr, keyl, ball;
 } Paddle;
 
 Elements *New_Paddle(int label);
