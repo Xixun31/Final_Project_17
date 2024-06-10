@@ -17,7 +17,7 @@ Elements *New_Paddle(int label) {
     pDerivedObj->x = WIDTH / 2 - 100;
     pDerivedObj->y = HEIGHT - 50;
     pDerivedObj->w = 200;
-    pDerivedObj->h = 20; 
+    pDerivedObj->h = 20;
     pDerivedObj->dx = 13;
     pDerivedObj->c = al_map_rgb(205, 205, 205);
     pDerivedObj->hitbox = New_Rectangle(pDerivedObj->x, pDerivedObj->y, pDerivedObj->x + pDerivedObj->w,
@@ -93,8 +93,6 @@ void Paddle_update(Elements *const ele) {
 void Paddle_draw(Elements *const ele) {
     Paddle *Obj = ((Paddle *)(ele->pDerivedObj));
     if (Obj->image) {
-        // 計算水平縮放比例
-        float scale_factor_x = Obj->w / al_get_bitmap_width(Obj->image);
         al_draw_scaled_bitmap(Obj->image, 0, 0,
                               al_get_bitmap_width(Obj->image), al_get_bitmap_height(Obj->image),
                               Obj->x, Obj->y,
@@ -149,7 +147,7 @@ int compare_colors(ALLEGRO_COLOR c1, ALLEGRO_COLOR c2) {
 
 void Paddle_destroy(Elements *const ele) {
     Paddle *Obj = ((Paddle *)(ele->pDerivedObj));
-    al_destroy_bitmap(Obj->image); 
+    al_destroy_bitmap(Obj->image);
     free(Obj->hitbox);
     free(Obj);
     free(ele);
