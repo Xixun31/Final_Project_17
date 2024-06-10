@@ -13,7 +13,7 @@ Scene *New_About(int label)
     pDerivedObj->font1 = al_load_ttf_font("assets/font/DIN Condensed Bold.ttf", 32, 0);
     pDerivedObj->font2 = al_load_ttf_font("assets/font/DIN Condensed Bold.ttf", 40, 0);
     // Load sound
-    pDerivedObj->song = al_load_sample("assets/sound/menu.mp3");
+    pDerivedObj->song = al_load_sample("assets/sound/menu.wav");
     al_reserve_samples(20);
     pDerivedObj->sample_instance = al_create_sample_instance(pDerivedObj->song);
     pDerivedObj->title_x = WIDTH / 2;
@@ -34,7 +34,7 @@ Scene *New_About(int label)
     al_restore_default_mixer();
     al_attach_sample_instance_to_mixer(pDerivedObj->sample_instance, al_get_default_mixer());
     // set the volume of instance
-    al_set_sample_instance_gain(pDerivedObj->sample_instance, 0.1);
+    al_set_sample_instance_gain(pDerivedObj->sample_instance, 1);
     pObj->pDerivedObj = pDerivedObj;
     // setting derived object function
     pObj->Update = about_update;
@@ -82,25 +82,25 @@ void about_draw(Scene *self)
     float text_y_offset = 8;
     float text_x_offset = 10;
 
-    al_draw_scaled_bitmap(Obj->tool_images[0], 0, 0, al_get_bitmap_width(Obj->tool_images[0]), al_get_bitmap_height(Obj->tool_images[0]), Obj->title_x - 350, Obj->title_y - 60 - img_size / 2 + text_y_offset, img_size, img_size, 0);
-    al_draw_text(Obj->font1, al_map_rgb(255, 255, 255), Obj->title_x - 350 + img_size + text_x_offset, Obj->title_y - 60, ALLEGRO_ALIGN_LEFT, "Extend the paddle");
+    al_draw_scaled_bitmap(Obj->tool_images[0], 0, 0, al_get_bitmap_width(Obj->tool_images[0]), al_get_bitmap_height(Obj->tool_images[0]), Obj->title_x - 350, Obj->title_y - 80 - img_size / 2 + text_y_offset, img_size, img_size, 0);
+    al_draw_text(Obj->font1, al_map_rgb(255, 255, 255), Obj->title_x - 350 + img_size + text_x_offset, Obj->title_y - 80, ALLEGRO_ALIGN_LEFT, "Extend the paddle");
 
-    al_draw_scaled_bitmap(Obj->tool_images[1], 0, 0, al_get_bitmap_width(Obj->tool_images[1]), al_get_bitmap_height(Obj->tool_images[1]), Obj->title_x - 350, Obj->title_y - 10 - img_size / 2 + text_y_offset, img_size, img_size, 0);
-    al_draw_text(Obj->font1, al_map_rgb(255, 255, 255), Obj->title_x - 350 + img_size + text_x_offset, Obj->title_y - 10, ALLEGRO_ALIGN_LEFT, "Shorten the paddle");
+    al_draw_scaled_bitmap(Obj->tool_images[1], 0, 0, al_get_bitmap_width(Obj->tool_images[1]), al_get_bitmap_height(Obj->tool_images[1]), Obj->title_x - 350, Obj->title_y - 30 - img_size / 2 + text_y_offset, img_size, img_size, 0);
+    al_draw_text(Obj->font1, al_map_rgb(255, 255, 255), Obj->title_x - 350 + img_size + text_x_offset, Obj->title_y - 30, ALLEGRO_ALIGN_LEFT, "Shorten the paddle");
 
-    al_draw_scaled_bitmap(Obj->tool_images[2], 0, 0, al_get_bitmap_width(Obj->tool_images[2]), al_get_bitmap_height(Obj->tool_images[2]), Obj->title_x - 350, Obj->title_y + 40 - img_size / 2 + text_y_offset, img_size, img_size, 0);
-    al_draw_text(Obj->font1, al_map_rgb(255, 255, 255), Obj->title_x - 350 + img_size + text_x_offset, Obj->title_y + 40, ALLEGRO_ALIGN_LEFT, "Change the control direction of the paddle");
+    al_draw_scaled_bitmap(Obj->tool_images[2], 0, 0, al_get_bitmap_width(Obj->tool_images[2]), al_get_bitmap_height(Obj->tool_images[2]), Obj->title_x - 350, Obj->title_y + 20 - img_size / 2 + text_y_offset, img_size, img_size, 0);
+    al_draw_text(Obj->font1, al_map_rgb(255, 255, 255), Obj->title_x - 350 + img_size + text_x_offset, Obj->title_y + 20, ALLEGRO_ALIGN_LEFT, "Change the control direction of the paddle");
 
-    al_draw_scaled_bitmap(Obj->tool_images[3], 0, 0, al_get_bitmap_width(Obj->tool_images[3]), al_get_bitmap_height(Obj->tool_images[3]), Obj->title_x - 350, Obj->title_y + 90 - img_size / 2 + text_y_offset, img_size, img_size, 0);
-    al_draw_text(Obj->font1, al_map_rgb(255, 255, 255), Obj->title_x - 350 + img_size + text_x_offset, Obj->title_y + 90, ALLEGRO_ALIGN_LEFT, "Add one ball");
+    al_draw_scaled_bitmap(Obj->tool_images[3], 0, 0, al_get_bitmap_width(Obj->tool_images[3]), al_get_bitmap_height(Obj->tool_images[3]), Obj->title_x - 350, Obj->title_y + 70 - img_size / 2 + text_y_offset, img_size, img_size, 0);
+    al_draw_text(Obj->font1, al_map_rgb(255, 255, 255), Obj->title_x - 350 + img_size + text_x_offset, Obj->title_y + 70, ALLEGRO_ALIGN_LEFT, "Add one ball");
 
-    al_draw_scaled_bitmap(Obj->tool_images[4], 0, 0, al_get_bitmap_width(Obj->tool_images[4]), al_get_bitmap_height(Obj->tool_images[4]), Obj->title_x - 350, Obj->title_y + 140 - img_size / 2 + text_y_offset, img_size, img_size, 0);
-    al_draw_text(Obj->font1, al_map_rgb(255, 255, 255), Obj->title_x - 350 + img_size + text_x_offset, Obj->title_y + 140, ALLEGRO_ALIGN_LEFT, "Bomb. Reduce one life");
+    al_draw_scaled_bitmap(Obj->tool_images[4], 0, 0, al_get_bitmap_width(Obj->tool_images[4]), al_get_bitmap_height(Obj->tool_images[4]), Obj->title_x - 350, Obj->title_y + 120 - img_size / 2 + text_y_offset, img_size, img_size, 0);
+    al_draw_text(Obj->font1, al_map_rgb(255, 255, 255), Obj->title_x - 350 + img_size + text_x_offset, Obj->title_y + 120, ALLEGRO_ALIGN_LEFT, "Bomb. Reduce one life");
 
-    al_draw_scaled_bitmap(Obj->tool_images[5], 0, 0, al_get_bitmap_width(Obj->tool_images[5]), al_get_bitmap_height(Obj->tool_images[5]), Obj->title_x - 350, Obj->title_y + 190 - img_size / 2 + text_y_offset, img_size, img_size, 0);
-    al_draw_text(Obj->font1, al_map_rgb(255, 255, 255), Obj->title_x - 350 + img_size + text_x_offset, Obj->title_y + 190, ALLEGRO_ALIGN_LEFT, "Life Ball. Restore one life");
+    al_draw_scaled_bitmap(Obj->tool_images[5], 0, 0, al_get_bitmap_width(Obj->tool_images[5]), al_get_bitmap_height(Obj->tool_images[5]), Obj->title_x - 350, Obj->title_y + 170 - img_size / 2 + text_y_offset, img_size, img_size, 0);
+    al_draw_text(Obj->font1, al_map_rgb(255, 255, 255), Obj->title_x - 350 + img_size + text_x_offset, Obj->title_y + 170, ALLEGRO_ALIGN_LEFT, "Life Ball. Restore one life");
 
-    al_draw_text(Obj->font2, back_color, Obj->title_x - 350, Obj->title_y + 240, ALLEGRO_ALIGN_LEFT, "Back");
+    al_draw_text(Obj->font2, back_color, Obj->title_x - 350, Obj->title_y + 230, ALLEGRO_ALIGN_LEFT, "Back");
     al_play_sample_instance(Obj->sample_instance);
 }
 void about_destroy(Scene *self)

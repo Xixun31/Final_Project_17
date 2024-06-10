@@ -33,6 +33,14 @@ Scene *New_GameScene(int label)
     al_set_sample_instance_playmode(pDerivedObj->box_sound, ALLEGRO_PLAYMODE_ONCE);
     al_attach_sample_instance_to_mixer(pDerivedObj->box_sound, al_get_default_mixer());
 
+    pDerivedObj->song = al_load_sample("assets/sound/game.wav");
+    al_reserve_samples(20);
+    pDerivedObj->sample_instance = al_create_sample_instance(pDerivedObj->song);
+    al_set_sample_instance_playmode(pDerivedObj->sample_instance, ALLEGRO_PLAYMODE_LOOP);
+    al_restore_default_mixer();
+    al_attach_sample_instance_to_mixer(pDerivedObj->sample_instance, al_get_default_mixer());
+    al_set_sample_instance_gain(pDerivedObj->sample_instance, 1);
+    
     start_time = al_get_time();
     pDerivedObj->pause = false;
     pDerivedObj->last = 0;
@@ -237,12 +245,14 @@ void game_scene_draw(Scene *self)
         ele->Draw(ele);
     }
     life_show(self);
+    al_play_sample_instance(Obj->sample_instance);
 }
 void game_scene_destroy(Scene *self)
 {
     GameScene *Obj = ((GameScene *)(self->pDerivedObj));
     al_destroy_bitmap(Obj->background);
     al_destroy_bitmap(Obj->heart_image); 
+    al_destroy_sample_instance(Obj->sample_instance);
     al_destroy_sample_instance(Obj->box_sound);
     ElementVec allEle = _Get_all_elements(self);
     for (int i = 0; i < allEle.len; i++)
