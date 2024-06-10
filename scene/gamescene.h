@@ -47,6 +47,8 @@ typedef struct _GameScene
     ALLEGRO_SAMPLE_INSTANCE *box_sound;
     bool mouse_over_set, mouse_over_resume, mouse_over_menu, mouse_over_restart, pause, win;
     double last;
+    ALLEGRO_SAMPLE *song;
+    ALLEGRO_SAMPLE_INSTANCE *sample_instance;
 
 } GameScene;
 Scene *New_GameScene(int label);

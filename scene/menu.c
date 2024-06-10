@@ -39,7 +39,7 @@ Scene *New_Menu(int label)
     al_set_sample_instance_playmode(pDerivedObj->sample_instance, ALLEGRO_PLAYMODE_LOOP);
     al_restore_default_mixer();
     al_attach_sample_instance_to_mixer(pDerivedObj->sample_instance, al_get_default_mixer());
-    al_set_sample_instance_gain(pDerivedObj->sample_instance, 0.1);
+    al_set_sample_instance_gain(pDerivedObj->sample_instance, 1);
     
     pObj->pDerivedObj = pDerivedObj;
     pObj->Update = menu_update;
