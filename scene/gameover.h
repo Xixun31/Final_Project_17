@@ -18,6 +18,7 @@ typedef struct _Gameover
     int title_x, title_y;
     bool mouse_over_restart, mouse_over_menu;
     ALGIF_ANIMATION *gif_status;
+    ALLEGRO_BITMAP *background;
     int state;
     char score_str[4];
 
