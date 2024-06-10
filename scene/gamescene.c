@@ -15,7 +15,23 @@ Scene *New_GameScene(int label)
     // setting derived object member
     pDerivedObj->font1 = al_load_ttf_font("assets/font/DIN Condensed Bold.ttf", 28, 0);
     pDerivedObj->background = al_load_bitmap("assets/image/stage.jpg");
+    pDerivedObj->heart_image = al_load_bitmap("assets/image/heart.png"); 
+
+    if (!pDerivedObj->background || !pDerivedObj->heart_image) {
+        fprintf(stderr, "Failed to load background or heart image!\n");
+        al_destroy_font(pDerivedObj->font1);
+        if (pDerivedObj->background) al_destroy_bitmap(pDerivedObj->background);
+        if (pDerivedObj->heart_image) al_destroy_bitmap(pDerivedObj->heart_image);
+        free(pDerivedObj);
+        return NULL;
+    }
+
     pObj->pDerivedObj = pDerivedObj;
+
+    ALLEGRO_SAMPLE *sample = al_load_sample("assets/sound/box.wav");
+    pDerivedObj->box_sound = al_create_sample_instance(sample);
+    al_set_sample_instance_playmode(pDerivedObj->box_sound, ALLEGRO_PLAYMODE_ONCE);
+    al_attach_sample_instance_to_mixer(pDerivedObj->box_sound, al_get_default_mixer());
 
     start_time = al_get_time();
     pDerivedObj->pause = false;
@@ -40,13 +56,8 @@ Scene *New_GameScene(int label)
     change_s = 0;
     change_r = 0;
     // register element
-    // _Register_elements(pObj, New_Floor(Floor_L));
-    // _Register_elements(pObj, New_Teleport(Teleport_L));
-    // _Register_elements(pObj, New_Tree(Tree_L));
-    // _Register_elements(pObj, New_Character(Character_L));
     _Register_elements(pObj, New_Paddle(Paddle_L));
     _Register_elements(pObj, New_Nball(Nball_L));
-    //_Register_elements(pObj, New_Ball(Ball_L));
     _Register_elements(pObj, New_Top(Top_L));
     for(i=0;i<11;i++){
         for(j=0;j<3;j++){
@@ -59,6 +70,7 @@ Scene *New_GameScene(int label)
     pObj->Destroy = game_scene_destroy;
     return pObj;
 }
+
 void game_scene_update(Scene *self)
 {
     ALLEGRO_MOUSE_STATE mouse_state;
@@ -137,42 +149,45 @@ void game_scene_update(Scene *self)
         window = 5;
     }
     if(GAME_CURRENT_TIME - Obj->last > NEXTTIME){
+        al_play_sample_instance(Obj->box_sound);
         for(i=0;i<11;i++){
             _Register_elements(self, New_Box(Box_L, i, -1));
         }
         Obj->last = GAME_CURRENT_TIME;
     }
 }
+
 void score(Scene *self){
     GameScene *Obj = ((GameScene *)(self->pDerivedObj));
     Obj->score++;
     final_score = Obj->score;
 }
+
 void life(Scene *self, int life){
     GameScene *Obj = ((GameScene *)(self->pDerivedObj));
     Obj->life += life;
     if(Obj->life > 3) Obj->life = 3;
     life_show(self);
-    //if(Obj->life <= 0)
 }
+
 void life_show(Scene *self){
     GameScene *Obj = ((GameScene *)(self->pDerivedObj));
-    if(Obj->life >= 1){
-        al_draw_filled_circle(Obj->title_x - 160, Obj->title_y - 290, 10, al_map_rgb(255, 100, 155));
-    }else{
-        al_draw_filled_circle(Obj->title_x - 160, Obj->title_y - 290, 10, al_map_rgb(64, 64, 64));
-    }
-    if(Obj->life >= 2){
-        al_draw_filled_circle(Obj->title_x - 130, Obj->title_y - 290, 10, al_map_rgb(255, 100, 155));
-    }else{
-        al_draw_filled_circle(Obj->title_x - 130, Obj->title_y - 290, 10, al_map_rgb(64, 64, 64));
-    }
-    if(Obj->life >= 3){
-        al_draw_filled_circle(Obj->title_x - 100, Obj->title_y - 290, 10, al_map_rgb(255, 100, 155));
-    }else{
-        al_draw_filled_circle(Obj->title_x - 100, Obj->title_y - 290, 10, al_map_rgb(64, 64, 64));
+    float heart_size = 30;
+    float heart_spacing = 30; 
+    float heart_x_position = Obj->title_x - 180; 
+    float heart_y_position = Obj->title_y - 305; 
+
+    for (int i = 0; i < 3; i++) {
+        if (i < Obj->life) {
+            al_draw_scaled_bitmap(Obj->heart_image, 0, 0, al_get_bitmap_width(Obj->heart_image), al_get_bitmap_height(Obj->heart_image),
+                                  heart_x_position + i * heart_spacing, heart_y_position, heart_size, heart_size, 0);
+        } else {
+            al_draw_filled_circle(heart_x_position + i * heart_spacing + heart_size / 2, heart_y_position + heart_size / 2, 10, al_map_rgb(64, 64, 64));
+        }
     }
 }
+
+
 void game_scene_draw(Scene *self)
 {
     GameScene *Obj = ((GameScene *)(self->pDerivedObj));
@@ -229,8 +244,9 @@ void game_scene_draw(Scene *self)
 void game_scene_destroy(Scene *self)
 {
     GameScene *Obj = ((GameScene *)(self->pDerivedObj));
-    ALLEGRO_BITMAP *background = Obj->background;
-    al_destroy_bitmap(background);
+    al_destroy_bitmap(Obj->background);
+    al_destroy_bitmap(Obj->heart_image); 
+    al_destroy_sample_instance(Obj->box_sound);
     ElementVec allEle = _Get_all_elements(self);
     for (int i = 0; i < allEle.len; i++)
     {
