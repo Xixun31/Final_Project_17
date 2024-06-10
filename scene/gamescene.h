@@ -19,6 +19,7 @@
 #include "../element/box.h"
 #include "../element/tool.h"
 #include "../element/top.h"
+
 /*
    [game scene object]
 */
@@ -39,6 +40,7 @@ typedef enum EleType
 typedef struct _GameScene
 {
     ALLEGRO_BITMAP *background;
+    ALLEGRO_BITMAP *heart_image; 
     ALLEGRO_FONT *font1;
     int title_x, title_y, score, life;
     char score_show[4], bexist[4];
