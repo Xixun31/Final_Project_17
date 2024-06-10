@@ -174,7 +174,7 @@ void life_show(Scene *self){
     GameScene *Obj = ((GameScene *)(self->pDerivedObj));
     float heart_size = 30;
     float heart_spacing = 30; 
-    float heart_x_position = Obj->title_x - 180; 
+    float heart_x_position = Obj->title_x - 170; 
     float heart_y_position = Obj->title_y - 305; 
 
     for (int i = 0; i < 3; i++) {

@@ -3,6 +3,7 @@
 #include "../shapes/Shape.h"
 #include "../global.h"
 #include <allegro5/allegro_primitives.h>
+#include <allegro5/allegro_image.h> 
 #include "../scene/sceneManager.h"
 
 double Temporary_Time_l = 0, Temporary_Time_s = 0, Temporary_Time_r = 0;
@@ -16,11 +17,13 @@ Elements *New_Paddle(int label) {
     pDerivedObj->x = WIDTH / 2 - 100;
     pDerivedObj->y = HEIGHT - 50;
     pDerivedObj->w = 200;
-    pDerivedObj->h = 10;
+    pDerivedObj->h = 20;
     pDerivedObj->dx = 13;
     pDerivedObj->c = al_map_rgb(205, 205, 205);
     pDerivedObj->hitbox = New_Rectangle(pDerivedObj->x, pDerivedObj->y, pDerivedObj->x + pDerivedObj->w,
                                         pDerivedObj->y + pDerivedObj->h);
+    
+    pDerivedObj->image = al_load_bitmap("assets/image/paddle.png"); 
 
     pObj->inter_obj[pObj->inter_len++] = Tool_L;
 
@@ -86,10 +89,20 @@ void Paddle_update(Elements *const ele) {
         change_r = 0;
     }
 }
+
 void Paddle_draw(Elements *const ele) {
     Paddle *Obj = ((Paddle *)(ele->pDerivedObj));
-    al_draw_filled_rectangle(Obj->x, Obj->y, Obj->x + Obj->w, Obj->y + Obj->h, Obj->c);
+    if (Obj->image) {
+        al_draw_scaled_bitmap(Obj->image, 0, 0,
+                              al_get_bitmap_width(Obj->image), al_get_bitmap_height(Obj->image),
+                              Obj->x, Obj->y,
+                              Obj->w, Obj->h,
+                              0);
+    } else {
+        al_draw_filled_rectangle(Obj->x, Obj->y, Obj->x + Obj->w, Obj->y + Obj->h, Obj->c);
+    }
 }
+
 void Paddle_interact(Elements *self, Elements *tar) {
     Paddle *Obj = ((Paddle *)(self->pDerivedObj));
 
@@ -127,12 +140,14 @@ void Paddle_interact(Elements *self, Elements *tar) {
         }
     }
 }
+
 int compare_colors(ALLEGRO_COLOR c1, ALLEGRO_COLOR c2) {
     return (c1.r == c2.r) && (c1.g == c2.g) && (c1.b == c2.b) && (c1.a == c2.a);
 }
 
 void Paddle_destroy(Elements *const ele) {
     Paddle *Obj = ((Paddle *)(ele->pDerivedObj));
+    al_destroy_bitmap(Obj->image);
     free(Obj->hitbox);
     free(Obj);
     free(ele);
