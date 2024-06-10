@@ -39,18 +39,13 @@ Elements *New_Tool(int label, float x, float y) {
             break;
         case 4:
             pDerivedObj->c = al_map_rgb(255, 255, 255);
-            pDerivedObj->image = al_load_bitmap("assets/image/ball_extend.png");
+            pDerivedObj->image = al_load_bitmap("assets/image/bomb.png");
             pDerivedObj->dy = 7;
             break;
         case 5:
             pDerivedObj->c = al_map_rgb(255, 100, 155);
-            pDerivedObj->image = al_load_bitmap("assets/image/ball_shorten.png");
+            pDerivedObj->image = al_load_bitmap("assets/image/ball_life.png");
             pDerivedObj->dy = 3;
-            break;
-        default:
-            pDerivedObj->c = al_map_rgb(255, 255, 255);
-            pDerivedObj->image = NULL;
-            pDerivedObj->dy = 6;
             break;
     }
     
@@ -60,11 +55,6 @@ Elements *New_Tool(int label, float x, float y) {
 
     pDerivedObj->hitbox = New_Circle(pDerivedObj->x, pDerivedObj->y, pDerivedObj->r);
 
-    if (!pDerivedObj->image) {
-        fprintf(stderr, "Failed to load ball_extend image!\n");
-        free(pDerivedObj);
-        return NULL;  
-    }
 
     pObj->inter_obj[pObj->inter_len++] = Paddle_L;
 
