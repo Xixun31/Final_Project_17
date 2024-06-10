@@ -33,6 +33,13 @@ Scene *New_Youwin(int label)
     pDerivedObj->state = 1;
     // set the volume of instance
     al_set_sample_instance_gain(pDerivedObj->sample_instance, 1.5);
+
+    // Load background image
+    pDerivedObj->background = al_load_bitmap("assets/image/youwin_background.png");
+    if (!pDerivedObj->background) {
+        fprintf(stderr, "Failed to load youwin background image!\n");
+    }
+
     pObj->pDerivedObj = pDerivedObj;
     // setting derived object function
     pObj->Update = youwin_update;
@@ -40,6 +47,7 @@ Scene *New_Youwin(int label)
     pObj->Destroy = youwin_destroy;
     return pObj;
 }
+
 void youwin_update(Scene *self){
     ALLEGRO_MOUSE_STATE mouse_state;
     al_get_mouse_state(&mouse_state);
@@ -62,9 +70,18 @@ void youwin_update(Scene *self){
     }
     return;
 }
+
 void youwin_draw(Scene *self)
 {
     Youwin *Obj = ((Youwin *)(self->pDerivedObj));
+
+    if (Obj->background) {
+        al_draw_scaled_bitmap(Obj->background, 
+                              0, 0, 
+                              al_get_bitmap_width(Obj->background), al_get_bitmap_height(Obj->background), 
+                              0, 0, WIDTH, HEIGHT, 0);
+    }
+
     ALLEGRO_COLOR restart_color = Obj->mouse_over_restart ? al_map_rgb(179, 209, 255) : al_map_rgb(255, 255, 255);
     ALLEGRO_COLOR menu_color = Obj->mouse_over_menu ? al_map_rgb(179, 209, 255) : al_map_rgb(255, 255, 255);
 
@@ -73,7 +90,6 @@ void youwin_draw(Scene *self)
     {
         al_draw_bitmap(frame, -190, 20, 0);
     }
-
 
     al_draw_text(Obj->font2, al_map_rgb(255, 255, 255), Obj->title_x - 20, Obj->title_y + 20, ALLEGRO_ALIGN_RIGHT, "TIME");
     
@@ -89,6 +105,7 @@ void youwin_draw(Scene *self)
         Obj->state = 0;
     }
 }
+
 void youwin_destroy(Scene *self)
 {
     Youwin *Obj = ((Youwin *)(self->pDerivedObj));
@@ -97,6 +114,11 @@ void youwin_destroy(Scene *self)
     al_destroy_sample(Obj->song);
     al_destroy_sample_instance(Obj->sample_instance);
     algif_destroy_animation(Obj->gif_status);
+
+    if (Obj->background) {
+        al_destroy_bitmap(Obj->background);
+    }
+
     free(Obj);
     free(self);
 }

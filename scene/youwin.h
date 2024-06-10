@@ -16,6 +16,7 @@ typedef struct _Youwin
     ALLEGRO_FONT *font2;
     ALLEGRO_SAMPLE *song;
     ALLEGRO_SAMPLE_INSTANCE *sample_instance;
+    ALLEGRO_BITMAP *background;
     int title_x, title_y;
     bool mouse_over_restart, mouse_over_menu;
     ALGIF_ANIMATION *gif_status;
