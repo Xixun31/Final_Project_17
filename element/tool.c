@@ -25,7 +25,7 @@ Elements *New_Tool(int label, float x, float y) {
         case 1:
             pDerivedObj->c = al_map_rgb(50, 200, 100);
             pDerivedObj->image = al_load_bitmap("assets/image/ball_shorten.png");
-            pDerivedObj->dy = 3.5;
+            pDerivedObj->dy = 3;
             break;
         case 2:
             pDerivedObj->c = al_map_rgb(50, 100, 200);
@@ -35,17 +35,17 @@ Elements *New_Tool(int label, float x, float y) {
         case 3:
             pDerivedObj->c = al_map_rgb(150, 0, 10);
             pDerivedObj->image = al_load_bitmap("assets/image/ball_add.png");
-            pDerivedObj->dy = 6.5;
+            pDerivedObj->dy = 7;
             break;
         case 4:
             pDerivedObj->c = al_map_rgb(255, 255, 255);
             pDerivedObj->image = al_load_bitmap("assets/image/ball_extend.png");
-            pDerivedObj->dy = 7.5;
+            pDerivedObj->dy = 7;
             break;
         case 5:
             pDerivedObj->c = al_map_rgb(255, 100, 155);
             pDerivedObj->image = al_load_bitmap("assets/image/ball_shorten.png");
-            pDerivedObj->dy = 2.5;
+            pDerivedObj->dy = 3;
             break;
         default:
             pDerivedObj->c = al_map_rgb(255, 255, 255);
