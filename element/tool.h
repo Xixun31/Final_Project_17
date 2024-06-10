@@ -11,6 +11,7 @@ typedef struct Tool {
     ALLEGRO_COLOR c;
     Shape *hitbox;
     ALLEGRO_BITMAP *image;
+    ALLEGRO_SAMPLE_INSTANCE *tool_sound;
 } Tool;
 
 Elements *New_Tool(int label, float x, float y);
