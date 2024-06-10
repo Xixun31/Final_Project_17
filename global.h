@@ -32,7 +32,7 @@ extern double GAME_CURRENT_TIME;
 extern double GAME_PAUSE_TIME;
 extern double GAME_TEMPORARY_TIME;
 extern int box_exist, ball_exist;
-extern bool GAME_WIN, GAME_LOSE;
+extern bool GAME_WIN, GAME_LOSE, UNDEAD;
 extern int change_l, change_s, change_r;
 extern double NEXTTIME;
 

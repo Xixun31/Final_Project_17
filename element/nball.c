@@ -18,23 +18,8 @@ Elements *New_Nball(int label) {
     pDerivedObj->delayb = 0.01;
     pDerivedObj->delayp = 0.2;
     ball_exist++;
-    switch (level)
-    {
-    case 0:
-        pDerivedObj->dx = 5;
-        pDerivedObj->dy = -5;
-        break;
-    case 1:
-        pDerivedObj->dx = 7.5;
-        pDerivedObj->dy = -7.5;
-        break;
-    case 2:
-        pDerivedObj->dx = 10;
-        pDerivedObj->dy = -10;
-        break;
-    default:
-        break;
-    }
+    pDerivedObj->dx = 5;
+    pDerivedObj->dy = -5;
     
     pDerivedObj->c = al_map_rgb(255, 0, 0);
     pDerivedObj->hitbox = New_Circle(pDerivedObj->x, pDerivedObj->y, pDerivedObj->r);
@@ -55,18 +40,20 @@ void Nball_update(Elements *const ele) {
     Nball *Obj = ((Nball *)(ele->pDerivedObj));
     // Check for collision with screen borders
     if (Obj->x - Obj->r < 0 || Obj->x + Obj->r > WIDTH) {
-        // if(Obj->dx > 0) Obj->dx += 0.3;
-        // else Obj->dx -= 0.3;
         Obj->dx *= -1;
     }
     if (Obj->y - Obj->r < 85) {
-        // if(Obj->dy > 0) Obj->dy += 0.3;
-        // else Obj->dy -= 0.3;
         Obj->dy *= -1;
     }
-    if (Obj->y + Obj->r > HEIGHT){
+    if(UNDEAD){
+        if (Obj->y + Obj->r > HEIGHT - 100){
+            Obj->dy *= -1;
+        }
+    }else{
+        if (Obj->y + Obj->r > HEIGHT){
         ele->dele = true;
         ball_exist--;
+        }
     }
     // Update ball position
     Obj->x += Obj->dx;

@@ -54,6 +54,7 @@ Scene *New_GameScene(int label)
     pDerivedObj->title_x = WIDTH / 2;
     pDerivedObj->title_y = HEIGHT / 2;
     GAME_LOSE = false;
+    GAME_WIN = false;
     box_exist = 0;
     ball_exist = 0;
     GAME_START_TIME = al_get_time();
@@ -76,6 +77,20 @@ Scene *New_GameScene(int label)
     pObj->Update = game_scene_update;
     pObj->Draw = game_scene_draw;
     pObj->Destroy = game_scene_destroy;
+    switch (level)
+    {
+    case 0:
+        NEXTTIME = 300;
+        break;
+    case 1:
+        NEXTTIME = 30;
+        break;
+    case 2:
+        NEXTTIME = 3;
+        break;
+    default:
+        break;
+    }
     return pObj;
 }
 
@@ -96,6 +111,8 @@ void game_scene_update(Scene *self)
                                 mouse_state.y >= Obj->title_y - 300 && mouse_state.y <= Obj->title_y - 280);
     Obj->mouse_over_restart = (mouse_state.x >= Obj->title_x + 200 && mouse_state.x <= Obj->title_x + 280 &&
                                 mouse_state.y >= Obj->title_y - 300 && mouse_state.y <= Obj->title_y - 280);
+    if(key_state[ALLEGRO_KEY_U]) UNDEAD = true;
+    if(key_state[ALLEGRO_KEY_D]) UNDEAD = false;
 
     if (mouse_state.buttons & 1) {
         if (Obj->mouse_over_set) {
@@ -146,7 +163,7 @@ void game_scene_update(Scene *self)
             _Remove_elements(self, ele);
     }
 
-    if (key_state[ALLEGRO_KEY_G] || (Obj->life <= 0)) {
+    if ((key_state[ALLEGRO_KEY_G] || (Obj->life <= 0)) && !UNDEAD) {
         self->scene_end = true;
         GAME_LOSE = true;
         window = 4;
