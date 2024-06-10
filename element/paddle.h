@@ -11,11 +11,11 @@ typedef enum PaddleType
     MOVE_PR
 } PaddleType;
 
-
 typedef struct Paddle {
     float x, y, w, h;
     int dx;
     ALLEGRO_COLOR c;
+    ALLEGRO_BITMAP *image;
     Shape *hitbox;
     int state;
     bool keyr, keyl;
