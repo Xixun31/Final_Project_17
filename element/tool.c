@@ -62,6 +62,12 @@ Elements *New_Tool(int label, float x, float y) {
 
     pObj->inter_obj[pObj->inter_len++] = Paddle_L;
 
+    ALLEGRO_SAMPLE *sample = al_load_sample("assets/sound/tool.wav");
+    pDerivedObj->tool_sound = al_create_sample_instance(sample);
+    al_set_sample_instance_playmode(pDerivedObj->tool_sound, ALLEGRO_PLAYMODE_ONCE);
+    al_attach_sample_instance_to_mixer(pDerivedObj->tool_sound, al_get_default_mixer());
+
+
     pObj->pDerivedObj = pDerivedObj;
     pObj->Update = Tool_update;
     pObj->Interact = Tool_interact;
@@ -94,6 +100,7 @@ void Tool_interact(Elements *const self, Elements *const ele) {
         Paddle *pad = ((Paddle *)(ele->pDerivedObj));
         if (pad->hitbox->overlap(pad->hitbox, Obj->hitbox))
         {
+            al_play_sample_instance(Obj->tool_sound);
             self->dele = true;
         }
     }
@@ -119,6 +126,7 @@ void Tool_draw(Elements *const ele) {
 
 void Tool_destroy(Elements *const ele) {
     Tool *Obj = ((Tool *)(ele->pDerivedObj));
+    al_destroy_sample_instance(Obj->tool_sound);
     al_destroy_bitmap(Obj->image);
     free(Obj->hitbox);
     free(Obj);
