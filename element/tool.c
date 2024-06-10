@@ -25,7 +25,7 @@ Elements *New_Tool(int label, float x, float y) {
         case 1:
             pDerivedObj->c = al_map_rgb(50, 200, 100);
             pDerivedObj->image = al_load_bitmap("assets/image/ball_shorten.png");
-            pDerivedObj->dy = 3.5;
+            pDerivedObj->dy = 3;
             break;
         case 2:
             pDerivedObj->c = al_map_rgb(50, 100, 200);
@@ -35,17 +35,17 @@ Elements *New_Tool(int label, float x, float y) {
         case 3:
             pDerivedObj->c = al_map_rgb(150, 0, 10);
             pDerivedObj->image = al_load_bitmap("assets/image/ball_add.png");
-            pDerivedObj->dy = 6.5;
+            pDerivedObj->dy = 7;
             break;
         case 4:
             pDerivedObj->c = al_map_rgb(255, 255, 255);
             pDerivedObj->image = al_load_bitmap("assets/image/ball_extend.png");
-            pDerivedObj->dy = 7.5;
+            pDerivedObj->dy = 7;
             break;
         case 5:
             pDerivedObj->c = al_map_rgb(255, 100, 155);
             pDerivedObj->image = al_load_bitmap("assets/image/ball_shorten.png");
-            pDerivedObj->dy = 2.5;
+            pDerivedObj->dy = 3;
             break;
         default:
             pDerivedObj->c = al_map_rgb(255, 255, 255);
@@ -67,12 +67,6 @@ Elements *New_Tool(int label, float x, float y) {
     }
 
     pObj->inter_obj[pObj->inter_len++] = Paddle_L;
-
-    ALLEGRO_SAMPLE *sample = al_load_sample("assets/sound/tool.wav");
-    pDerivedObj->tool_sound = al_create_sample_instance(sample);
-    al_set_sample_instance_playmode(pDerivedObj->tool_sound, ALLEGRO_PLAYMODE_ONCE);
-    al_attach_sample_instance_to_mixer(pDerivedObj->tool_sound, al_get_default_mixer());
-
 
     pObj->pDerivedObj = pDerivedObj;
     pObj->Update = Tool_update;
@@ -106,7 +100,6 @@ void Tool_interact(Elements *const self, Elements *const ele) {
         Paddle *pad = ((Paddle *)(ele->pDerivedObj));
         if (pad->hitbox->overlap(pad->hitbox, Obj->hitbox))
         {
-            al_play_sample_instance(Obj->tool_sound);
             self->dele = true;
         }
     }
@@ -132,7 +125,6 @@ void Tool_draw(Elements *const ele) {
 
 void Tool_destroy(Elements *const ele) {
     Tool *Obj = ((Tool *)(ele->pDerivedObj));
-    al_destroy_sample_instance(Obj->tool_sound);
     al_destroy_bitmap(Obj->image);
     free(Obj->hitbox);
     free(Obj);

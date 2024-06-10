@@ -42,13 +42,18 @@ Elements *New_Box(int label, int col, int row)
     return pObj;
 }
 void Box_update(Elements *self) {
-    double current, next = 25;
+    double current, next = 30;
     current = GAME_CURRENT_TIME;
 
     Box *box = ((Box *)(self->pDerivedObj));
     if((box->y + box->h) > (HEIGHT - 100)){
         life(scene, -1);
-        self->dele = true;
+        box_exist--;
+        box_delete++;
+        if(box_delete > 0){
+                self->dele = true;
+                box_delete--;
+        } 
     }
     if(current - box->last > next)
     {   
@@ -56,8 +61,8 @@ void Box_update(Elements *self) {
         box->y += box->dy;
         box->hitbox->update_center_y(box->hitbox, box->dy);
         box->hitboxr->update_center_y(box->hitboxr, box->dy);
-        box->hitboyr->update_center_y(box->hitboy, box->dy);
-        box->hitboy->update_center_y(box->hitboyr, box->dy);
+        box->hitboyr->update_center_y(box->hitboyr, box->dy);
+        box->hitboy->update_center_y(box->hitboy, box->dy);
     }
     if(GAME_LOSE || GAME_WIN){
         self->dele = true;
@@ -73,8 +78,12 @@ void Box_interact(Elements *self, Elements *tar) {
         {
             if(!(rand() % 3)) _Register_elements(scene, New_Tool(Tool_L, Obj->x, Obj->y));
             score(scene);
+            box_delete++;
             box_exist--;
-            self->dele = true;
+            if(box_delete > 0){
+                self->dele = true;
+                box_delete--;
+            } 
         }
     }
 }
@@ -83,9 +92,8 @@ void Box_draw(Elements *self)
     Box *Obj = ((Box *)(self->pDerivedObj));
     al_draw_filled_rectangle(Obj->x, Obj->y, Obj->x + Obj->w, Obj->y + Obj->h, Obj->c);
 }
-void Box_destory(Elements *self)
-{
-    box_exist--;
+    void Box_destory(Elements *self)
+    {
     Box *Obj = ((Box *)(self->pDerivedObj));
     free(Obj->hitbox);
     free(Obj);

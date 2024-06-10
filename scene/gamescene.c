@@ -40,6 +40,7 @@ Scene *New_GameScene(int label)
     change_l = 0;
     change_s = 0;
     change_r = 0;
+    box_delete = 0;
     // register element
     // _Register_elements(pObj, New_Floor(Floor_L));
     // _Register_elements(pObj, New_Teleport(Teleport_L));
@@ -137,7 +138,7 @@ void game_scene_update(Scene *self)
         GAME_WIN = true;
         window = 5;
     }
-    if(GAME_CURRENT_TIME - Obj->last > 25){
+    if(GAME_CURRENT_TIME - Obj->last > 30){
         for(i=0;i<11;i++){
             _Register_elements(self, New_Box(Box_L, i, -1));
         }
