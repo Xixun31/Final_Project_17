@@ -9,46 +9,38 @@ OBJ := $(patsubst %.c, %.o, $(notdir $(SOURCE)))
 RM_OBJ := 
 RM_OUT := 
 
-ALLEGRO_CFLAGS := -I/usr/local/include
-ALLEGRO_LIBS := -L/usr/local/lib -lallegro -lallegro_main -lallegro_image -lallegro_font -lallegro_ttf -lallegro_dialog -lallegro_primitives -lallegro_audio -lallegro_acodec
+# 使用 pkg-config 获取正确的 Allegro 路径
+ALLEGRO_CFLAGS := $(shell pkg-config --cflags allegro-5 allegro_image-5 allegro_font-5 allegro_ttf-5 allegro_dialog-5 allegro_primitives-5 allegro_audio-5 allegro_acodec-5 2>/dev/null)
+ALLEGRO_LIBS := $(shell pkg-config --libs allegro-5 allegro_image-5 allegro_font-5 allegro_ttf-5 allegro_dialog-5 allegro_primitives-5 allegro_audio-5 allegro_acodec-5 2>/dev/null)
 
-ifeq ($(OS), Windows_NT) # Windows OS
-	ALLEGRO_PATH := -L/usr/local/lib -lallegro
-	export Path := ../MinGW/bin;$(Path)
-
-	ALLEGRO_FLAGS_RELEASE := -I$(ALLEGRO_PATH)/include -L$(ALLEGRO_PATH)/lib/liballegro_monolith.dll.a
-	ALLEGRO_DLL_PATH_RELEASE := $(ALLEGRO_PATH)/lib/liballegro_monolith.dll.a
-	ALLEGRO_FLAGS_DEBUG := -I$(ALLEGRO_PATH)/include -L$(ALLEGRO_PATH)/lib/liballegro_monolith-debug.dll.a
-	ALLEGRO_DLL_PATH_DEBUG := $(ALLEGRO_PATH)/lib/liballegro_monolith-debug.dll.a
-
-	RM_OBJ := $(foreach name, $(OBJ), del $(name) & )
-	RM_OUT += $(foreach name, $(*.gch */*.gch), del $(name) & )
-	ifeq ($(suffix $(OUT)),)
-		RM_OUT += del $(OUT).exe
-	else
-		RM_OUT += del $(OUT)
-	endif
-
-else # Mac OS / Linux
-	UNAME_S := $(shell uname -s)
-
-	ALLEGRO_FLAGS_RELEASE := $(ALLEGRO_CFLAGS)
-	ALLEGRO_DLL_PATH_RELEASE := 
-	ALLEGRO_FLAGS_DEBUG := $(ALLEGRO_FLAGS_RELEASE)
-	ALLEGRO_DLL_PATH_DEBUG := 
-
-	RM_OBJ := rm -f $(OBJ)
-	RM_OUT := rm -f $(OUT)
+# 如果 pkg-config 失败，使用备用路径
+ifeq ($(ALLEGRO_CFLAGS),)
+    ALLEGRO_CFLAGS := -I$(shell brew --prefix allegro)/include
+    ALLEGRO_LIBS := -L$(shell brew --prefix allegro)/lib -lallegro -lallegro_main -lallegro_image -lallegro_font -lallegro_ttf -lallegro_dialog -lallegro_primitives -lallegro_audio -lallegro_acodec
 endif
 
+# 平台特定设置
+UNAME_S := $(shell uname -s)
+
+# 设置 RPATH 用于 macOS
+ifeq ($(UNAME_S),Darwin)
+    RPATH := -Wl,-rpath,$(shell brew --prefix allegro)/lib
+else
+    RPATH := 
+endif
+
+# 设置清理命令
+RM_OBJ := rm -f $(OBJ)
+RM_OUT := rm -f $(OUT)
+
 debug:
-	$(CC) -c -g $(CXXFLAGS) $(ALLEGRO_FLAGS_DEBUG) $(SOURCE) -D DEBUG
-	$(CC) $(CXXFLAGS) -o $(OUT) $(OBJ) $(ALLEGRO_FLAGS_DEBUG) $(ALLEGRO_LIBS) $(ALLEGRO_DLL_PATH_DEBUG) $(HEADERPAD)
+	$(CC) -c -g $(CXXFLAGS) $(ALLEGRO_CFLAGS) $(SOURCE) -D DEBUG
+	$(CC) $(CXXFLAGS) -o $(OUT) $(OBJ) $(ALLEGRO_LIBS) $(RPATH) $(HEADERPAD)
 	$(RM_OBJ)
 
 release:
-	$(CC) -c $(CXXFLAGS) $(ALLEGRO_FLAGS_RELEASE) $(SOURCE)
-	$(CC) $(CXXFLAGS) -o $(OUT) $(OBJ) $(ALLEGRO_FLAGS_RELEASE) $(ALLEGRO_LIBS) $(ALLEGRO_DLL_PATH_RELEASE) $(HEADERPAD)
+	$(CC) -c $(CXXFLAGS) $(ALLEGRO_CFLAGS) $(SOURCE)
+	$(CC) $(CXXFLAGS) -o $(OUT) $(OBJ) $(ALLEGRO_LIBS) $(RPATH) $(HEADERPAD)
 	$(RM_OBJ)
 
 clean:
